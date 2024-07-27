@@ -1,5 +1,9 @@
-center {
-    display: block;
-    margin: auto;
-  }
+/* convi.css 파일에 추가 */
 
+.page-content {
+  margin-bottom: 20px; /* 페이지 컨테이너에 아래쪽 여백 추가 */
+}
+
+.site-footer {
+  margin-top: 20px; /* 푸터에 위쪽 여백 추가 */
+}
