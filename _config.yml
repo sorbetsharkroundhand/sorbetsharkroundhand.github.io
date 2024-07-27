@@ -11,7 +11,7 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 # remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+# minimal_mistakes_skin    : # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "en-US"
@@ -25,7 +25,7 @@ baseurl                  : # 사이트의 서브 경로, 예: "/blog"
 repository               : # GitHub 사용자명/저장소명, 예: "mmistakes/minimal-mistakes"
 teaser                   : # 기본 티저 이미지 경로, 예: "/assets/images/500x300.png"
 logo                     : # 헤더에 표시될 로고 이미지 경로, 예: "/assets/images/88x88.png"
-masthead_title           : # 헤더에 표시될 사이트 제목, 비워두면 제목이 표시되지 않음
+masthead_title           : "우리 블로그 정상영업합니다" 
 # breadcrumbs            : false # true, false (기본값)
 words_per_minute         : 200 # 분당 읽기 단어 수 설정
 enable_copy_code_button  : # true, false (기본값)
