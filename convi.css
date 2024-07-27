@@ -20,7 +20,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   margin: 0;
-  background-color: #a7e4ff !important; /* 원하는 배경색으로 변경, !important로 우선 순위 높임 */
+  background-color: #a7e4ff; /* 원하는 배경색으로 변경, !important로 우선 순위 높임 */
 }
 
 .page-content {
