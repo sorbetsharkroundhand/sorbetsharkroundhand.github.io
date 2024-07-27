@@ -22,7 +22,9 @@
   <body>
     <header class="site-header" role="banner">
       <div class="wrapper">
-        <a class="site-title" href="{{ "/" | relative_url }}">{{ site.title }}</a>
+        <a class="site-title" href="{{ "/" | relative_url }}">우리 블로그 정상영업 합니다.</a> <!-- 특정 제목 추가 -->
+        <h1 class="blog-title">우리 블로그 정상영업 합니다.</h1> <!-- 특정 제목 추가 -->
+        <h2 class="blog-description">누덕누덕 블로그</h2> <!-- 특정 부제목 추가 -->
       </div>
     </header>
     <main class="page-content" aria-label="Content">
@@ -31,25 +33,27 @@
       </div>
     </main>
     <footer class="site-footer" role="contentinfo">
-      <div class="page__footer-follow">
-        <ul class="social-icons">
-          {% if site.data.ui-text[site.locale].follow_label %}
-            <li><strong>{{ site.data.ui-text[site.locale].follow_label }}</strong></li>
-          {% endif %}
+      <div class="wrapper">
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            {% if site.data.ui-text[site.locale].follow_label %}
+              <li><strong>{{ site.data.ui-text[site.locale].follow_label }}</strong></li>
+            {% endif %}
 
-          {% if site.footer.links %}
-            {% for link in site.footer.links %}
-              {% if link.label and link.url %}
-                <li><a href="{{ link.url }}" rel="nofollow noopener noreferrer"><i class="{{ link.icon | default: 'fas fa-link' }}" aria-hidden="true"></i> {{ link.label }}</a></li>
-              {% endif %}
-            {% endfor %}
-          {% endif %}
-        </ul>
-      </div>
-      <div class="footer-info">
-        <div class="page__footer-copyright">
-          &copy; {{ site.time | date: '%Y' }} 
-          <a href="{{ site.copyright_url | default: site.url }}">{{ site.copyright | default: site.title }}</a>.
+            {% if site.footer.links %}
+              {% for link in site.footer.links %}
+                {% if link.label and link.url %}
+                  <li><a href="{{ link.url }}" rel="nofollow noopener noreferrer"><i class="{{ link.icon | default: 'fas fa-link' }}" aria-hidden="true"></i> {{ link.label }}</a></li>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </ul>
+        </div>
+        <div class="footer-info">
+          <div class="page__footer-copyright">
+            &copy; {{ site.time | date: '%Y' }} 
+            <a href="{{ site.copyright_url | default: site.url }}">{{ site.copyright | default: site.title }}</a>.
+          </div>
         </div>
       </div>
     </footer>

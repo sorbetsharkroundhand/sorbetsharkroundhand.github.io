@@ -57,3 +57,19 @@ body {
   display: flex; /* flexbox 레이아웃 사용 */
   align-items: center; /* 아이템들을 수직으로 가운데 정렬 */
 }
+
+/* 블로그 제목과 부제목 스타일 추가 */
+.blog-title {
+  font-size: 2.5em;
+  margin: 0;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.blog-description {
+  font-size: 1.2em;
+  margin: 0;
+  text-align: center;
+  color: #777;
+  padding: 5px 0 20px 0;
+}
