@@ -20,7 +20,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   margin: 0;
-  background-color: #a7e4ff; /* 원하는 배경색으로 변경, !important로 우선 순위 높임 */
+  background-color: #f0f0f0 !important; /* 원하는 배경색으로 변경, !important로 우선 순위 높임 */
 }
 
 .page-content {
@@ -32,7 +32,7 @@ body {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: #c9efff; /* 푸터 배경색 (원하는 대로 변경 가능) */
+  background-color: #c9efff !important; /* 푸터 배경색 (원하는 대로 변경 가능) */
   border-top: 1px solid #85daff;
   display: flex;
   justify-content: space-between;
@@ -65,3 +65,5 @@ body {
   display: flex;
   align-items: center;
 }
+
+
