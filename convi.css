@@ -32,7 +32,7 @@ body {
   bottom: 0;
   width: 100%;
   background-color: #cae6f2; /* 푸터 배경색 (원하는 대로 변경 가능) */
-  border-top: 1px solid #e7e7e7;
+  border-top: 1px solid #85daff;
   display: flex;
   justify-content: space-between;
   align-items: center;
