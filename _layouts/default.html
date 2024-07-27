@@ -1,36 +1,66 @@
----
----
-
-<!doctype html>
-{% include copyright.html %}
-<html lang="{{ site.locale | replace: "_", "-" | default: "en" }}" class="no-js">
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
   <head>
-    {% include head.html %}
-    {% include head/custom.html %}
-  </head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <body class="layout--{{ page.layout | default: layout.layout }}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %}">
-    {% include_cached skip-links.html %}
-    {% include_cached masthead.html %}
+    <title>{{ page.title | escape }} | {{ site.title | escape }}</title>
 
-    <div class="initial-content">
-      {{ content }}
-      {% include after-content.html %}
-    </div>
+    {% include seo.html %}
 
-    {% if site.search == true %}
-      <div class="search-content">
-        {% include_cached search/search_form.html %}
-      </div>
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    {% if site.head_scripts %}
+      {% for script in site.head_scripts %}
+        <script src="{{ script | relative_url }}"></script>
+      {% endfor %}
     {% endif %}
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <div class="wrapper">
+        <a class="site-title" href="{{ "/" | relative_url }}">{{ site.title }}</a>
+        <!-- "Quick-Start Guide" 링크 제거 -->
+        <!-- <nav class="site-nav">
+          <a href="https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/">Quick-Start Guide</a>
+        </nav> -->
+      </div>
+    </header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        {{ content }}
+      </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="wrapper">
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            {% if site.data.ui-text[site.locale].follow_label %}
+              <li><strong>{{ site.data.ui-text[site.locale].follow_label }}</strong></li>
+            {% endif %}
 
-    <div id="footer" class="page__footer">
-      <footer>
-        {% include footer/custom.html %}
-        {% include_cached footer.html %}
-      </footer>
-    </div>
+            {% if site.footer.links %}
+              {% for link in site.footer.links %}
+                {% if link.label and link.url %}
+                  <li><a href="{{ link.url }}" rel="nofollow noopener noreferrer"><i class="{{ link.icon | default: 'fas fa-link' }}" aria-hidden="true"></i> {{ link.label }}</a></li>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
 
-    {% include scripts.html %}
+            <!-- "FOLLOW: FEED" 부분 제거 -->
+            <!-- {% unless site.atom_feed.hide %}
+              <li><a href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ '/feed.xml' | relative_url }}{% endif %}"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].feed_label | default: "Feed" }}</a></li>
+            {% endunless %} -->
+          </ul>
+        </div>
+
+        <div class="page__footer-copyright">
+          &copy; {{ site.time | date: '%Y' }} 
+          <a href="{{ site.copyright_url | default: site.url }}">{{ site.copyright | default: site.title }}</a>.
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
