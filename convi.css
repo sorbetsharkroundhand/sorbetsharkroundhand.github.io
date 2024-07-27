@@ -1,9 +1,23 @@
 /* convi.css 파일에 추가 */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
 
 .page-content {
-  margin-bottom: 300px; /* 페이지 컨테이너에 아래쪽 여백 추가 */
+  flex: 1;
+  margin-bottom: 60px; /* 푸터 높이만큼 아래쪽 여백 추가 */
 }
 
 .site-footer {
-  margin-top: 300px; /* 푸터에 위쪽 여백 추가 */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #f8f8f8; /* 푸터 배경색 (원하는 대로 변경 가능) */
+  padding: 10px 0;
+  text-align: center;
+  border-top: 1px solid #e7e7e7;
+  height: 60px; /* 푸터 높이 */
 }
