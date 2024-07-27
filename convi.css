@@ -1,4 +1,4 @@
-/* convi.css 파일에 추가 */
+/* 푸터를 하단에 고정시키고, Follow 부분과 나머지 푸터를 구분 */
 body {
   display: flex;
   flex-direction: column;
@@ -8,7 +8,7 @@ body {
 
 .page-content {
   flex: 1;
-  margin-bottom: 60px; /* 푸터 높이만큼 아래쪽 여백 추가 */
+  margin-bottom: 100px; /* 푸터 높이만큼 아래쪽 여백 추가 */
 }
 
 .site-footer {
@@ -16,8 +16,35 @@ body {
   bottom: 0;
   width: 100%;
   background-color: #f8f8f8; /* 푸터 배경색 (원하는 대로 변경 가능) */
-  padding: 10px 0;
-  text-align: center;
   border-top: 1px solid #e7e7e7;
-  height: 60px; /* 푸터 높이 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  height: 100px; /* 푸터 높이 */
+}
+
+.page__footer-follow {
+  display: flex;
+  align-items: center;
+}
+
+.page__footer-follow ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.page__footer-follow li {
+  margin-right: 10px;
+}
+
+.page__footer-follow li:last-child {
+  margin-right: 0;
+}
+
+.footer-info {
+  display: flex;
+  align-items: center;
 }

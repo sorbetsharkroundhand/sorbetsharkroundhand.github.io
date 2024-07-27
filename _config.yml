@@ -16,8 +16,8 @@ minimal_mistakes_skin    : "dirt" # "air", "aqua", "contrast", "dark", "dirt", "
 # Site Settings
 locale                   : "en-US"
 title                    : "sorbetsharkRoundhand 🦈"
-title_separator          : "-"
-subtitle                 : # 사이트 제목 아래에 표시될 태그라인
+title_separator          : "우리 블로그 정상영업합니다."
+subtitle                 : "누덕누덕 블로그"
 name                     : "sorbet shark round hand"
 description              : "Adorable doguri, Exciting AI."
 url                      : "https://sorbetsharkroundhand.github.io"
