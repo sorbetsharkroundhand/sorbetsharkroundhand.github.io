@@ -65,3 +65,41 @@ body {
   display: flex;
   align-items: center;
 }
+
+/* 포스트 내용 섹션 스타일 추가 */
+.post-content {
+  background-color: #d8f1fc !important; /* 배경색 적용 */
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.post-header {
+  text-align: center;
+}
+
+.post-title {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.post-subtitle {
+  font-size: 1.5em;
+  color: #555;
+}
+
+.post-meta {
+  font-size: 0.9em;
+  color: #999;
+}
+
+.post-tags a {
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 3px 7px;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+.post-tags a:hover {
+  background-color: #e0e0e0;
+}
