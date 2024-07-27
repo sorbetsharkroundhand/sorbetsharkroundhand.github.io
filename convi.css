@@ -20,7 +20,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   margin: 0;
-  background-color: #f0f0f0; /* 원하는 배경색으로 변경 */
+  background-color: #d6eff4; /* 원하는 배경색으로 변경 */
 }
 
 .page-content {
