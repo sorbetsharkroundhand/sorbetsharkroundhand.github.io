@@ -1,14 +1,13 @@
 # Welcome to Jekyll!
 #
-# This config file is meant for settings that affect your entire site, values
-# which you are expected to set up once and rarely need to edit after that.
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# `jekyll serve`. If you change this file, please restart the server process.
+# 이 설정 파일은 사이트 전체에 영향을 미치는 설정 값들을 포함합니다.
+# 일반적으로 한 번 설정하고 나면 자주 수정할 필요가 없는 값들입니다.
+# 기술적인 이유로, 이 파일은 `jekyll serve`를 사용할 때 자동으로 다시 로드되지 않습니다.
+# 이 파일을 변경한 후에는 서버 프로세스를 다시 시작하십시오.
 
 # Theme Settings
 #
-# Review documentation to determine if you should use `theme` or `remote_theme`
-# https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/#installing-the-theme
+# 테마 설치 가이드: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/#installing-the-theme
 
 # theme                  : "minimal-mistakes-jekyll"
 # remote_theme           : "mmistakes/minimal-mistakes"
@@ -18,46 +17,45 @@ minimal_mistakes_skin    : "dirt" # "air", "aqua", "contrast", "dark", "dirt", "
 locale                   : "en-US"
 title                    : "sorbetsharkRoundhand 🦈"
 title_separator          : "-"
-subtitle                 : # site tagline that appears below site title in masthead
+subtitle                 : # 사이트 제목 아래에 표시될 태그라인
 name                     : "sorbet shark round hand"
 description              : "Adorable doguri, Exciting AI."
 url                      : "https://sorbetsharkroundhand.github.io"
-baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
-teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
-logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
-masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
-# breadcrumbs            : false # true, false (default)
-words_per_minute         : 200
-enable_copy_code_button  : # true, false (default)
-copyright                : # "copyright" name, defaults to site.title
-copyright_url            : # "copyright" URL, defaults to site.url
+baseurl                  : # 사이트의 서브 경로, 예: "/blog"
+repository               : # GitHub 사용자명/저장소명, 예: "mmistakes/minimal-mistakes"
+teaser                   : # 기본 티저 이미지 경로, 예: "/assets/images/500x300.png"
+logo                     : # 헤더에 표시될 로고 이미지 경로, 예: "/assets/images/88x88.png"
+masthead_title           : # 헤더에 표시될 사이트 제목, 비워두면 제목이 표시되지 않음
+# breadcrumbs            : false # true, false (기본값)
+words_per_minute         : 200 # 분당 읽기 단어 수 설정
+enable_copy_code_button  : # true, false (기본값)
+copyright                : # "copyright" 이름, 기본값은 site.title
+copyright_url            : # "copyright" URL, 기본값은 site.url
 comments:
-  provider               : # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "giscus", "custom"
+  provider               : # 댓글 제공자 설정, false (기본값), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "giscus", "custom"
   disqus:
-    shortname            : # https://help.disqus.com/customer/portal/articles/466208-what-s-a-shortname-
+    shortname            : # Disqus shortname
   discourse:
-    server               : # https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963 , e.g.: meta.discourse.org
+    server               : # Discourse 서버 URL
   facebook:
-    # https://developers.facebook.com/docs/plugins/comments
     appid                :
-    num_posts            : # 5 (default)
-    colorscheme          : # "light" (default), "dark"
+    num_posts            : # 5 (기본값)
+    colorscheme          : # "light" (기본값), "dark"
   utterances:
-    theme                : # "github-light" (default), "github-dark"
-    issue_term           : # "pathname" (default)
+    theme                : # "github-light" (기본값), "github-dark"
+    issue_term           : # "pathname" (기본값)
   giscus:
-    repo_id              : # Shown during giscus setup at https://giscus.app
-    category_name        : # Full text name of the category
-    category_id          : # Shown during giscus setup at https://giscus.app
-    discussion_term      : # "pathname" (default), "url", "title", "og:title"
-    reactions_enabled    : # '1' for enabled (default), '0' for disabled
-    theme                : # "light" (default), "dark", "dark_dimmed", "transparent_dark", "preferred_color_scheme"
-    strict               : # 1 for enabled, 0 for disabled (default)
-    input_position       : # "top", "bottom" # The comment input box will be placed above or below the comments
-    emit_metadata        : # 1 for enabled, 0 for disabled (default) # https://github.com/giscus/giscus/blob/main/ADVANCED-USAGE.md#imetadatamessage
-    lang                 : # "en" (default)
-    lazy                 : # true, false # Loading of the comments will be deferred until the user scrolls near the comments container.
+    repo_id              : # giscus 설정 시 표시되는 repo_id
+    category_name        : # 카테고리 이름
+    category_id          : # giscus 설정 시 표시되는 category_id
+    discussion_term      : # "pathname" (기본값), "url", "title", "og:title"
+    reactions_enabled    : # '1' (기본값) 활성화, '0' 비활성화
+    theme                : # "light" (기본값), "dark", "dark_dimmed", "transparent_dark", "preferred_color_scheme"
+    strict               : # 1 활성화, 0 비활성화 (기본값)
+    input_position       : # "top", "bottom"
+    emit_metadata        : # 1 활성화, 0 비활성화 (기본값)
+    lang                 : # "en" (기본값)
+    lazy                 : # true, false
   staticman:
     branch               : # "master"
     endpoint             : # "https://{your Staticman v3 API}/v3/entry/github/"
@@ -65,55 +63,55 @@ reCaptcha:
   siteKey                :
   secret                 :
 atom_feed:
-  path                   : # blank (default) uses feed.xml
-  hide                   : # true, false (default)
-search                   : # true, false (default)
-search_full_content      : # true, false (default)
-search_provider          : # lunr (default), algolia, google
+  path                   : # 빈 값 (기본값) 사용 시 feed.xml
+  hide                   : # true, false (기본값)
+search                   : # true, false (기본값)
+search_full_content      : # true, false (기본값)
+search_provider          : # lunr (기본값), algolia, google
 lunr:
-  search_within_pages    : # true, false (default)
+  search_within_pages    : # true, false (기본값)
 algolia:
   application_id         : # YOUR_APPLICATION_ID
   index_name             : # YOUR_INDEX_NAME
   search_only_api_key    : # YOUR_SEARCH_ONLY_API_KEY
-  powered_by             : # true (default), false
+  powered_by             : # true (기본값), false
 google:
   search_engine_id       : # YOUR_SEARCH_ENGINE_ID
-  instant_search         : # false (default), true
-# SEO Related
+  instant_search         : # false (기본값), true
+
+# SEO 관련 설정
 google_site_verification :
 bing_site_verification   :
 naver_site_verification  :
 yandex_site_verification :
 baidu_site_verification  :
 
-# Social Sharing
+# 소셜 공유 설정
 twitter:
   username               :
 facebook:
   username               :
   app_id                 :
   publisher              :
-og_image                 : # Open Graph/Twitter default site image
-# For specifying social profiles
-# - https://developers.google.com/structured-data/customize/social-profiles
-social:
-  type                   : # Person or Organization (defaults to Person)
-  name                   : # If the user or organization name differs from the site's name
-  links: # An array of links to social media profiles
+og_image                 : # Open Graph/Twitter 기본 사이트 이미지
 
-# Analytics
+# 소셜 프로필 지정
+social:
+  type                   : # Person 또는 Organization (기본값은 Person)
+  name                   : # 사용자 또는 조직 이름이 사이트 이름과 다를 경우
+  links: # 소셜 미디어 프로필 링크 배열
+
+# 애널리틱스 설정
 analytics:
-  provider               : false # false (default), "google", "google-universal", "google-gtag", "custom"
+  provider               : false # false (기본값), "google", "google-universal", "google-gtag", "custom"
   google:
     tracking_id          :
-    anonymize_ip         : # true, false (default)
+    anonymize_ip         : # true, false (기본값)
 
-
-# Site Author
+# 사이트 저자 설정
 author:
   name             : "sorbetsharkRoundhand"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : # 아바타 이미지 경로, 예: "/assets/images/bio-photo.jpg"
   bio              : "Adorable doguri, Exciting AI."
   location         : "Korea"
   email            :
@@ -137,7 +135,7 @@ author:
       icon: "fab fa-fw fa-instagram"
       # url: "https://instagram.com/"
 
-# Site Footer
+# 사이트 푸터 설정
 footer:
   links:
     - label: "Twitter"
@@ -159,8 +157,7 @@ footer:
       icon: "fab fa-fw fa-instagram"
       # url:
 
-
-# Reading Files
+# 파일 읽기 설정
 include:
   - .htaccess
   - _pages
@@ -184,4 +181,129 @@ exclude:
   - LICENSE
   - log
   - node_modules
-  - package
+  - package.json
+  - package-lock.json
+  - Rakefile
+  - README
+  - tmp
+  - /docs # Minimal Mistakes /docs 무시
+  - /test # Minimal Mistakes /test 무시
+keep_files:
+  - .git
+  - .svn
+encoding: "utf-8"
+markdown_ext: "markdown,mkdown,mkdn,mkd,md"
+
+# 변환 설정
+markdown: kramdown
+highlighter: rouge
+lsi: false
+excerpt_separator: "\n\n"
+incremental: false
+
+# Markdown 처리 설정
+kramdown:
+  input: GFM
+  hard_wrap: false
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
+  enable_coderay: false
+
+# Sass/SCSS 설정
+sass:
+  sass_dir: _sass
+  style: compressed # https://sass-lang.com/documentation/file.SASS_REFERENCE.html#output_style
+
+# 출력 설정
+permalink: /:categories/:title/
+timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+
+# jekyll-paginate 플러그인을 사용한 페이지네이션 설정
+paginate: 5 # 표시할 포스트 수
+paginate_path: /page:num/
+
+# jekyll-paginate-v2 플러그인을 사용한 페이지네이션 설정
+# 설정 자세한 내용: https://github.com/sverrirs/jekyll-paginate-v2/blob/master/README-GENERATOR.md#site-configuration
+pagination:
+  # v2 사용 설정
+  # enabled: true
+  debug: false
+  collection: 'posts'
+  per_page: 10
+  permalink: '/page/:num/'
+  title: ':title - page :num'
+  limit: 0
+  sort_field: 'date'
+  sort_reverse: true
+  category: 'posts'
+  tag: ''
+  locale: ''
+  trail:
+    before: 2
+    after: 2
+
+# 플러그인 설정
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jekyll-include-cache
+
+# GitHub Pages와 --safe 옵션을 모방
+whitelist:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jekyll-include-cache
+
+# 아카이브 설정
+category_archive:
+  type: liquid
+  path: /categories/
+tag_archive:
+  type: liquid
+  path: /tags/
+# jekyll-archives 플러그인 설정
+# jekyll-archives:
+#   enabled:
+#     - categories
+#     - tags
+#   layouts:
+#     category: archive-taxonomy
+#     tag: archive-taxonomy
+#   permalinks:
+#     category: /categories/:name/
+#     tag: /tags/:name/
+
+# HTML 압축 설정
+compress_html:
+  clippings: all
+  ignore:
+    envs: development
+
+# 기본값 설정
+defaults:
+  # _posts
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: # true
+      share: true
+      related: true
+
+# 네비게이션 설정
+navigation:
+  - title: "Home"
+    url: "/"
+  - title: "About"
+    url: "/about/"
+  # 다른 네비게이션 항목들...
