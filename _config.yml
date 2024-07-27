@@ -17,7 +17,7 @@
 locale                   : "en-US"
 title                    : "sorbetsharkRoundhand 🦈"
 title_separator          : "우리 블로그 정상영업합니다."
-subtitle                 : "누덕누덕 블로그"
+subtitle                 : 
 name                     : "sorbet shark round hand"
 description              : "Adorable doguri, Exciting AI."
 url                      : "https://sorbetsharkroundhand.github.io"
@@ -32,7 +32,7 @@ enable_copy_code_button  : # true, false (기본값)
 copyright                : # "copyright" 이름, 기본값은 site.title
 copyright_url            : # "copyright" URL, 기본값은 site.url
 comments:
-  provider               : # 댓글 제공자 설정, false (기본값), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "giscus", "custom"
+  provider               : custom # 댓글 제공자 설정, false (기본값), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "giscus", "custom"
   disqus:
     shortname            : # Disqus shortname
   discourse:
