@@ -5,6 +5,7 @@ import {
   Group,
   Line,
   MathTex,
+  type Mobject,
   type Scene,
   smooth,
   type UpdaterFunction,
@@ -14,10 +15,10 @@ import {
 import type { DataPoint, RegressionParameters } from './regressionData';
 import { calculateMSE } from './regressionMath';
 
-const AXIS_COLOR = '#77766F';
-const DOT_COLOR = '#28323C';
-const GRAPH_COLOR = '#2457D6';
-const RESIDUAL_COLOR = '#E46F61';
+const AXIS_COLOR = '#686d65';
+const DOT_COLOR = '#242722';
+const GRAPH_COLOR = '#465ee8';
+const RESIDUAL_COLOR = '#d86558';
 
 export interface RegressionFrame {
   slope: number;
@@ -43,6 +44,7 @@ export class LinearRegressionSceneController {
   private readonly dynamicGroup: Group;
   private readonly dynamicUpdater: UpdaterFunction;
   private pendingFrameId: number | null = null;
+  private pendingFrame: RegressionFrame | null = null;
   private isAnimating = false;
   private isDisposed = false;
 
@@ -68,8 +70,8 @@ export class LinearRegressionSceneController {
     this.dynamicUpdater = () => {
       if (this.isDisposed || !this.isAnimating) return;
 
-      this.refreshFromTrackers(false);
-      this.scheduleFrameNotification();
+      const frame = this.refreshFromTrackers(false);
+      if (frame) this.scheduleFrameNotification(frame);
     };
   }
 
@@ -131,22 +133,29 @@ export class LinearRegressionSceneController {
       interceptTracker,
     );
 
-    dynamicGroup.addUpdater(controller.dynamicUpdater);
-    scene.add(axes, pointGroup, dynamicGroup);
+    let modelLabel: MathTex | null = null;
 
-    if (!scene.isHeadless) {
-      const modelLabel = new MathTex({
-        latex: '\\hat{y}=wx+b',
-        color: GRAPH_COLOR,
-        fontSize: 30,
-      });
-      await modelLabel.waitForRender();
-      modelLabel.moveTo(axes.coordsToPoint(7.35, 91));
-      scene.add(modelLabel);
+    try {
+      dynamicGroup.addUpdater(controller.dynamicUpdater);
+      scene.add(axes, pointGroup, dynamicGroup);
+
+      if (!scene.isHeadless) {
+        modelLabel = new MathTex({
+          latex: '\\hat{y}=wx+b',
+          color: GRAPH_COLOR,
+          fontSize: 30,
+        });
+        await modelLabel.waitForRender();
+        modelLabel.moveTo(axes.coordsToPoint(7.35, 91));
+        scene.add(modelLabel);
+      }
+
+      controller.refreshFromTrackers();
+      return controller;
+    } catch (error) {
+      controller.releaseResources(modelLabel);
+      throw error;
     }
-
-    controller.refreshFromTrackers();
-    return controller;
   }
 
   setParameters(parameters: RegressionParameters): void {
@@ -184,20 +193,12 @@ export class LinearRegressionSceneController {
   }
 
   dispose(): void {
-    if (this.isDisposed) return;
-
-    this.isDisposed = true;
-    this.isAnimating = false;
-    this.cancelPendingFrame();
-    this.dynamicGroup.removeUpdater(this.dynamicUpdater);
-    this.onFrame = null;
-    this.scene?.clear({ render: false });
-    this.scene = null;
+    this.releaseResources();
   }
 
-  private refreshFromTrackers(notify = true): void {
+  private refreshFromTrackers(notify = true): RegressionFrame | null {
     const scene = this.scene;
-    if (this.isDisposed || !scene) return;
+    if (this.isDisposed || !scene) return null;
 
     const slope = this.slopeTracker.getValue();
     const intercept = this.interceptTracker.getValue();
@@ -214,38 +215,57 @@ export class LinearRegressionSceneController {
       scene.render();
     }
 
+    const frame = this.createFrame(slope, intercept);
     if (notify) {
-      this.emitFrame(slope, intercept);
+      this.onFrame?.(frame);
     }
+    return frame;
   }
 
-  private scheduleFrameNotification(): void {
-    if (this.pendingFrameId !== null || typeof requestAnimationFrame === 'undefined') {
-      return;
-    }
+  private scheduleFrameNotification(frame: RegressionFrame): void {
+    this.pendingFrame = frame;
+    if (this.pendingFrameId !== null || typeof requestAnimationFrame === 'undefined') return;
 
     this.pendingFrameId = requestAnimationFrame(() => {
+      const pendingFrame = this.pendingFrame;
       this.pendingFrameId = null;
-      if (this.isDisposed || !this.isAnimating) return;
+      this.pendingFrame = null;
+      if (this.isDisposed || !this.isAnimating || !pendingFrame) return;
 
-      this.emitFrame(this.slopeTracker.getValue(), this.interceptTracker.getValue());
+      this.onFrame?.(pendingFrame);
     });
   }
 
   private cancelPendingFrame(): void {
-    if (this.pendingFrameId === null) return;
-
-    if (typeof cancelAnimationFrame !== 'undefined') {
+    if (this.pendingFrameId !== null && typeof cancelAnimationFrame !== 'undefined') {
       cancelAnimationFrame(this.pendingFrameId);
     }
     this.pendingFrameId = null;
+    this.pendingFrame = null;
   }
 
-  private emitFrame(slope: number, intercept: number): void {
-    this.onFrame?.({
+  private createFrame(slope: number, intercept: number): RegressionFrame {
+    return {
       slope,
       intercept,
       mse: calculateMSE(this.points, slope, intercept),
-    });
+    };
+  }
+
+  private releaseResources(orphanedMobject: Mobject | null = null): void {
+    if (this.isDisposed) return;
+
+    this.isDisposed = true;
+    this.isAnimating = false;
+    this.cancelPendingFrame();
+    this.dynamicGroup.removeUpdater(this.dynamicUpdater);
+    this.onFrame = null;
+
+    const scene = this.scene;
+    if (orphanedMobject && !scene?.mobjects.has(orphanedMobject)) {
+      orphanedMobject.dispose();
+    }
+    scene?.clear({ render: false });
+    this.scene = null;
   }
 }
