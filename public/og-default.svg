@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Interactive Notes</title>
+  <desc id="description">Things I learned, visualized.</desc>
+  <rect width="1200" height="630" fill="#f3f1ea" />
+  <rect x="62" y="62" width="1076" height="506" rx="34" fill="#f7f6f1" stroke="#323730" stroke-opacity=".14" />
+  <line x1="374" y1="62" x2="374" y2="568" stroke="#d9dad4" />
+  <line x1="108" y1="486" x2="314" y2="486" stroke="#a8aaa4" />
+  <line x1="108" y1="280" x2="108" y2="486" stroke="#a8aaa4" />
+  <circle cx="108" cy="486" r="10" fill="#465ee8" />
+  <text x="108" y="138" fill="#465ee8" font-family="ui-monospace, monospace" font-size="18" font-weight="700" letter-spacing="3">INTERACTIVE NOTES</text>
+  <text x="108" y="178" fill="#686d65" font-family="system-ui, sans-serif" font-size="17">Statistics · Machine Learning · AI · Mathematics</text>
+  <text x="460" y="264" fill="#242722" font-family="Georgia, serif" font-size="76" font-weight="600">Things I learned,</text>
+  <text x="460" y="360" fill="#465ee8" font-family="Georgia, serif" font-size="88" font-style="italic">visualized.</text>
+  <text x="460" y="426" fill="#686d65" font-family="system-ui, sans-serif" font-size="22">공식과 코드를 넘어, 직접 움직이며 이해하는 학습 노트</text>
+</svg>

@@ -68,11 +68,10 @@ a:hover {
   color: var(--color-ink);
   font-weight: 700;
   transform: translateY(calc(-100% - var(--space-6)));
-  transition: transform var(--duration-fast) var(--ease-physical);
 }
 
 .skip-link:focus-visible {
-  transform: translateY(0);
+  transform: none;
 }
 
 .site-frame {
@@ -90,8 +89,9 @@ a:hover {
 
 .site-wordmark {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: var(--space-2);
+  min-height: 2.75rem;
   text-decoration: none;
 }
 
@@ -118,7 +118,9 @@ a:hover {
 }
 
 .site-nav a {
-  padding-block: var(--space-2);
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   color: var(--color-ink-muted);
   font-family: var(--font-mono);
   font-size: 0.8125rem;
@@ -382,7 +384,9 @@ a:hover {
 }
 
 .observation-link {
+  display: inline-block;
   text-decoration-thickness: 0.06em;
+  transform-origin: center;
   transition: color var(--duration-fast) var(--ease-physical),
     text-decoration-color var(--duration-fast) var(--ease-physical),
     transform var(--duration-fast) var(--ease-physical);
