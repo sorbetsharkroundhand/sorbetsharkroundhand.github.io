@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../utils/urls';
+
+const topicLabels: Record<string, string> = {
+  'least-squares': '최소제곱법',
+  'linear-regression': '선형회귀',
+  statistics: '통계',
+};
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  const topics = [...new Set(posts.flatMap((post) => post.data.topics))].sort();
+
+  return topics.map((topic) => ({
+    params: { topic },
+    props: {
+      posts: posts
+        .filter((post) => post.data.topics.includes(topic))
+        .sort((left, right) => right.data.publishedAt.getTime() - left.data.publishedAt.getTime()),
+      topic,
+    },
+  }));
+}
+
+const { posts, topic } = Astro.props;
+const topicLabel = topicLabels[topic] ?? topic;
+---
+
+<BaseLayout title={`${topicLabel} — Interactive Notes`} description={`${topicLabel} 주제의 학습 노트`}>
+  <section class="listing" aria-labelledby="topic-heading">
+    <header class="listing__header">
+      <p class="section-label">Topic</p>
+      <h1 id="topic-heading">{topicLabel}</h1>
+      <p>이 주제에서 이어지는 관찰과 계산을 모았습니다.</p>
+    </header>
+
+    <ol class="post-list">
+      {
+        posts.map((post) => (
+          <li>
+            <article class="post-list__item">
+              <p>{post.data.category}</p>
+              <h2><a href={withBase(`posts/${post.id}/`)}>{post.data.title}</a></h2>
+              <p class="post-list__description">{post.data.description}</p>
+            </article>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+</BaseLayout>

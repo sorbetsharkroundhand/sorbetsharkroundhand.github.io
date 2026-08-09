@@ -1,6 +1,8 @@
 ---
-const base = import.meta.env.BASE_URL;
-const postsHref = `${base}posts/`;
+import { withBase } from '../../utils/urls';
+
+const base = withBase('');
+const postsHref = withBase('posts/');
 const isHome = Astro.url.pathname === base;
 const isPosts = Astro.url.pathname.startsWith(postsHref);
 ---
