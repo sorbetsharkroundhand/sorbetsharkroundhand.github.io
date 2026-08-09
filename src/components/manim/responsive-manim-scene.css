@@ -1,15 +1,14 @@
 .responsive-manim-scene {
   display: grid;
-  gap: 0.75rem;
+  gap: var(--space-3);
 }
 
 .responsive-manim-scene__frame {
   aspect-ratio: var(--responsive-manim-aspect-ratio, 12 / 7.5);
-  background: #f7f6f1;
-  border: 1px solid color-mix(in srgb, #1e3a46 18%, transparent);
-  border-radius: 1.25rem;
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 70%), 0 0.75rem 1.75rem rgb(30 58 70 / 10%);
-  min-height: 15rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2);
+  box-shadow: var(--shadow-raised);
   overflow: hidden;
   position: relative;
 }
@@ -29,22 +28,12 @@
 
 .responsive-manim-scene__status,
 .responsive-manim-scene__fallback {
-  color: #46616d;
+  color: var(--color-ink-muted);
   font-size: 0.9rem;
   line-height: 1.5;
   margin: 0;
 }
 
 .responsive-manim-scene__fallback {
-  background: #f7f6f1;
-  border: 1px solid color-mix(in srgb, #1e3a46 18%, transparent);
-  border-radius: 1.25rem;
-  padding: 1rem 1.125rem;
-}
-
-@media (max-width: 480px) {
-  .responsive-manim-scene__frame {
-    border-radius: 1rem;
-    min-height: 13rem;
-  }
+  padding: var(--space-4);
 }

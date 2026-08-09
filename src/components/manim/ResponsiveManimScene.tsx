@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type RefObject } from 'react';
 import { Scene } from 'manim-web';
 
 import { ManimErrorBoundary } from './ManimErrorBoundary';
@@ -28,8 +28,14 @@ export interface ResponsiveManimSceneProps {
 const fallbackCopy =
   '이 인터랙티브 그래프를 표시하지 못했습니다. 본문과 수식은 계속 읽을 수 있습니다.';
 
-function SceneFallback() {
-  return <p className="responsive-manim-scene__fallback">{fallbackCopy}</p>;
+type SceneStatus = 'loading' | 'ready' | 'error';
+
+interface SceneFrameProps {
+  ariaLabel: string;
+  aspectRatio: `${number} / ${number}`;
+  className?: string;
+  containerRef?: RefObject<HTMLDivElement | null>;
+  status: SceneStatus;
 }
 
 function runSafely(callback: () => void) {
@@ -46,6 +52,51 @@ function isSetupPromise(
   return typeof result === 'object' && result !== null && 'then' in result;
 }
 
+function SceneFrame({
+  ariaLabel,
+  aspectRatio,
+  className,
+  containerRef,
+  status,
+}: SceneFrameProps) {
+  const frameStyle = {
+    '--responsive-manim-aspect-ratio': aspectRatio,
+  } as CSSProperties;
+  const rootClassName = className
+    ? `responsive-manim-scene ${className}`
+    : 'responsive-manim-scene';
+
+  return (
+    <div className={rootClassName}>
+      <div className="responsive-manim-scene__frame" style={frameStyle}>
+        <div
+          aria-label={ariaLabel}
+          className="responsive-manim-scene__canvas"
+          ref={containerRef}
+          role="img"
+        />
+      </div>
+      {status === 'loading' ? (
+        <p aria-live="polite" className="responsive-manim-scene__status" role="status">
+          그래프를 준비하고 있습니다.
+        </p>
+      ) : null}
+      {status === 'error' ? (
+        <p aria-live="assertive" className="responsive-manim-scene__fallback" role="alert">
+          {fallbackCopy}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+function ResponsiveManimSceneFallback({
+  ariaLabel,
+  aspectRatio = '12 / 7.5',
+}: Pick<ResponsiveManimSceneProps, 'ariaLabel' | 'aspectRatio'>) {
+  return <SceneFrame ariaLabel={ariaLabel} aspectRatio={aspectRatio} status="error" />;
+}
+
 function ResponsiveManimSceneContent({
   ariaLabel,
   aspectRatio = '12 / 7.5',
@@ -53,7 +104,13 @@ function ResponsiveManimSceneContent({
   setup,
 }: ResponsiveManimSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [lifecycle, setLifecycle] = useState(() => ({ setup, status: 'loading' as SceneStatus }));
+
+  if (lifecycle.setup !== setup) {
+    setLifecycle({ setup, status: 'loading' });
+  }
+
+  const status = lifecycle.status;
 
   useEffect(() => {
     const container = containerRef.current;
@@ -65,7 +122,17 @@ function ResponsiveManimSceneContent({
     let cleanup: SceneCleanup | undefined;
     let scene: Scene | undefined;
     let resourcesDisposed = false;
-    const disposables: SceneDisposable[] = [];
+    const disposables = new Set<SceneDisposable>();
+    const disposedDisposables = new Set<SceneDisposable>();
+
+    const disposeDisposable = (disposable: SceneDisposable) => {
+      if (disposedDisposables.has(disposable)) {
+        return;
+      }
+
+      disposedDisposables.add(disposable);
+      runSafely(() => disposable.dispose());
+    };
 
     const disposeResources = () => {
       if (resourcesDisposed) {
@@ -81,9 +148,9 @@ function ResponsiveManimSceneContent({
       }
 
       for (const disposable of [...disposables].reverse()) {
-        runSafely(() => disposable.dispose());
+        disposeDisposable(disposable);
       }
-      disposables.splice(0);
+      disposables.clear();
 
       if (scene) {
         const activeScene = scene;
@@ -94,11 +161,17 @@ function ResponsiveManimSceneContent({
 
     const registerDisposable = (disposable: SceneDisposable) => {
       if (resourcesDisposed) {
-        runSafely(() => disposable.dispose());
+        disposeDisposable(disposable);
         return;
       }
 
-      disposables.push(disposable);
+      disposables.add(disposable);
+    };
+
+    const updateStatus = (nextStatus: SceneStatus) => {
+      setLifecycle((current) =>
+        current.setup === setup ? { ...current, status: nextStatus } : current,
+      );
     };
 
     const finishSetup = (result: void | SceneCleanup) => {
@@ -110,7 +183,7 @@ function ResponsiveManimSceneContent({
       }
 
       cleanup = result ?? undefined;
-      setStatus('ready');
+      updateStatus('ready');
     };
 
     const failSetup = () => {
@@ -119,7 +192,7 @@ function ResponsiveManimSceneContent({
       }
 
       disposeResources();
-      setStatus('error');
+      updateStatus('error');
     };
 
     try {
@@ -147,36 +220,28 @@ function ResponsiveManimSceneContent({
     };
   }, [setup]);
 
-  if (status === 'error') {
-    return <SceneFallback />;
-  }
-
-  const frameStyle = {
-    '--responsive-manim-aspect-ratio': aspectRatio,
-  } as CSSProperties;
-
   return (
-    <div className={['responsive-manim-scene', className].filter(Boolean).join(' ')}>
-      <div className="responsive-manim-scene__frame" style={frameStyle}>
-        <div
-          aria-label={ariaLabel}
-          className="responsive-manim-scene__canvas"
-          ref={containerRef}
-          role="img"
-        />
-      </div>
-      {status === 'loading' ? (
-        <p className="responsive-manim-scene__status" role="status">
-          그래프를 준비하고 있습니다.
-        </p>
-      ) : null}
-    </div>
+    <SceneFrame
+      ariaLabel={ariaLabel}
+      aspectRatio={aspectRatio}
+      className={className}
+      containerRef={containerRef}
+      status={status}
+    />
   );
 }
 
 export function ResponsiveManimScene(props: ResponsiveManimSceneProps) {
   return (
-    <ManimErrorBoundary fallback={<SceneFallback />}>
+    <ManimErrorBoundary
+      fallback={
+        <ResponsiveManimSceneFallback
+          ariaLabel={props.ariaLabel}
+          aspectRatio={props.aspectRatio}
+        />
+      }
+      resetKey={props.setup}
+    >
       <ResponsiveManimSceneContent {...props} />
     </ManimErrorBoundary>
   );
