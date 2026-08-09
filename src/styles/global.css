@@ -482,6 +482,12 @@ a:hover {
   color: var(--color-ink-muted);
 }
 
+.listing__empty {
+  max-width: 38rem;
+  margin: var(--space-8) 0 0;
+  color: var(--color-ink-muted);
+}
+
 .post-list {
   margin: 0;
   padding: 0;

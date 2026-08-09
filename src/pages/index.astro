@@ -1,13 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { homeSubjects } from '../utils/topics';
 import { withBase } from '../utils/urls';
 
 const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
   (left, right) => right.data.publishedAt.getTime() - left.data.publishedAt.getTime(),
 );
 const firstPost = posts[0];
-const topics = [...new Set(posts.flatMap((post) => post.data.topics))];
 ---
 
 <BaseLayout
@@ -73,8 +73,10 @@ const topics = [...new Set(posts.flatMap((post) => post.data.topics))];
       </div>
       <ul class="topic-index__list">
         {
-          topics.map((topic) => (
-            <li><a class="topic-link" href={withBase(`topics/${topic}/`)}>{topic}</a></li>
+          homeSubjects.map((subject) => (
+            <li>
+              <a class="topic-link" href={withBase(`topics/${subject.slug}/`)}>{subject.label}</a>
+            </li>
           ))
         }
       </ul>

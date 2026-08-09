@@ -10,6 +10,13 @@ const sectionHeadings = [
   'Find Best Fit',
   '정리',
 ];
+const homeSubjects = [
+  { label: 'Statistics', path: '/topics/statistics/' },
+  { label: 'Machine Learning', path: '/topics/machine-learning/' },
+  { label: 'Deep Learning', path: '/topics/deep-learning/' },
+  { label: 'Mathematics', path: '/topics/mathematics/' },
+  { label: 'Visualization', path: '/topics/visualization/' },
+];
 
 test('serves the Linear Regression lesson after navigation and a direct reload', async ({ page }) => {
   await page.goto('/');
@@ -32,5 +39,35 @@ test('serves the Linear Regression lesson after navigation and a direct reload',
     await expect(page.getByRole('heading', { level: 2, name: heading })).toBeVisible();
   }
 
-  await expect(page.locator('.katex').first()).toBeVisible();
+  await expect(page.locator('.katex-display')).toHaveCount(3);
+  await expect(page.locator('.katex-display').first()).toHaveCSS('overflow-x', 'auto');
+
+  await expect(page.locator('strong').filter({ hasText: '직선을 읽는 법을 연습하기 위해 만든 교육용 데이터' }))
+    .toHaveCount(1);
+  await expect(page.locator('.article-prose')).not.toContainText('**');
+
+  const callout = page.locator('[aria-labelledby="linear-regression-figure-title"]');
+  await expect(callout).toHaveCount(1);
+  await expect(callout.locator('#linear-regression-figure-title')).toHaveText(
+    '직선과 오차를 직접 조절해 볼 자리',
+  );
+});
+
+test('keeps all five Home subjects as static, reload-safe topic routes', async ({ page }) => {
+  await page.goto('/');
+  const topicNavigation = page.getByRole('navigation', { name: '주제별 탐색' });
+
+  for (const subject of homeSubjects) {
+    await expect(topicNavigation.getByRole('link', { name: subject.label, exact: true })).toHaveAttribute(
+      'href',
+      subject.path,
+    );
+  }
+
+  for (const subject of homeSubjects) {
+    await page.goto(subject.path);
+    await page.reload();
+    await expect(page).toHaveURL(subject.path);
+    await expect(page.getByRole('heading', { level: 1, name: subject.label })).toBeVisible();
+  }
 });
