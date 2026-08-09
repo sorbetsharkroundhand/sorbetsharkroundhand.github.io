@@ -138,9 +138,11 @@ Create `package.json` with these scripts and dependency floors:
   "devDependencies": {
     "@astrojs/check": "0.9.10",
     "@playwright/test": "1.62.1",
+    "@testing-library/react": "16.3.2",
     "@types/katex": "0.16.8",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
+    "happy-dom": "20.11.2",
     "typescript": "7.0.2",
     "vitest": "4.1.10"
   }
@@ -280,6 +282,7 @@ git commit -m "feat: add tested regression calculations"
 - Create: `src/components/navigation/SiteHeader.astro`
 - Create: `src/components/navigation/SiteFooter.astro`
 - Modify: `src/pages/index.astro`
+- Create: `tests/home.spec.ts`
 
 **Interfaces:**
 - Consumes: approved visual direction and Astro baseline.
@@ -291,13 +294,17 @@ The main agent reads the complete `SKILL.md` files for `frontend-design`, `apple
 
 - [ ] **Step 2: Define project-owned visual tokens**
 
+Before editing production UI, create `tests/home.spec.ts`. The test opens `/`, expects the hero heading `Things I learned, visualized.`, the Korean introduction, Home/Posts navigation, and a working `첫 번째 노트 읽기` link. Run `npx playwright install chromium && npx playwright test tests/home.spec.ts`; confirm RED because the baseline page lacks the real shell and hero.
+
+- [ ] **Step 3: Define project-owned visual tokens**
+
 Create tokens for paper `#f3f1ea`, elevated surface `#f7f6f1`, ink `#242722`, muted ink `#686d65`, cobalt `#465ee8`, coral `#d86558`, success `#357a5b`, border `rgba(50,55,48,.14)`, focus ring, 4/8/12/16/24/32/48/72 spacing, 12/18/28 radii, and three selective shadow levels. Define duration tokens at 120ms, 220ms, and 700ms and one physical easing curve. Override durations to near-zero under `prefers-reduced-motion`.
 
-- [ ] **Step 3: Build semantic document chrome**
+- [ ] **Step 4: Build semantic document chrome**
 
 `BaseLayout.astro` accepts `{ title, description, image? }`, emits canonical metadata using `Astro.site`, imports KaTeX CSS and the global styles, and wraps a skip link, header, main slot, and footer. Header links are Home and Posts; topic links live in page content so the header stays quiet.
 
-- [ ] **Step 4: Replace the baseline with the real home composition**
+- [ ] **Step 5: Replace the baseline with the real home composition**
 
 Create the exact hero copy:
 
@@ -310,16 +317,16 @@ Things I learned, visualized.
 
 Use one asymmetrical hero surface with a restrained coordinate-paper motif, one “첫 번째 노트 읽기” link, one recent-post region, and topic links. Do not create KPI cards, gradients, glass panels, or decorative animation loops.
 
-- [ ] **Step 5: Verify static quality**
+- [ ] **Step 6: Verify GREEN and static quality**
 
-Run: `npm run check && npm run build`
+Run: `npx playwright test tests/home.spec.ts && npm run check && npm run build`
 
-Expected: zero errors; built HTML contains the Korean introduction, skip link, and navigation labels. Inspect at 390px and 1440px in a browser; confirm no horizontal overflow and visible keyboard focus.
+Expected: the previously failing browser test passes, framework checks report zero errors, and built HTML contains the Korean introduction, skip link, and navigation labels. Inspect at 390px and 1440px in a browser; confirm no horizontal overflow and visible keyboard focus.
 
-- [ ] **Step 6: Commit the design foundation**
+- [ ] **Step 7: Commit the design foundation**
 
 ```bash
-git add src/styles src/layouts src/components/navigation src/pages/index.astro
+git add src/styles src/layouts src/components/navigation src/pages/index.astro tests/home.spec.ts
 git commit -m "feat: add research notebook design system"
 ```
 
@@ -338,20 +345,25 @@ git commit -m "feat: add research notebook design system"
 - Create: `src/utils/urls.ts`
 - Modify: `src/pages/index.astro`
 - Modify: `src/styles/global.css`
+- Create: `tests/blog.spec.ts`
 
 **Interfaces:**
 - Consumes: `BaseLayout` and visual tokens.
 - Produces: `posts` content collection, `/posts/`, `/posts/linear-regression/`, and `/topics/<topic>/` static pages.
 
-- [ ] **Step 1: Define the content schema**
+- [ ] **Step 1: Write and run the failing content-route test**
+
+Create `tests/blog.spec.ts` that navigates from Home to the Linear Regression post, directly loads and reloads `/posts/linear-regression/`, asserts all seven approved section headings, and asserts a rendered `.katex` equation. Run `npx playwright test tests/blog.spec.ts`; confirm RED because the post route and MDX content do not exist.
+
+- [ ] **Step 2: Define the content schema**
 
 Use Astro's `glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' })` loader and a schema with title/description strings, coerced dates, category enum (`Statistics`, `Machine Learning`, `Deep Learning`, `Mathematics`, `Visualization`), topic string array, draft boolean default false, and wideFigures boolean default false.
 
-- [ ] **Step 2: Create an article shell that renders real content**
+- [ ] **Step 3: Create an article shell that renders real content**
 
 `PostLayout.astro` accepts validated frontmatter, renders a back link, category, title, description, date, and a prose slot. It exposes CSS rules for `.article-prose`, `.wide-figure`, heading anchors, code, blockquotes, images, tables, inline code, and KaTeX overflow on narrow screens.
 
-- [ ] **Step 3: Create the first MDX document without a fake visualization**
+- [ ] **Step 4: Create the first MDX document without a fake visualization**
 
 Add complete Korean prose for the seven approved sections. At the eventual figure location, use a semantic explanatory callout that states the interactive instrument is loaded below; do not draw a mock graph. Include these equations:
 
@@ -365,20 +377,20 @@ $$\operatorname{MSE} = \frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y}_i)^2$$
 
 Explain slope, intercept, prediction, residual sign, squaring, average error, and why association is not causation. Use the study-hours dataset context without claiming it is real-world research data.
 
-- [ ] **Step 4: Generate post and topic routes**
+- [ ] **Step 5: Generate post and topic routes**
 
 Use `getCollection('posts', ({ data }) => !data.draft)` and `render(entry)` in the catch-all page. Generate topic routes from unique `topics` values and sort posts newest first. Create `src/utils/urls.ts` with `withBase(path: string): string`, normalize one slash between `import.meta.env.BASE_URL` and the path, and use it for all internal links.
 
-- [ ] **Step 5: Verify content and math output**
+- [ ] **Step 6: Verify GREEN, content, and math output**
 
-Run: `npm run check && npm run build`
+Run: `npx playwright test tests/blog.spec.ts && npm run check && npm run build`
 
 Expected: `dist/posts/linear-regression/index.html` and topic pages exist; built post HTML contains `katex`, all seven headings, and no draft content.
 
-- [ ] **Step 6: Commit the content system**
+- [ ] **Step 7: Commit the content system**
 
 ```bash
-git add src/content.config.ts src/content src/layouts/PostLayout.astro src/components/article src/pages src/styles/global.css src/utils/urls.ts
+git add src/content.config.ts src/content src/layouts/PostLayout.astro src/components/article src/pages src/styles/global.css src/utils/urls.ts tests/blog.spec.ts
 git commit -m "feat: add MDX learning content system"
 ```
 
@@ -390,6 +402,7 @@ git commit -m "feat: add MDX learning content system"
 - Create: `src/components/manim/ResponsiveManimScene.tsx`
 - Create: `src/components/manim/ManimErrorBoundary.tsx`
 - Create: `src/components/manim/responsive-manim-scene.css`
+- Create: `src/components/manim/ResponsiveManimScene.test.tsx`
 
 **Interfaces:**
 - Consumes: `Scene` from `manim-web`.
@@ -414,11 +427,15 @@ export interface ResponsiveManimSceneProps {
 }
 ```
 
-- [ ] **Step 1: Add the error boundary**
+- [ ] **Step 1: Write and run failing lifecycle tests**
+
+Under `// @vitest-environment happy-dom`, use React Testing Library and mock only the WebGL `Scene` constructor boundary. Assert setup receives `{ scene, registerDisposable }`; on unmount, feature cleanup runs before registered disposable cleanup and `scene.dispose()`; a rejected setup promise renders the Korean fallback. Run `npm test -- ResponsiveManimScene.test.tsx`; confirm RED because the wrapper does not exist.
+
+- [ ] **Step 2: Add the error boundary**
 
 Create a class error boundary that accepts `children` and `fallback`, catches render errors, and preserves the surrounding article. The fallback copy is `이 인터랙티브 그래프를 표시하지 못했습니다. 본문과 수식은 계속 읽을 수 있습니다.`
 
-- [ ] **Step 2: Implement one Scene lifecycle**
+- [ ] **Step 3: Implement one Scene lifecycle**
 
 Use one container ref and one effect. Construct:
 
@@ -434,17 +451,17 @@ new Scene(container, {
 
 Do not pass pixel width or height. Maintain a local disposable set; `registerDisposable` adds interaction handles such as `Draggable`, `Clickable`, or `Hoverable`. Await `setup({ scene, registerDisposable })`, retain its cleanup only while mounted, and in effect cleanup invoke feature cleanup, dispose registered handles in reverse order, then call `scene.dispose()`. Guard async setup with a cancelled flag so a late cleanup runs immediately after unmount.
 
-- [ ] **Step 3: Add loading and unsupported-WebGL fallbacks**
+- [ ] **Step 4: Add loading and unsupported-WebGL fallbacks**
 
 Render a stable aspect-ratio container with `role="img"` and the supplied label. Catch constructor/setup errors into component state. Keep loading copy outside the canvas so assistive technology receives status. Do not poll Scene state.
 
-- [ ] **Step 4: Verify type and production bundling**
+- [ ] **Step 5: Verify GREEN, type, and production bundling**
 
-Run: `npm run check && npm run build`
+Run: `npm test -- ResponsiveManimScene.test.tsx && npm run check && npm run build`
 
 Expected: zero errors; the static post HTML contains fallback/loading markup, and the home bundle does not reference the Linear Regression client chunk.
 
-- [ ] **Step 5: Commit the wrapper**
+- [ ] **Step 6: Commit the wrapper**
 
 ```bash
 git add src/components/manim
@@ -457,6 +474,7 @@ git commit -m "feat: add responsive manim scene lifecycle"
 
 **Files:**
 - Create: `src/components/visualizations/linear-regression/LinearRegressionSceneController.ts`
+- Create: `src/components/visualizations/linear-regression/LinearRegressionSceneController.test.ts`
 
 **Interfaces:**
 - Consumes: `STUDY_DATA`, `DataPoint`, regression functions, and a live `Scene`.
@@ -483,19 +501,23 @@ export class LinearRegressionSceneController {
 }
 ```
 
-- [ ] **Step 1: Build immutable plot structure**
+- [ ] **Step 1: Write and run failing headless controller tests**
+
+Use `Scene.createHeadless()` with the real manim graphing objects. Assert `create` adds stable mobjects, `setParameters({ slope: 6, intercept: 44 })` reports MSE `4.875`, the graph object identity remains stable across updates, `animateTo(bestFit, 0)` reports the exact final frame, and calling `dispose()` twice does not throw. Skip the visual-only `MathTex` label when `scene.isHeadless` so tests do not require a DOM renderer. Run `npm test -- LinearRegressionSceneController.test.ts`; confirm RED because the controller does not exist.
+
+- [ ] **Step 2: Build immutable plot structure**
 
 Create `Axes` with x range `[0, 9, 1]`, y range `[45, 95, 10]`, x length `10.2`, y length `5.8`, no tips, muted axis color, and readable ticks. Add one `Dot` per dataset point, grouped separately from dynamic layers.
 
-- [ ] **Step 2: Build stable dynamic objects**
+- [ ] **Step 3: Build stable dynamic objects**
 
 Create slope and intercept `ValueTracker`s, one `FunctionGraph`, one residual `Line` per point, and one `MathTex({ latex: '\\hat{y}=wx+b' })`. Await `modelLabel.waitForRender()` before positioning and adding it. Use cobalt for the graph and coral with partial opacity for residuals.
 
-- [ ] **Step 3: Implement one refresh path**
+- [ ] **Step 4: Implement one refresh path**
 
 Private `refreshFromTrackers(notify = true)` reads trackers, calls `graph.setFunction(x => slope * x + intercept)`, updates each residual line in place through `line.setStart(observedPoint).setEnd(predictedPoint)`, renders through `scene.render()` when no render loop is active, and emits `{ slope, intercept, mse }`. `setParameters` sets both trackers then calls this refresh once.
 
-- [ ] **Step 4: Implement manim-powered best-fit movement**
+- [ ] **Step 5: Implement manim-powered best-fit movement**
 
 Attach one updater to a dedicated dynamic group so tracker changes refresh graph and residual geometry during animation. Run both tracker animations in one call:
 
@@ -508,17 +530,17 @@ await scene.play(
 
 Throttle `onFrame` to one callback per animation frame and commit one exact final refresh after the promise resolves. Use duration `0` when reduced motion is active and `1.1` seconds otherwise.
 
-- [ ] **Step 5: Implement idempotent cleanup**
+- [ ] **Step 6: Implement idempotent cleanup**
 
 Remove the dynamic updater, clear references/callbacks, and call `scene.clear({ render: false })` once. Do not call `scene.dispose()` because the wrapper owns it.
 
-- [ ] **Step 6: Verify against the installed API**
+- [ ] **Step 7: Verify GREEN against the installed API**
 
-Run: `npm run check && npm run build`
+Run: `npm test -- LinearRegressionSceneController.test.ts && npm run check && npm run build`
 
 Expected: no TypeScript mismatch with `Axes`, `FunctionGraph`, `Line`, `MathTex`, `ValueTracker`, `smooth`, or `Scene` APIs. Open the post through a temporary direct component mount only after Task 7; do not add a second demo page.
 
-- [ ] **Step 7: Commit the controller**
+- [ ] **Step 8: Commit the controller**
 
 ```bash
 git add src/components/visualizations/linear-regression/LinearRegressionSceneController.ts
@@ -535,32 +557,37 @@ git commit -m "feat: add manim regression scene controller"
 - Create: `src/components/visualizations/linear-regression/LinearRegressionDemo.tsx`
 - Create: `src/components/visualizations/linear-regression/linear-regression.css`
 - Modify: `src/content/posts/linear-regression.mdx`
+- Create: `tests/linear-regression.spec.ts`
 
 **Interfaces:**
 - Consumes: `ResponsiveManimScene`, scene controller, regression math, data, and design tokens.
 - Produces: the `<LinearRegressionDemo />` React island with stable test IDs and accessible values.
 
-- [ ] **Step 1: Build reusable controls**
+- [ ] **Step 1: Write and run failing figure interaction tests**
+
+Create `tests/linear-regression.spec.ts`. Assert slope and intercept sliders exist, changing each updates its visible output and MSE, Best Fit reaches `5.20`, `46.46`, and `0.269`, Reset returns `3.50` and `52.00`, and only one canvas exists. Run `npx playwright test tests/linear-regression.spec.ts`; confirm RED because the MDX page has no interactive island.
+
+- [ ] **Step 2: Build reusable controls**
 
 `ParameterSlider` props are `id`, `label`, `value`, `min`, `max`, `step`, `disabled`, `onChange`, and optional `formatValue`. Render a native range input, a visible label, and `<output htmlFor={id}>`. `FigureButton` renders a native button with `variant: 'primary' | 'secondary'` and a pressed inset state.
 
-- [ ] **Step 2: Implement React state ownership**
+- [ ] **Step 3: Implement React state ownership**
 
 Initialize state from `INITIAL_PARAMETERS`; derive MSE with `useMemo`. Create the controller in a memoized Scene setup callback receiving `{ scene }` and dispose it through the returned cleanup. The controller `onFrame` updates slope/intercept during best-fit animation. Use `window.matchMedia('(prefers-reduced-motion: reduce)')` with listener cleanup.
 
-- [ ] **Step 3: Connect slider and reset behavior**
+- [ ] **Step 4: Connect slider and reset behavior**
 
 Slope range is `2`–`8` with step `0.05`; intercept range is `35`–`60` with step `0.25`. Every input updates React and calls `controller.setParameters` with both current values. Reset restores `{ slope: 3.5, intercept: 52 }`. Disable both sliders and both buttons while animating.
 
-- [ ] **Step 4: Connect Find Best Fit**
+- [ ] **Step 5: Connect Find Best Fit**
 
 Calculate the target once with `calculateLeastSquares(STUDY_DATA)`. Use `try/finally` around `controller.animateTo(target, reducedMotion ? 0 : 1.1)`. On success set exact target values and announce `최적 직선에 도착했습니다` in a polite live region. On failure display an inline error and re-enable controls.
 
-- [ ] **Step 5: Compose one coherent instrument panel**
+- [ ] **Step 6: Compose one coherent instrument panel**
 
 Render one `<figure>` containing the plot, control rail, slope/intercept outputs to two decimals, MSE to three decimals, residual legend, Find Best Fit, Reset, status, and a caption explaining that the points are a teaching dataset. Add a labeled fit-quality meter: MSE at or below `0.35` is `최적 적합`, MSE at or below `5` is `가까워짐`, and larger values are `탐색 중`; color reinforces but does not replace the text. Include an accessible HTML equivalent of the Scene's `MathTex` model label. Use test IDs `slope-slider`, `intercept-slider`, `mse-value`, `fit-quality`, `best-fit-button`, `reset-button`, and `figure-status`.
 
-- [ ] **Step 6: Mount the island in MDX**
+- [ ] **Step 7: Mount the island in MDX**
 
 Replace the explanatory loading callout with:
 
@@ -572,16 +599,16 @@ import LinearRegressionDemo from '../../components/visualizations/linear-regress
 </div>
 ```
 
-- [ ] **Step 7: Verify interaction manually**
+- [ ] **Step 8: Verify GREEN and interaction manually**
 
-Run: `npm run dev -- --host 127.0.0.1`
+Run: `npx playwright test tests/linear-regression.spec.ts`, then run `npm run dev -- --host 127.0.0.1` for visual confirmation.
 
 Expected: sliders move the line and residuals without creating another canvas; MSE changes; Best Fit animates to slope `5.20`, intercept `46.46`, and MSE `0.269`; Reset returns to slope `3.50` and intercept `52.00`.
 
-- [ ] **Step 8: Commit the complete figure**
+- [ ] **Step 9: Commit the complete figure**
 
 ```bash
-git add src/components/controls src/components/visualizations/linear-regression src/content/posts/linear-regression.mdx
+git add src/components/controls src/components/visualizations/linear-regression src/content/posts/linear-regression.mdx tests/linear-regression.spec.ts
 git commit -m "feat: add interactive linear regression lesson"
 ```
 
@@ -630,8 +657,8 @@ git commit -m "feat: polish responsive learning experience"
 ### Task 9: Add browser coverage and audit motion
 
 **Files:**
-- Create: `tests/blog.spec.ts`
-- Create: `tests/linear-regression.spec.ts`
+- Modify: `tests/blog.spec.ts`
+- Modify: `tests/linear-regression.spec.ts`
 - Modify: `playwright.config.ts`
 - Modify: animation and CSS files only when the audit identifies a concrete issue.
 
