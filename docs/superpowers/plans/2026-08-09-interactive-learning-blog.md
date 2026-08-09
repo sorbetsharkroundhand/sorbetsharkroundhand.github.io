@@ -545,7 +545,7 @@ Expected: no TypeScript mismatch with `Axes`, `FunctionGraph`, `Line`, `MathTex`
 - [ ] **Step 8: Commit the controller**
 
 ```bash
-git add src/components/visualizations/linear-regression/LinearRegressionSceneController.ts
+git add src/components/visualizations/linear-regression/LinearRegressionSceneController.ts src/components/visualizations/linear-regression/LinearRegressionSceneController.test.ts
 git commit -m "feat: add manim regression scene controller"
 ```
 
