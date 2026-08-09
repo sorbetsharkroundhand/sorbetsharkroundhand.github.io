@@ -431,7 +431,7 @@ export interface ResponsiveManimSceneProps {
 
 - [ ] **Step 1: Write and run failing lifecycle tests**
 
-Under `// @vitest-environment happy-dom`, use React Testing Library and mock only the WebGL `Scene` constructor boundary. Assert setup receives `{ scene, registerDisposable }`; on unmount, feature cleanup runs before registered disposable cleanup and `scene.dispose()`; a rejected setup promise renders the Korean fallback. Run `npm test -- ResponsiveManimScene.test.tsx`; confirm RED because the wrapper does not exist.
+Under `// @vitest-environment happy-dom`, use React Testing Library and mock only the WebGL `Scene` constructor boundary. Assert setup receives `{ scene, registerDisposable }`; on unmount, feature cleanup runs before registered disposable cleanup and `scene.dispose()`; a rejected setup promise renders the Korean fallback. Include a React StrictMode mount/unmount case that proves no retained canvas lifecycle or undisposed Scene instance. Run `npm test -- ResponsiveManimScene.test.tsx`; confirm RED because the wrapper does not exist.
 
 - [ ] **Step 2: Add the error boundary**
 
@@ -461,7 +461,7 @@ Render a stable aspect-ratio container with `role="img"` and the supplied label.
 
 Run: `npm test -- ResponsiveManimScene.test.tsx && npm run check && npm run build`
 
-Expected: zero errors; the static post HTML contains fallback/loading markup, and the home bundle does not reference the Linear Regression client chunk.
+Expected: zero errors; the component tests prove stable loading/fallback markup and cleanup behavior, the production build succeeds, and the home output does not reference a Manim or Linear Regression client chunk before the island is mounted in Task 7.
 
 - [ ] **Step 6: Commit the wrapper**
 
