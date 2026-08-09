@@ -26,6 +26,10 @@ describe('linear regression calculations', () => {
     expect(calculateMSE([{ x: 1, y: 8 }], 2, 3)).toBe(9);
   });
 
+  it('rejects an empty dataset when calculating MSE', () => {
+    expect(() => calculateMSE([], 2, 3)).toThrow('at least one data point');
+  });
+
   it('calculates the least-squares parameters for the study data', () => {
     const result = calculateLeastSquares(STUDY_DATA);
 
