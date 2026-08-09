@@ -1,0 +1,409 @@
+.linear-regression-demo {
+  --instrument-divider: color-mix(in srgb, var(--color-ink) 16%, transparent);
+  width: 100%;
+  margin: var(--space-12) 0;
+  overflow: hidden;
+  border: 1px solid var(--instrument-divider);
+  border-radius: var(--radius-2);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-raised);
+  color: var(--color-ink);
+}
+
+.linear-regression-demo__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.8fr);
+  gap: var(--space-2) var(--space-8);
+  align-items: end;
+  padding: var(--space-6) var(--space-8);
+  border-bottom: 1px solid var(--instrument-divider);
+}
+
+.linear-regression-demo__header h3 {
+  grid-column: 1;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  word-break: keep-all;
+}
+
+.linear-regression-demo__header > p:last-child {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: 0.875rem;
+  line-height: 1.65;
+  word-break: keep-all;
+}
+
+.linear-regression-demo__eyebrow,
+.linear-regression-demo__control-heading p {
+  margin: 0;
+  color: var(--color-cobalt);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.linear-regression-demo__instrument {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 20.5rem);
+}
+
+.linear-regression-demo__plot {
+  min-width: 0;
+  padding: var(--space-6);
+}
+
+.linear-regression-demo .responsive-manim-scene__frame {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.linear-regression-demo__plot-notes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-6);
+  margin-top: var(--space-3);
+  color: var(--color-ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.035em;
+  line-height: 1.5;
+}
+
+.linear-regression-demo__plot-notes p {
+  margin: 0;
+}
+
+.linear-regression-demo__model {
+  color: var(--color-cobalt);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.linear-regression-demo__legend {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.linear-regression-demo__legend span {
+  display: inline-block;
+  width: 1.75rem;
+  height: 0.1875rem;
+  border-radius: 999px;
+  background: var(--color-coral);
+}
+
+.linear-regression-demo__controls {
+  display: grid;
+  align-content: start;
+  gap: var(--space-6);
+  min-width: 0;
+  padding: var(--space-6);
+  border-left: 1px solid var(--instrument-divider);
+  background: color-mix(in srgb, var(--color-paper) 68%, var(--color-surface));
+}
+
+.linear-regression-demo__control-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.linear-regression-demo__control-heading span {
+  color: var(--color-ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+}
+
+.parameter-slider {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.parameter-slider__heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.parameter-slider label {
+  font-size: 0.875rem;
+  font-weight: 720;
+  letter-spacing: -0.01em;
+}
+
+.parameter-slider output {
+  color: var(--color-cobalt);
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 750;
+}
+
+.parameter-slider__input {
+  width: 100%;
+  min-height: 2.75rem;
+  margin: 0;
+  accent-color: var(--color-cobalt);
+  cursor: pointer;
+}
+
+.parameter-slider__input:focus-visible {
+  outline: 0.1875rem solid var(--color-focus-ring);
+  outline-offset: 0.125rem;
+}
+
+.parameter-slider__input:disabled {
+  cursor: wait;
+  opacity: 0.58;
+}
+
+.parameter-slider__range {
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.linear-regression-demo__readout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: var(--space-3) var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid var(--instrument-divider);
+  border-radius: var(--radius-1);
+  box-shadow: inset 0 0.125rem 0.375rem rgba(36, 39, 34, 0.06);
+}
+
+.linear-regression-demo__readout > div:not([role="meter"]) {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.linear-regression-demo__readout span:not(.linear-regression-demo__meter span) {
+  color: var(--color-ink-muted);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.045em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.linear-regression-demo__readout output {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 760;
+  line-height: 1.25;
+}
+
+.linear-regression-demo__quality--optimal {
+  color: var(--color-success);
+}
+
+.linear-regression-demo__quality--near {
+  color: var(--color-cobalt);
+}
+
+.linear-regression-demo__quality--exploring {
+  color: var(--color-coral);
+}
+
+.linear-regression-demo__meter {
+  grid-column: 1 / -1;
+  height: 0.4rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-ink) 10%, transparent);
+  box-shadow: inset 0 0.0625rem 0.125rem rgba(36, 39, 34, 0.12);
+}
+
+.linear-regression-demo__meter span {
+  display: block;
+  width: var(--fit-meter-value);
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-coral);
+}
+
+.linear-regression-demo__meter--near span {
+  background: var(--color-cobalt);
+}
+
+.linear-regression-demo__meter--optimal span {
+  min-width: 0.4rem;
+  background: var(--color-success);
+}
+
+.linear-regression-demo__actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-3);
+}
+
+.figure-button {
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-cobalt);
+  border-radius: var(--radius-1);
+  font: 750 0.8125rem/1 var(--font-body);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transform: scale(1);
+  transition: color var(--duration-fast) var(--ease-physical),
+    background-color var(--duration-fast) var(--ease-physical),
+    border-color var(--duration-fast) var(--ease-physical),
+    box-shadow var(--duration-fast) var(--ease-physical),
+    transform var(--duration-fast) var(--ease-physical);
+}
+
+.figure-button--primary {
+  background: var(--color-cobalt);
+  box-shadow: var(--shadow-low);
+  color: var(--color-surface);
+}
+
+.figure-button--secondary {
+  background: transparent;
+  color: var(--color-cobalt);
+}
+
+.figure-button:active:not(:disabled) {
+  box-shadow: inset 0 0.125rem 0.3rem rgba(36, 39, 34, 0.24);
+  transform: scale(0.97);
+}
+
+.figure-button:focus-visible {
+  transform: none;
+}
+
+.figure-button:disabled {
+  cursor: wait;
+  opacity: 0.56;
+}
+
+.linear-regression-demo__status,
+.linear-regression-demo__error {
+  min-height: 1.5em;
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.linear-regression-demo__error {
+  margin-top: calc(var(--space-3) * -1);
+  color: var(--color-coral);
+  font-weight: 700;
+}
+
+.linear-regression-demo figcaption {
+  padding: var(--space-4) var(--space-8);
+  border-top: 1px solid var(--instrument-divider);
+  color: var(--color-ink-muted);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .figure-button--primary:hover:not(:disabled) {
+    border-color: var(--color-ink);
+    background: var(--color-ink);
+  }
+
+  .figure-button--secondary:hover:not(:disabled) {
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+  }
+}
+
+@media (max-width: 52rem) {
+  .linear-regression-demo__header {
+    grid-template-columns: 1fr;
+  }
+
+  .linear-regression-demo__header > p:last-child {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .linear-regression-demo__instrument {
+    grid-template-columns: 1fr;
+  }
+
+  .linear-regression-demo__controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--instrument-divider);
+    border-left: 0;
+  }
+
+  .linear-regression-demo__control-heading,
+  .linear-regression-demo__readout,
+  .linear-regression-demo__actions,
+  .linear-regression-demo__status,
+  .linear-regression-demo__error {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 38rem) {
+  .linear-regression-demo {
+    margin-block: var(--space-8);
+    border-radius: var(--radius-1);
+  }
+
+  .linear-regression-demo__header,
+  .linear-regression-demo__plot,
+  .linear-regression-demo__controls {
+    padding: var(--space-4);
+  }
+
+  .linear-regression-demo__controls {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .linear-regression-demo__control-heading,
+  .linear-regression-demo__readout,
+  .linear-regression-demo__actions,
+  .linear-regression-demo__status,
+  .linear-regression-demo__error {
+    grid-column: 1;
+  }
+
+  .linear-regression-demo__plot-notes {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .linear-regression-demo figcaption {
+    padding-inline: var(--space-4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .figure-button {
+    transition-duration: 0.01ms;
+  }
+}
