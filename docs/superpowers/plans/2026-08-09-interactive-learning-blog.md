@@ -624,33 +624,38 @@ git commit -m "feat: add interactive linear regression lesson"
 - Modify: `src/styles/global.css`
 - Modify: `src/components/visualizations/linear-regression/linear-regression.css`
 - Modify: `src/pages/index.astro`
+- Modify: `tests/linear-regression.spec.ts`
 
 **Interfaces:**
 - Consumes: working figure and complete MDX content.
 - Produces: final reading sequence and mobile/tablet/desktop presentation.
 
-- [ ] **Step 1: Perform content continuity review**
+- [ ] **Step 1: Add responsive and keyboard-flow regression coverage**
+
+Before changing layout CSS, extend `tests/linear-regression.spec.ts` at 390×844, 768×1024, and 1440×1000. Assert no document overflow, plot/controls visibility, at least 44px control rows, and focus order slope → intercept → Find Best Fit → Reset. Run the focused test and record any evidenced failures before production changes.
+
+- [ ] **Step 2: Perform content continuity review**
 
 Read the built article from top to bottom. Ensure every control is introduced before use, residuals are explained before MSE, least squares is explained after experimentation, and the closing section distinguishes prediction from causal inference. Remove duplicate explanations and generic filler.
 
-- [ ] **Step 2: Refine wide-figure behavior**
+- [ ] **Step 3: Refine wide-figure behavior**
 
 At widths above 1100px, allow the figure to reach at most 1120px while prose stays at 720px. Below 860px, stack plot and controls. Below 520px, preserve page gutters of at least 16px, keep controls at least 44px high, retain full plot bounds, and prevent KaTeX or code from expanding the page.
 
-- [ ] **Step 3: Refine states and keyboard flow**
+- [ ] **Step 4: Refine states and keyboard flow**
 
 Confirm focus order follows slope, intercept, Find Best Fit, Reset. Make disabled state readable, focus ring at least 2px, status well non-jumping, and residual/best-fit meanings distinguishable by labels and line style as well as color.
 
-- [ ] **Step 4: Run static and unit verification**
+- [ ] **Step 5: Run focused, static, and unit verification**
 
-Run: `npm run check && npm test && npm run build`
+Run: `npx playwright test tests/linear-regression.spec.ts && npm run check && npm test && npm run build`
 
 Expected: all pass; no horizontal overflow at 390px, 768px, or 1440px during manual inspection.
 
-- [ ] **Step 5: Commit the learning-flow polish**
+- [ ] **Step 6: Commit the learning-flow polish**
 
 ```bash
-git add src/content src/layouts src/styles src/components/visualizations src/pages/index.astro
+git add src/content src/layouts src/styles src/components/visualizations src/pages/index.astro tests/linear-regression.spec.ts
 git commit -m "feat: polish responsive learning experience"
 ```
 
@@ -668,11 +673,11 @@ git commit -m "feat: polish responsive learning experience"
 - Consumes: deployed-equivalent local site and accessible test IDs.
 - Produces: repeatable navigation, interaction, responsive, reload, and reduced-motion evidence.
 
-- [ ] **Step 1: Write failing blog browser tests**
+- [ ] **Step 1: Extend existing blog browser tests**
 
 Test Home → post navigation, `/posts/linear-regression/` direct load, reload, seven section headings, code/inline code, and `.katex`. Run against desktop Chromium.
 
-- [ ] **Step 2: Write failing interaction tests**
+- [ ] **Step 2: Strengthen existing interaction tests**
 
 Set slope to `6`, assert slope output and MSE change; set intercept to `44`, assert another MSE change; click Best Fit, wait for idle status, and assert `5.20`, `46.46`, `0.269`; click Reset and assert `3.50`, `52.00`. Assert one canvas exists after reload and history navigation.
 
@@ -680,11 +685,11 @@ Set slope to `6`, assert slope output and MSE change; set intercept to `44`, ass
 
 Use viewports 390×844, 768×1024, and 1440×1000. Assert `document.documentElement.scrollWidth <= document.documentElement.clientWidth`, plot and controls are visible, and slider bounding boxes are at least 44px high including their label/control row. Emulate reduced motion, click Best Fit, and assert completion in under 400ms with the same final values.
 
-- [ ] **Step 4: Run tests and capture initial failures**
+- [ ] **Step 4: Run the extended tests and capture any initial failures**
 
 Run: `npx playwright install chromium && npm run test:e2e`
 
-Expected before fixes: any selector, layout, or lifecycle mismatch is reported with trace and screenshot rather than silently skipped.
+Expected before fixes: any newly exposed selector, layout, or lifecycle mismatch is reported with trace and screenshot rather than silently skipped. Passing characterization assertions are retained.
 
 - [ ] **Step 5: Fix only evidenced test failures**
 
