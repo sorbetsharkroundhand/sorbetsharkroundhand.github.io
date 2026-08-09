@@ -6,7 +6,9 @@
 
 **Architecture:** Astro generates real HTML pages and content-collection routes; React islands own interactive controls and load only when visible. Pure TypeScript owns regression calculations, while a focused scene controller owns stable `manim-web` mobjects, tracker animation, rendering, and cleanup.
 
-**Tech Stack:** Astro 7.2.0, TypeScript 7.0.2, React 19.2.8, MDX, `manim-web` 0.3.24, KaTeX 0.18.2, Vitest 4.1.10, Playwright 1.62.1, CSS, GitHub Actions, GitHub Pages, Node 24.
+**Tech Stack:** Astro 7.2.0, TypeScript 6.0.3, React 19.2.8, MDX, `manim-web` 0.3.24, KaTeX 0.18.2, Vitest 4.1.10, Playwright 1.62.1, CSS, GitHub Actions, GitHub Pages, Node 24.
+
+TypeScript is pinned to 6.0.3 because `@astrojs/check@0.9.10` supports `^5.0.0 || ^6.0.0`; TypeScript 7.0.2 cannot be installed with this checker without bypassing peer constraints and then fails at runtime on removed compiler APIs.
 
 ## Global Constraints
 
@@ -143,7 +145,7 @@ Create `package.json` with these scripts and dependency floors:
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
     "happy-dom": "20.11.2",
-    "typescript": "7.0.2",
+    "typescript": "6.0.3",
     "vitest": "4.1.10"
   }
 }
