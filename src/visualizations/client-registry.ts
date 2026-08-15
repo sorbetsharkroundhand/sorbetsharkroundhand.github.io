@@ -14,11 +14,11 @@ export type VisualizationLoader = () => Promise<VisualizationModule>;
 
 export const visualizationLoaders = {
   'linear-regression:model': () =>
-    import('../components/visualizations/linear-regression/LinearRegressionDemo'),
+    import('./linear-regression/LineModelDemo'),
   'linear-regression:residuals': () =>
-    import('../components/visualizations/linear-regression/LinearRegressionDemo'),
+    import('./linear-regression/ResidualDemo'),
   'linear-regression:best-fit': () =>
-    import('../components/visualizations/linear-regression/LinearRegressionDemo'),
+    import('./linear-regression/BestFitDemo'),
 } as const satisfies Record<string, VisualizationLoader>;
 
 export const visualizationLoaderIds = Object.keys(visualizationLoaders);

@@ -238,16 +238,16 @@ git commit -m "feat: lazily mount registered visualizations"
 - `LinearRegressionSceneController` consumes a palette whose inactive geometry is gray and whose focused geometry uses one accent.
 - Each wrapper default-exports a React component accepting `{ accent: AccentName }`.
 
-- [ ] **Step 1: Extend failing controller and component tests**
+- [x] **Step 1: Extend failing controller and component tests**
 
 Assert model focus colors only the line, residual focus colors only residuals, and best-fit focus colors only the best-fit line/target. Assert every other mobject uses neutral tokens. Preserve disposal, late async cleanup, and reduced-motion coverage.
 
-- [ ] **Step 2: Run focused tests and verify the new expectations fail**
+- [x] **Step 2: Run focused tests and verify the new expectations fail**
 
 Run: `npm test -- src/components/visualizations/linear-regression/LinearRegressionSceneController.test.ts src/components/manim/ResponsiveManimScene.test.tsx`
 Expected: FAIL because focus and palette inputs do not exist.
 
-- [ ] **Step 3: Add focus/palette support without duplicating math or lifecycle code**
+- [x] **Step 3: Add focus/palette support without duplicating math or lifecycle code**
 
 ```ts
 type RegressionFocus = 'model' | 'residuals' | 'best-fit';
@@ -256,7 +256,7 @@ type RegressionPalette = { foreground: string; muted: string; accent: string };
 
 Keep one dataset and the existing pure `regressionMath` functions. Render scene-specific controls and explanations from the shared demo. Set the scene background to near-black through a wrapper prop rather than a hard-coded paper color.
 
-- [ ] **Step 4: Add three thin registered wrappers**
+- [x] **Step 4: Add three thin registered wrappers**
 
 ```tsx
 export default function LineModelDemo({ accent }: VisualizationProps) {
@@ -266,16 +266,16 @@ export default function LineModelDemo({ accent }: VisualizationProps) {
 
 Residual and best-fit wrappers use the corresponding focus. Update `client-registry.ts` to load these modules.
 
-- [ ] **Step 5: Replace the all-in-one E2E assumptions**
+- [x] **Step 5: Replace the all-in-one E2E assumptions**
 
 Verify three slots, lazy canvases, slope/intercept interaction, residual MSE synchronization, best-fit reduced motion, reload/history cleanup, and exactly one canvas per activated slot.
 
-- [ ] **Step 6: Run regression unit and browser tests**
+- [x] **Step 6: Run regression unit and browser tests**
 
 Run: `npm test -- src/components/visualizations/linear-regression src/components/manim && npx playwright test tests/linear-regression.spec.ts`
 Expected: PASS at 390px, 768px, and 1440px.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/components/manim src/components/visualizations/linear-regression src/visualizations/linear-regression src/visualizations/client-registry.ts tests/linear-regression.spec.ts

@@ -21,8 +21,10 @@ import {
 import {
   LinearRegressionSceneController,
   type RegressionFrame,
+  type RegressionFocus,
 } from './LinearRegressionSceneController';
 import { calculateLeastSquares, calculateMSE } from './regressionMath';
+import type { AccentName } from '../../../visualizations/manifest';
 import './linear-regression.css';
 
 const BEST_FIT = calculateLeastSquares(STUDY_DATA);
@@ -50,7 +52,40 @@ function formatParameter(value: number): string {
   return value.toFixed(2);
 }
 
-export default function LinearRegressionDemo() {
+const ACCENT_COLORS: Record<AccentName, string> = {
+  cyan: '#23d5e8',
+  red: '#ff665f',
+  yellow: '#f2c94c',
+  violet: '#a98bff',
+};
+
+const SCENE_COPY: Record<RegressionFocus, { label: string; title: string; description: string }> = {
+  model: {
+    label: '[MODEL SCENE]',
+    title: '기울기와 절편으로 직선을 움직입니다',
+    description: '회귀선만 청록색으로 표시됩니다. 두 값을 바꾸며 선의 위치를 비교해 보세요.',
+  },
+  residuals: {
+    label: '[RESIDUAL SCENE]',
+    title: '예측과 관찰의 거리를 확인합니다',
+    description: '잔차만 빨간색으로 표시됩니다. 직선을 움직이며 각 세로 거리와 MSE를 비교해 보세요.',
+  },
+  'best-fit': {
+    label: '[OPTIMIZATION SCENE]',
+    title: '오차가 가장 작은 직선을 찾습니다',
+    description: '최적선만 노란색으로 표시됩니다. 현재 위치에서 최소제곱 해로 이동해 보세요.',
+  },
+};
+
+interface LinearRegressionDemoProps {
+  focus?: RegressionFocus;
+  accent?: AccentName;
+}
+
+export default function LinearRegressionDemo({
+  focus = 'model',
+  accent = 'cyan',
+}: LinearRegressionDemoProps) {
   const [parameters, setParameters] = useState<RegressionParameters>({
     ...INITIAL_PARAMETERS,
   });
@@ -71,6 +106,7 @@ export default function LinearRegressionDemo() {
   const meterValue = Math.min(mse, 20);
   const meterStyle = {
     '--fit-meter-value': `${(meterValue / 20) * 100}%`,
+    '--scene-accent': ACCENT_COLORS[accent],
   } as CSSProperties;
   const controlsDisabled = isAnimating || !isSceneReady;
 
@@ -108,6 +144,12 @@ export default function LinearRegressionDemo() {
         points: STUDY_DATA,
         initial: parametersRef.current,
         onFrame: handleControllerFrame,
+        focus,
+        palette: {
+          foreground: '#f4f4f0',
+          muted: '#6e716f',
+          accent: ACCENT_COLORS[accent],
+        },
       });
 
       controllerRef.current = controller;
@@ -127,7 +169,7 @@ export default function LinearRegressionDemo() {
         }
       };
     },
-    [handleControllerFrame],
+    [accent, focus, handleControllerFrame],
   );
 
   const handleSlopeChange = useCallback(
@@ -183,19 +225,22 @@ export default function LinearRegressionDemo() {
 
   return (
     <figure
-      aria-labelledby="linear-regression-figure-title"
+      aria-labelledby={`linear-regression-${focus}-figure-title`}
       className="linear-regression-demo"
+      data-focus={focus}
+      style={{ '--scene-accent': ACCENT_COLORS[accent] } as CSSProperties}
     >
       <header className="linear-regression-demo__header">
-        <p className="linear-regression-demo__eyebrow">Regression lab · 01</p>
-        <h3 id="linear-regression-figure-title">직선과 오차를 직접 조절해 볼 자리</h3>
-        <p>점과 직선 사이의 잔차를 보면서 MSE가 어떻게 달라지는지 확인해 보세요.</p>
+        <p className="linear-regression-demo__eyebrow">{SCENE_COPY[focus].label}</p>
+        <h3 id={`linear-regression-${focus}-figure-title`}>{SCENE_COPY[focus].title}</h3>
+        <p>{SCENE_COPY[focus].description}</p>
       </header>
 
       <div className="linear-regression-demo__instrument">
         <div className="linear-regression-demo__plot">
           <ResponsiveManimScene
             ariaLabel="공부 시간과 시험 점수, 회귀 직선, 세로 잔차를 나타낸 좌표 그래프"
+            backgroundColor="#090a0a"
             setup={setupScene}
           />
           <div className="linear-regression-demo__plot-notes">
@@ -227,7 +272,7 @@ export default function LinearRegressionDemo() {
           <ParameterSlider
             disabled={controlsDisabled}
             formatValue={formatParameter}
-            id="slope-slider"
+            id={`${focus}-slope-slider`}
             label="기울기 w"
             max={8}
             min={2}
@@ -238,7 +283,7 @@ export default function LinearRegressionDemo() {
           <ParameterSlider
             disabled={controlsDisabled}
             formatValue={formatParameter}
-            id="intercept-slider"
+            id={`${focus}-intercept-slider`}
             label="절편 b"
             max={60}
             min={35}
@@ -278,24 +323,26 @@ export default function LinearRegressionDemo() {
             </div>
           </div>
 
-          <div className="linear-regression-demo__actions">
-            <FigureButton
-              disabled={controlsDisabled}
-              onClick={handleBestFit}
-              testId="best-fit-button"
-              variant="primary"
-            >
-              Find Best Fit
-            </FigureButton>
-            <FigureButton
-              disabled={controlsDisabled}
-              onClick={handleReset}
-              testId="reset-button"
-              variant="secondary"
-            >
-              Reset
-            </FigureButton>
-          </div>
+          {focus === 'best-fit' ? (
+            <div className="linear-regression-demo__actions">
+              <FigureButton
+                disabled={controlsDisabled}
+                onClick={handleBestFit}
+                testId="best-fit-button"
+                variant="primary"
+              >
+                Find Best Fit
+              </FigureButton>
+              <FigureButton
+                disabled={controlsDisabled}
+                onClick={handleReset}
+                testId="reset-button"
+                variant="secondary"
+              >
+                Reset
+              </FigureButton>
+            </div>
+          ) : null}
 
           <p
             aria-live="polite"

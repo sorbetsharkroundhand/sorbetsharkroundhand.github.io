@@ -1,13 +1,11 @@
 .linear-regression-demo {
-  --instrument-divider: color-mix(in srgb, var(--color-ink) 16%, transparent);
+  --instrument-divider: #313334;
   width: 100%;
   margin: var(--space-12) 0;
   overflow: hidden;
   border: 1px solid var(--instrument-divider);
-  border-radius: var(--radius-2);
-  background: var(--color-surface);
-  box-shadow: var(--shadow-raised);
-  color: var(--color-ink);
+  background: #090a0a;
+  color: #f4f4f0;
 }
 
 .linear-regression-demo__header {
@@ -43,7 +41,7 @@
 .linear-regression-demo__eyebrow,
 .linear-regression-demo__control-heading p {
   margin: 0;
-  color: var(--color-cobalt);
+  color: var(--scene-accent);
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 700;
@@ -87,7 +85,7 @@
 }
 
 .linear-regression-demo__model {
-  color: var(--color-cobalt);
+  color: #6e716f;
   font-size: 0.8125rem;
   font-weight: 700;
 }
@@ -112,13 +110,13 @@
 
 .linear-regression-demo__legend-model {
   height: 0.25rem;
-  background: var(--color-cobalt);
+  background: #6e716f;
   transform: rotate(-8deg);
 }
 
 .linear-regression-demo__legend-residual {
   height: 0.125rem;
-  background: var(--color-coral);
+  background: #6e716f;
   transform: rotate(90deg) scaleX(0.65);
 }
 
@@ -129,7 +127,16 @@
   min-width: 0;
   padding: var(--space-6);
   border-left: 1px solid var(--instrument-divider);
-  background: color-mix(in srgb, var(--color-paper) 68%, var(--color-surface));
+  background: #0d0e0e;
+}
+
+.linear-regression-demo[data-focus="model"] .linear-regression-demo__model,
+.linear-regression-demo[data-focus="model"] .linear-regression-demo__legend-model,
+.linear-regression-demo[data-focus="best-fit"] .linear-regression-demo__model,
+.linear-regression-demo[data-focus="best-fit"] .linear-regression-demo__legend-model,
+.linear-regression-demo[data-focus="residuals"] .linear-regression-demo__legend-residual {
+  color: var(--scene-accent);
+  background: var(--scene-accent);
 }
 
 .linear-regression-demo__control-heading {
@@ -165,7 +172,7 @@
 }
 
 .parameter-slider output {
-  color: var(--color-cobalt);
+  color: var(--scene-accent);
   font-family: var(--font-mono);
   font-size: 0.9375rem;
   font-variant-numeric: tabular-nums;
@@ -176,7 +183,7 @@
   width: 100%;
   min-height: 2.75rem;
   margin: 0;
-  accent-color: var(--color-cobalt);
+  accent-color: var(--scene-accent);
   cursor: pointer;
 }
 
@@ -206,8 +213,6 @@
   gap: var(--space-3) var(--space-4);
   padding: var(--space-4);
   border: 1px solid var(--instrument-divider);
-  border-radius: var(--radius-1);
-  box-shadow: inset 0 0.125rem 0.375rem rgba(36, 39, 34, 0.06);
 }
 
 .linear-regression-demo__readout > div:not([role="meter"]) {
@@ -232,42 +237,26 @@
   line-height: 1.25;
 }
 
-.linear-regression-demo__quality--optimal {
-  color: var(--color-success);
-}
-
-.linear-regression-demo__quality--near {
-  color: var(--color-cobalt);
-}
-
-.linear-regression-demo__quality--exploring {
-  color: var(--color-coral);
+.linear-regression-demo__quality {
+  color: var(--scene-accent);
 }
 
 .linear-regression-demo__meter {
   grid-column: 1 / -1;
   height: 0.4rem;
   overflow: hidden;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--color-ink) 10%, transparent);
-  box-shadow: inset 0 0.0625rem 0.125rem rgba(36, 39, 34, 0.12);
+  background: #272929;
 }
 
 .linear-regression-demo__meter span {
   display: block;
   width: var(--fit-meter-value);
   height: 100%;
-  border-radius: inherit;
-  background: var(--color-coral);
-}
-
-.linear-regression-demo__meter--near span {
-  background: var(--color-cobalt);
+  background: var(--scene-accent);
 }
 
 .linear-regression-demo__meter--optimal span {
   min-width: 0.4rem;
-  background: var(--color-success);
 }
 
 .linear-regression-demo__actions {
@@ -279,8 +268,7 @@
 .figure-button {
   min-height: 2.75rem;
   padding: var(--space-2) var(--space-4);
-  border: 1px solid var(--color-cobalt);
-  border-radius: var(--radius-1);
+  border: 1px solid var(--scene-accent);
   font: 750 0.8125rem/1 var(--font-body);
   letter-spacing: 0.01em;
   cursor: pointer;
@@ -289,18 +277,16 @@
 }
 
 .figure-button--primary {
-  background: var(--color-cobalt);
-  box-shadow: var(--shadow-low);
-  color: var(--color-surface);
+  background: var(--scene-accent);
+  color: #090a0a;
 }
 
 .figure-button--secondary {
   background: transparent;
-  color: var(--color-cobalt);
+  color: var(--scene-accent);
 }
 
 .figure-button:active:not(:disabled) {
-  box-shadow: inset 0 0.125rem 0.3rem rgba(36, 39, 34, 0.24);
   transform: scale(0.97);
   transition-duration: 160ms;
 }

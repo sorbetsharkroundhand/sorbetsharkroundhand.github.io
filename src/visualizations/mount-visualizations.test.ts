@@ -70,6 +70,7 @@ describe('mountVisualizations', () => {
       createObserver: observerHarness.createObserver,
       loaders: { 'lesson:demo': loader },
       loadRuntime: async () => ({ createElement: vi.fn(() => 'scene'), createRoot }),
+      prepareRuntime: async () => undefined,
     });
 
     expect(slot.dataset.state).toBe('waiting');
@@ -105,6 +106,7 @@ describe('mountVisualizations', () => {
       createObserver: observerHarness.createObserver,
       loaders: { 'lesson:demo': loader },
       loadRuntime: async () => ({ createElement: vi.fn(() => 'scene'), createRoot }),
+      prepareRuntime: async () => undefined,
     });
 
     observerHarness.trigger(slot);

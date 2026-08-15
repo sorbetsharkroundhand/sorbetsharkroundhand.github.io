@@ -954,3 +954,9 @@ a:hover {
   color: inherit;
   font: inherit;
 }
+
+@media (max-width: 38rem) {
+  .visualization-slot {
+    padding: var(--space-4);
+  }
+}

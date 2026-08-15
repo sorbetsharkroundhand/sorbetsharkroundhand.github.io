@@ -30,6 +30,7 @@ interface MountOptions {
   loaders?: Record<string, VisualizationLoader>;
   createObserver?: ObserverFactory;
   loadRuntime?: () => Promise<Runtime>;
+  prepareRuntime?: () => Promise<void>;
 }
 
 interface SlotState {
@@ -45,6 +46,10 @@ const defaultObserverFactory: ObserverFactory = (callback, options) =>
 async function defaultRuntimeLoader(): Promise<Runtime> {
   const [react, reactDom] = await Promise.all([import('react'), import('react-dom/client')]);
   return { createElement: react.createElement, createRoot: reactDom.createRoot };
+}
+
+async function defaultRuntimePreparation(): Promise<void> {
+  if (import.meta.env.DEV) await import('@vitejs/plugin-react/preamble');
 }
 
 function setSlotState(slot: HTMLElement, state: 'waiting' | 'loading' | 'ready' | 'error') {
@@ -70,6 +75,7 @@ export function mountVisualizations({
   loaders = visualizationLoaders,
   createObserver = defaultObserverFactory,
   loadRuntime = defaultRuntimeLoader,
+  prepareRuntime = defaultRuntimePreparation,
 }: MountOptions = {}): () => void {
   const slots = [...root.querySelectorAll<HTMLElement>('.visualization-slot[data-visualization-id]')];
   const states = new Map<HTMLElement, SlotState>();
@@ -88,6 +94,7 @@ export function mountVisualizations({
       const loader = loaders[id];
       if (!loader) throw new Error(`No visualization loader registered for "${id}".`);
 
+      await prepareRuntime();
       const [module, runtime] = await Promise.all([loader(), loadRuntime()]);
       if (disposed) return;
 
