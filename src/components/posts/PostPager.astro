@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+import { withBase } from '../../utils/urls';
+
+interface Props {
+  older?: CollectionEntry<'posts'>;
+  newer?: CollectionEntry<'posts'>;
+}
+
+const { older, newer } = Astro.props;
+---
+
+<nav class="post-pager" aria-label="이전 및 다음 노트">
+    <div class="post-pager__cell">
+      {older ? (
+        <a href={withBase(`posts/${older.id}/`)}>
+          <span>[PREVIOUS NOTE]</span>
+          <strong>{older.data.title}</strong>
+        </a>
+      ) : <span class="post-pager__empty">[PREVIOUS NOTE] NONE</span>}
+    </div>
+    <div class="post-pager__cell post-pager__cell--next">
+      {newer ? (
+        <a href={withBase(`posts/${newer.id}/`)}>
+          <span>[NEXT NOTE]</span>
+          <strong>{newer.data.title}</strong>
+        </a>
+      ) : <span class="post-pager__empty">[NEXT NOTE] NONE</span>}
+    </div>
+</nav>

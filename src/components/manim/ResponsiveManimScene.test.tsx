@@ -103,6 +103,7 @@ describe('ResponsiveManimScene', () => {
     const view = render(
       <ResponsiveManimScene
         ariaLabel="선형회귀 산점도"
+        backgroundColor="#090a0a"
         setup={(context) => {
           received.context = context;
         }}
@@ -117,7 +118,7 @@ describe('ResponsiveManimScene', () => {
     expect(context.registerDisposable).toEqual(expect.any(Function));
     expect(record.options).toMatchObject({
       autoResize: true,
-      backgroundColor: '#f7f6f1',
+      backgroundColor: '#090a0a',
       backgroundOpacity: 1,
       frameHeight: 7.5,
       frameWidth: 12,

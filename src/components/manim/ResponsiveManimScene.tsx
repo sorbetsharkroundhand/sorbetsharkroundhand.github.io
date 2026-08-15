@@ -21,6 +21,7 @@ export type SceneSetup = (
 export interface ResponsiveManimSceneProps {
   setup: SceneSetup;
   ariaLabel: string;
+  backgroundColor?: string;
   className?: string;
   aspectRatio?: `${number} / ${number}`;
 }
@@ -100,6 +101,7 @@ function ResponsiveManimSceneFallback({
 function ResponsiveManimSceneContent({
   ariaLabel,
   aspectRatio = '12 / 7.5',
+  backgroundColor = '#f7f6f1',
   className,
   setup,
 }: ResponsiveManimSceneProps) {
@@ -197,7 +199,7 @@ function ResponsiveManimSceneContent({
 
     try {
       scene = new Scene(container, {
-        backgroundColor: '#f7f6f1',
+        backgroundColor,
         backgroundOpacity: 1,
         frameWidth: 12,
         frameHeight: 7.5,
@@ -218,7 +220,7 @@ function ResponsiveManimSceneContent({
       cancelled = true;
       disposeResources();
     };
-  }, [setup]);
+  }, [backgroundColor, setup]);
 
   return (
     <SceneFrame

@@ -15,10 +15,13 @@ import {
 import type { DataPoint, RegressionParameters } from './regressionData';
 import { calculateMSE } from './regressionMath';
 
-const AXIS_COLOR = '#686d65';
-const DOT_COLOR = '#242722';
-const GRAPH_COLOR = '#465ee8';
-const RESIDUAL_COLOR = '#d86558';
+export type RegressionFocus = 'model' | 'residuals' | 'best-fit';
+
+export interface RegressionPalette {
+  foreground: string;
+  muted: string;
+  accent: string;
+}
 
 export interface RegressionFrame {
   slope: number;
@@ -30,6 +33,8 @@ export interface LinearRegressionSceneControllerOptions {
   points: readonly DataPoint[];
   initial: RegressionParameters;
   onFrame: (frame: RegressionFrame) => void;
+  focus: RegressionFocus;
+  palette: RegressionPalette;
 }
 
 export class LinearRegressionSceneController {
@@ -85,7 +90,7 @@ export class LinearRegressionSceneController {
       xLength: 10.2,
       yLength: 5.8,
       tips: false,
-      color: AXIS_COLOR,
+      color: options.palette.muted,
       axisConfig: {
         includeNumbers: true,
         numberFontSize: 22,
@@ -99,7 +104,7 @@ export class LinearRegressionSceneController {
           new Dot({
             point: axes.coordsToPoint(x, y),
             radius: 0.095,
-            color: DOT_COLOR,
+            color: options.palette.foreground,
           }),
       ),
     );
@@ -109,7 +114,7 @@ export class LinearRegressionSceneController {
       axes,
       xRange: [0, 9],
       func: (x) => options.initial.slope * x + options.initial.intercept,
-      color: GRAPH_COLOR,
+      color: options.focus === 'residuals' ? options.palette.muted : options.palette.accent,
       strokeWidth: 4,
     });
     const residuals = options.points.map(({ x, y }) => {
@@ -117,7 +122,7 @@ export class LinearRegressionSceneController {
       return new Line({
         start: observed,
         end: observed,
-        color: RESIDUAL_COLOR,
+        color: options.focus === 'residuals' ? options.palette.accent : options.palette.muted,
         strokeWidth: 3,
       }).setStrokeOpacity(0.62);
     });
@@ -142,7 +147,7 @@ export class LinearRegressionSceneController {
       if (!scene.isHeadless) {
         modelLabel = new MathTex({
           latex: '\\hat{y}=wx+b',
-          color: GRAPH_COLOR,
+          color: options.focus === 'residuals' ? options.palette.muted : options.palette.accent,
           fontSize: 30,
         });
         await modelLabel.waitForRender();

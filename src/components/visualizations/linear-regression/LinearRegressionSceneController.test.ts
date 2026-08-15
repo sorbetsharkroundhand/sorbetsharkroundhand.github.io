@@ -13,6 +13,7 @@ import { INITIAL_PARAMETERS, STUDY_DATA } from './regressionData';
 import {
   LinearRegressionSceneController,
   type RegressionFrame,
+  type RegressionFocus,
 } from './LinearRegressionSceneController';
 
 const mathTexBoundary = vi.hoisted(() => ({
@@ -54,12 +55,23 @@ function exactInstances<T extends Mobject>(
   );
 }
 
-async function createController(onFrame: (frame: RegressionFrame) => void) {
+const TEST_PALETTE = {
+  foreground: '#f4f4f0',
+  muted: '#6e716f',
+  accent: '#23d5e8',
+};
+
+async function createController(
+  onFrame: (frame: RegressionFrame) => void,
+  focus: RegressionFocus = 'model',
+) {
   const scene = Scene.createHeadless({ autoRender: false });
   const controller = await LinearRegressionSceneController.create(scene, {
     points: STUDY_DATA,
     initial: INITIAL_PARAMETERS,
     onFrame,
+    focus,
+    palette: TEST_PALETTE,
   });
 
   return { controller, scene };
@@ -150,18 +162,22 @@ describe('LinearRegressionSceneController', () => {
     scene.dispose();
   });
 
-  it('uses the exact project palette for every plotted layer', async () => {
-    const { controller, scene } = await createController(() => undefined);
+  it.each([
+    { focus: 'model', graph: '#23d5e8', residual: '#6e716f' },
+    { focus: 'residuals', graph: '#6e716f', residual: '#23d5e8' },
+    { focus: 'best-fit', graph: '#23d5e8', residual: '#6e716f' },
+  ] as const)('uses one accent for $focus focus', async ({ focus, graph, residual }) => {
+    const { controller, scene } = await createController(() => undefined, focus);
     const axes = exactInstances(scene, Axes)[0];
 
-    expect(axes.xAxis.color).toBe('#686d65');
-    expect(axes.yAxis.color).toBe('#686d65');
+    expect(axes.xAxis.color).toBe('#6e716f');
+    expect(axes.yAxis.color).toBe('#6e716f');
     expect(exactInstances(scene, Dot).map((dot) => dot.color)).toEqual(
-      Array(8).fill('#242722'),
+      Array(8).fill('#f4f4f0'),
     );
-    expect(exactInstances(scene, FunctionGraph)[0].color).toBe('#465ee8');
+    expect(exactInstances(scene, FunctionGraph)[0].color).toBe(graph);
     expect(exactInstances(scene, Line).map((line) => line.color)).toEqual(
-      Array(8).fill('#d86558'),
+      Array(8).fill(residual),
     );
 
     controller.dispose();
@@ -303,6 +319,8 @@ describe('LinearRegressionSceneController', () => {
           dynamicGroup = exactInstances(scene, Group).find((group) => group.hasUpdaters());
           throw new Error('initial frame failed');
         },
+        focus: 'model',
+        palette: TEST_PALETTE,
       }),
     ).rejects.toThrow('initial frame failed');
 
@@ -329,6 +347,8 @@ describe('LinearRegressionSceneController', () => {
         points: STUDY_DATA,
         initial: INITIAL_PARAMETERS,
         onFrame: () => undefined,
+        focus: 'model',
+        palette: TEST_PALETTE,
       }),
     ).rejects.toThrow('math render failed');
 

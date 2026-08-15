@@ -1,35 +1,56 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 
+import AsciiArt from '../components/design/AsciiArt.astro';
+import MechanicalLabel from '../components/design/MechanicalLabel.astro';
+import PostPager from '../components/posts/PostPager.astro';
 import BaseLayout from './BaseLayout.astro';
 import { withBase } from '../utils/urls';
 
 interface Props {
-  frontmatter: CollectionEntry<'posts'>['data'];
+  post: CollectionEntry<'posts'>;
+  older?: CollectionEntry<'posts'>;
+  newer?: CollectionEntry<'posts'>;
 }
 
-const { frontmatter } = Astro.props;
-const publishedLabel = new Intl.DateTimeFormat('ko-KR', {
-  year: 'numeric',
-  month: '2-digit',
-  day: '2-digit',
-  timeZone: 'UTC',
-}).format(frontmatter.publishedAt);
+const { post, older, newer } = Astro.props;
+const { data: frontmatter } = post;
+const publishedLabel = frontmatter.publishedAt.toISOString().slice(0, 10).replaceAll('-', '.');
 ---
 
-<BaseLayout title={`${frontmatter.title} — Interactive Notes`} description={frontmatter.description}>
-  <article class:list={['article', { 'article--wide-figures': frontmatter.wideFigures }]}>
-    <a class="article-back" href={withBase('posts/')}>← 모든 노트</a>
+<BaseLayout title={`${frontmatter.title} | Interactive Notes`} description={frontmatter.description}>
+  <article class="article">
+    <div class="article-rail">
+      <a class="article-back" href={withBase('posts/')}>&lt;- [ALL NOTES]</a>
+      <AsciiArt slug={post.id} category={frontmatter.category} kind="detail" />
+    </div>
 
     <header class="article-header">
-      <p class="article-header__category">{frontmatter.category}</p>
+      <MechanicalLabel index="01" label={frontmatter.category} />
       <h1>{frontmatter.title}</h1>
+      <p class="article-header__subtitle">{frontmatter.subtitle}</p>
       <p class="article-header__description">{frontmatter.description}</p>
-      <time datetime={frontmatter.publishedAt.toISOString()}>{publishedLabel}</time>
+      <div class="article-header__meta">
+        <time datetime={frontmatter.publishedAt.toISOString()}>PUBLISHED::{publishedLabel}</time>
+        <ul aria-label={`${frontmatter.title} 주제`}>
+          {frontmatter.topics.map((topic) => (
+            <li><a href={withBase(`topics/${topic}/`)}>#{topic}</a></li>
+          ))}
+        </ul>
+      </div>
     </header>
 
     <div class="article-prose">
       <slot />
     </div>
+
+    <PostPager older={older} newer={newer} />
   </article>
 </BaseLayout>
+
+<script>
+  import { mountVisualizations } from '../visualizations/mount-visualizations';
+
+  const cleanupVisualizations = mountVisualizations();
+  document.addEventListener('astro:before-swap', cleanupVisualizations, { once: true });
+</script>

@@ -1,6 +1,6 @@
 # Interactive Notes
 
-통계, 머신러닝, 인공지능과 수학을 직접 움직이며 이해하는 정적 학습 노트입니다. Astro가 실제 HTML 페이지를 만들고, MDX가 글을 관리하며, 필요한 위치에서만 React와 `manim-web` 인터랙션을 불러옵니다.
+통계, 머신러닝, 인공지능과 수학을 직접 움직이며 이해하는 정적 학습 노트입니다. Astro가 실제 HTML 페이지를 만들고, 일반 Markdown이 글을 관리하며, 등록된 위치에서만 React와 `manim-web` 인터랙션을 불러옵니다.
 
 ## 로컬 실행
 
@@ -24,37 +24,56 @@ Playwright 브라우저가 아직 설치되지 않았다면 먼저 `npx playwrig
 
 ## 글 작성
 
-새 글은 `src/content/posts/`에 `.mdx` 파일로 추가합니다. frontmatter는 다음 필드를 사용합니다.
+새 글은 `src/content/posts/`에 `.md` 파일로 추가합니다. frontmatter는 다음 필드를 사용합니다.
 
 ```yaml
 ---
-title: 글 제목
-description: 목록과 메타데이터에 표시할 설명
+title: Linear Regression
+subtitle: 선형회귀를 눈으로 이해하기
+description: 직선을 움직이며 예측, 잔차, 평균제곱오차를 연결합니다.
 publishedAt: 2026-08-15
 category: Statistics
 topics:
-  - statistics
+  - linear-regression
+  - least-squares
 draft: false
-wideFigures: false
 ---
+
+## 데이터에서 직선 찾기
+
+관찰값을 하나의 직선으로 요약해 봅니다.
+
+$$
+\\hat{y} = wx + b
+$$
 ```
 
-- `title`, `description`, `publishedAt`, `category`, `topics`는 필수입니다.
+- `title`, `subtitle`, `description`, `publishedAt`, `category`, `topics`, `draft`는 필수입니다.
 - `draft: true`인 글은 공개 목록과 정적 경로에서 제외됩니다.
-- 본문 폭을 벗어나는 인터랙티브 도구가 있다면 `wideFigures: true`로 설정하고 컴포넌트를 `<div className="wide-figure">`로 감쌉니다.
+- `updatedAt`은 선택 사항입니다.
 - 수식은 `$...$` 또는 `$$...$$`로 작성합니다. 본문 수식은 KaTeX가 정적 HTML로 렌더링합니다.
 
-React 시각화는 MDX에서 가져온 뒤 화면에 가까워졌을 때만 hydration하도록 `client:visible`을 사용합니다.
+작성자는 본문에 import, React·Astro 컴포넌트, `client:*` hydration 지시자, 레이아웃 wrapper, ASCII 아트, Scene 정리 코드를 넣지 않습니다. 글 파일에는 frontmatter, 일반 Markdown, 수식, 코드 블록만 둡니다.
 
-```mdx
-import ExampleDemo from '../../components/visualizations/example/ExampleDemo';
+### 인터랙티브 시각화 등록
 
-<div className="wide-figure">
-  <ExampleDemo client:visible />
-</div>
+시각화가 필요한 글은 작성자 콘텐츠와 분리해 유지보수자가 `src/visualizations/manifest.ts`에 slug와 정확한 제목을 등록합니다.
+
+```ts
+export const postVisualizations = {
+  'linear-regression': [
+    {
+      id: 'linear-regression:model',
+      afterHeading: '직접 움직여보기',
+      accent: 'cyan',
+      title: '선형 모델 조절',
+      description: '기울기와 절편을 바꾸며 회귀선을 관찰합니다.',
+    },
+  ],
+};
 ```
 
-계산은 순수 TypeScript 모듈에, `manim-web` 객체와 수명주기는 별도 controller에, UI 상태는 React 컴포넌트에 둡니다.
+같은 ID의 동적 import를 `src/visualizations/client-registry.ts`에 연결합니다. 빌드는 slug, 제목, 중복 위치, 누락된 loader를 검증하고 해당 제목 바로 뒤에 접근 가능한 정적 설명을 삽입합니다. 장면 코드는 화면에 가까워졌을 때만 로드됩니다. 계산은 순수 TypeScript 모듈에, `manim-web` 객체와 수명주기는 controller에, UI 상태는 React 컴포넌트에 둡니다.
 
 ## GitHub Pages 배포
 

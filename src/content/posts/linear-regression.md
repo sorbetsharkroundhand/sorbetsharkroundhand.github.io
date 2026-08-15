@@ -1,5 +1,6 @@
 ---
-title: Linear Regression — 선형회귀를 눈으로 이해하기
+title: Linear Regression
+subtitle: 선형회귀를 눈으로 이해하기
 description: 공부 시간과 시험 점수라는 작은 예시에서 직선을 움직이며 예측, 잔차, 평균제곱오차를 연결해 봅니다.
 publishedAt: 2026-08-09
 category: Statistics
@@ -8,10 +9,7 @@ topics:
   - linear-regression
   - least-squares
 draft: false
-wideFigures: true
 ---
-
-import LinearRegressionDemo from '../../components/visualizations/linear-regression/LinearRegressionDemo';
 
 ## 데이터에서 직선 찾기
 
@@ -34,10 +32,6 @@ $$
 ## 직접 움직여보기
 
 기울기를 크게 하면 직선의 오른쪽이 더 빠르게 올라갑니다. 절편을 높이면 직선 전체가 위로 평행 이동합니다. 둘 중 하나만 바꿔도 각 점에 대한 예측이 달라지고, 잘 맞던 점과 멀어진 점이 함께 생깁니다.
-
-<div className="wide-figure">
-  <LinearRegressionDemo client:visible />
-</div>
 
 직선을 움직일 때는 어느 한 점만 보지 않는 편이 좋습니다. 왼쪽 점들에는 잘 맞아도 오른쪽 점들에서 계속 빗나간다면, 전체 데이터의 설명으로는 약한 모델일 수 있습니다.
 
