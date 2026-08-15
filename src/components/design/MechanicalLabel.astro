@@ -1,0 +1,13 @@
+---
+interface Props {
+  index?: string;
+  label: string;
+  as?: 'p' | 'span';
+}
+
+const { index, label, as: Tag = 'p' }: Props = Astro.props;
+---
+
+<Tag class="mechanical-label">
+  {index && <span aria-hidden="true">{index}::</span>}{label}
+</Tag>

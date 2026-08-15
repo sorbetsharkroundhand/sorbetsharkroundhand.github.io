@@ -1,0 +1,29 @@
+---
+import { resolveAsciiArt } from '../../design/ascii/registry';
+import type { AsciiArtEntry, AsciiArtKind } from '../../design/ascii/types';
+
+interface Props {
+  entry?: AsciiArtEntry;
+  slug?: string;
+  category?: string;
+  kind?: AsciiArtKind;
+  class?: string;
+}
+
+const {
+  entry: suppliedEntry,
+  slug,
+  category,
+  kind = 'detail',
+  class: className = '',
+} = Astro.props;
+const entry = suppliedEntry ?? resolveAsciiArt({ slug, category, kind });
+const classes = ['ascii-art', `ascii-art--${kind}`, className].filter(Boolean).join(' ');
+---
+
+<figure class={classes} data-ascii-id={entry.id}>
+  <figcaption class="ascii-art__label">{entry.label}</figcaption>
+  <pre class="ascii-art__variant ascii-art__variant--desktop" aria-hidden="true">{entry.desktop.join('\n')}</pre>
+  <pre class="ascii-art__variant ascii-art__variant--mobile" aria-hidden="true">{entry.mobile.join('\n')}</pre>
+  <pre class="ascii-art__variant ascii-art__variant--thumbnail" aria-hidden="true">{entry.thumbnail.join('\n')}</pre>
+</figure>

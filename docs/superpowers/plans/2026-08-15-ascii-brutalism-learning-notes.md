@@ -306,7 +306,7 @@ git commit -m "feat: split regression lesson into focused scenes"
 - `PostRow` consumes one `CollectionEntry<'posts'>`, its sequence number, and optional accent.
 - `PostPager` consumes optional older/newer post entries.
 
-- [ ] **Step 1: Write failing resolver and width-validation tests**
+- [x] **Step 1: Write failing resolver and width-validation tests**
 
 ```ts
 expect(resolveAsciiArt({ slug: 'linear-regression', category: 'Statistics', kind: 'detail' }).id)
@@ -316,29 +316,29 @@ expect(resolveAsciiArt({ slug: 'unknown', category: 'Statistics', kind: 'detail'
 expect(validateAsciiArt(inconsistentWidthArt)[0]?.code).toBe('inconsistent-width');
 ```
 
-- [ ] **Step 2: Run the focused test and verify it fails**
+- [x] **Step 2: Run the focused test and verify it fails**
 
 Run: `npm test -- src/design/ascii/ascii.test.ts`
 Expected: FAIL because the ASCII system does not exist.
 
-- [ ] **Step 3: Implement curated responsive art and validation**
+- [x] **Step 3: Implement curated responsive art and validation**
 
 Each entry contains `id`, `label`, `desktop`, `mobile`, and `thumbnail`. Use arrays of equal-width lines per variant and join only at render time. Desktop maximum is 78 columns; mobile maximum is 34; thumbnail maximum is 22.
 
-- [ ] **Step 4: Build accessible Astro components**
+- [x] **Step 4: Build accessible Astro components**
 
 `AsciiArt.astro` exposes a readable `.ascii-art__label`, marks each glyph `<pre>` `aria-hidden="true"`, and uses CSS media queries to switch variants. `PostRow.astro` uses a stretched pseudo-element for the main post link while topic anchors remain above it and valid.
 
-- [ ] **Step 5: Replace tokens and global visual foundation**
+- [x] **Step 5: Replace tokens and global visual foundation**
 
 Define near-black, white, gray, border, cyan, red, yellow, and violet tokens. Remove paper, cobalt, coral, green, radius, neumorphic shadow, and gradient usage. Preserve skip-link and focus behavior.
 
-- [ ] **Step 6: Run ASCII tests, Astro check, and build**
+- [x] **Step 6: Run ASCII tests, Astro check, and build**
 
 Run: `npm test -- src/design/ascii/ascii.test.ts && npm run check && npm run build`
 Expected: PASS with no page-level overflow in generated static markup/CSS assumptions.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/design src/components/design src/components/posts src/styles

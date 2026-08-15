@@ -1,0 +1,39 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+import AsciiArt from '../design/AsciiArt.astro';
+import MechanicalLabel from '../design/MechanicalLabel.astro';
+import { withBase } from '../../utils/urls';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  sequence: number;
+  accent?: 'cyan' | 'red' | 'yellow' | 'violet';
+}
+
+const { post, sequence, accent = 'cyan' } = Astro.props;
+const sequenceLabel = sequence.toString().padStart(2, '0');
+const publishedLabel = post.data.publishedAt.toISOString().slice(0, 10).replaceAll('-', '.');
+---
+
+<article class="post-row" data-accent={accent}>
+  <div class="post-row__thumb">
+    <AsciiArt slug={post.id} category={post.data.category} kind="thumbnail" />
+  </div>
+  <div class="post-row__body">
+    <MechanicalLabel index={sequenceLabel} label={post.data.category} as="p" />
+    <h2 class="post-row__title">
+      <a class="post-row__main-link" href={withBase(`posts/${post.id}/`)}>{post.data.title}</a>
+    </h2>
+    <p class="post-row__description">{post.data.description}</p>
+    <ul class="post-row__topics" aria-label={`${post.data.title} 주제`}>
+      {post.data.topics.map((topic) => (
+        <li><a href={withBase(`topics/${topic}/`)}>#{topic}</a></li>
+      ))}
+    </ul>
+  </div>
+  <div class="post-row__read" aria-hidden="true">
+    <time datetime={post.data.publishedAt.toISOString()}>{publishedLabel}</time>
+    <span>[READ NOTE -&gt;]</span>
+  </div>
+</article>
