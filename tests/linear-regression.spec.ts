@@ -2,8 +2,8 @@ import { expect, test, type Page } from '@playwright/test';
 
 const postPath = '/posts/linear-regression/';
 
-async function openHydratedFigure(page: Page) {
-  await page.goto(postPath);
+async function openHydratedFigure(page: Page, navigate = true) {
+  if (navigate) await page.goto(postPath);
 
   await page.evaluate(() => {
     document.querySelector('.wide-figure')?.scrollIntoView({ block: 'center' });
@@ -103,13 +103,53 @@ test('finishes Best Fit immediately when reduced motion is requested', async ({ 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   const controls = await openHydratedFigure(page);
 
+  await page.evaluate(() => {
+    const button = document.querySelector<HTMLElement>('[data-testid="best-fit-button"]');
+    const status = document.querySelector<HTMLElement>('[data-testid="figure-status"]');
+    if (!button || !status) throw new Error('Best Fit timing targets are missing');
+
+    let startedAt = 0;
+    button.addEventListener('click', () => {
+      startedAt = performance.now();
+    }, { capture: true, once: true });
+
+    const observer = new MutationObserver(() => {
+      if (startedAt > 0 && status.textContent?.includes('최적 직선에 도착했습니다')) {
+        document.documentElement.dataset.bestFitElapsed = String(
+          performance.now() - startedAt,
+        );
+        observer.disconnect();
+      }
+    });
+    observer.observe(status, { characterData: true, childList: true, subtree: true });
+  });
   await controls.bestFit.click();
 
+  await expect(controls.status).toContainText('최적 직선에 도착했습니다', {
+    timeout: 400,
+  });
+  const elapsed = await page.evaluate(() =>
+    Number(document.documentElement.dataset.bestFitElapsed),
+  );
+  expect(elapsed).toBeLessThan(400);
   await expect(controls.slopeValue).toHaveText('5.20', { timeout: 500 });
   await expect(controls.interceptValue).toHaveText('46.46');
   await expect(controls.mse).toHaveText('0.269');
-  await expect(controls.status).toContainText('최적 직선에 도착했습니다');
   await expect(controls.bestFit).toBeEnabled();
+  await expect(controls.figure.locator('canvas')).toHaveCount(1);
+});
+
+test('keeps one canvas after reload and browser history restoration', async ({ page }) => {
+  let controls = await openHydratedFigure(page);
+  await expect(controls.figure.locator('canvas')).toHaveCount(1);
+
+  await page.reload();
+  controls = await openHydratedFigure(page, false);
+  await expect(controls.figure.locator('canvas')).toHaveCount(1);
+
+  await page.goto('/');
+  await page.goBack();
+  controls = await openHydratedFigure(page, false);
   await expect(controls.figure.locator('canvas')).toHaveCount(1);
 });
 
