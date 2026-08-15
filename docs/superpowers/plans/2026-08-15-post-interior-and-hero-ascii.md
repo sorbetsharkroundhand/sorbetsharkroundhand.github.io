@@ -35,7 +35,7 @@
 - Consumes: the attached 123-line ASCII text.
 - Produces: `normalizeAsciiSource(source: string): readonly string[]` and a `site-hero` registry entry whose desktop and mobile variants contain the same normalized composition.
 
-- [ ] **Step 1: Write the failing supplied-art tests**
+- [x] **Step 1: Write the failing supplied-art tests**
 
 Assert that normalization removes blank outer rows, preserves interior spaces and punctuation, retains more than 90 non-empty rows, and returns the exact same array for the site hero's desktop and mobile variants.
 
@@ -46,12 +46,12 @@ expect(siteHeroArt.desktop.join('\n')).toContain('-,,,,,,,,,.');
 expect(validateAsciiArt(siteHeroArt)).toEqual([]);
 ```
 
-- [ ] **Step 2: Run the focused test and verify it fails**
+- [x] **Step 2: Run the focused test and verify it fails**
 
 Run: `npm test -- src/design/ascii/ascii.test.ts`
 Expected: FAIL because the current hero is the generated coordinate illustration and the validator rejects a 100-column entry.
 
-- [ ] **Step 3: Add the exact text asset and normalization contract**
+- [x] **Step 3: Add the exact text asset and normalization contract**
 
 Import `site-hero.txt?raw`, trim only fully blank outer lines, calculate the minimum leading whitespace shared by non-empty lines, remove only that indentation, and right-pad the remaining lines to equal width. Add an optional per-entry `columnLimits` override so the supplied hero can validate without weakening post and thumbnail limits.
 
@@ -66,16 +66,16 @@ export interface AsciiArtEntry {
 }
 ```
 
-- [ ] **Step 4: Render the same art responsively**
+- [x] **Step 4: Render the same art responsively**
 
 Mark the supplied hero with a dedicated class through `data-ascii-id="site-hero"`. Scale only font size and line height across breakpoints; do not crop, substitute, or transform the character arrangement.
 
-- [ ] **Step 5: Run focused tests, Astro check, and build**
+- [x] **Step 5: Run focused tests, Astro check, and build**
 
 Run: `npm test -- src/design/ascii/ascii.test.ts && npm run check && npm run build`
 Expected: PASS and generated home HTML contains the supplied punctuation composition.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/design/ascii src/components/design/AsciiArt.astro src/styles/global.css

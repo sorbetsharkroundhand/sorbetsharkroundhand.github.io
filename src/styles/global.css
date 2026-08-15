@@ -495,7 +495,14 @@ a:hover {
 }
 
 .home-hero__art .ascii-art__variant {
-  font-size: clamp(0.62rem, 1.1vw, 0.88rem);
+  font-size: clamp(0.3rem, 0.44vw, 0.4rem);
+  line-height: 1.05;
+}
+
+.home-hero__art [data-ascii-id="site-hero"] {
+  display: grid;
+  place-items: center;
+  width: 100%;
 }
 
 .bracket-link {
@@ -920,8 +927,12 @@ a:hover {
   }
 
   .home-hero__art {
-    min-height: 17rem;
+    min-height: 25rem;
     padding: var(--space-6) var(--space-4);
+  }
+
+  .home-hero__art .ascii-art__variant {
+    font-size: clamp(0.2rem, 0.88vw, 0.26rem);
   }
 
   .section-heading {

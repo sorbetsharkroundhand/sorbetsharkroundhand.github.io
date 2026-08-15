@@ -6,6 +6,7 @@ export interface AsciiArtEntry {
   desktop: AsciiVariant;
   mobile: AsciiVariant;
   thumbnail: AsciiVariant;
+  columnLimits?: Partial<Record<'desktop' | 'mobile' | 'thumbnail', number>>;
 }
 
 export type AsciiArtKind = 'hero' | 'detail' | 'thumbnail' | 'loading' | '404';

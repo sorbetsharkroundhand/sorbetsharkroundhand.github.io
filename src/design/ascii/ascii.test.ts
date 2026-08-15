@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { resolveAsciiArt } from './registry';
+import { normalizeAsciiSource, siteHeroArt } from './site-hero';
 import type { AsciiArtEntry } from './types';
 import { validateAsciiArt } from './validate-ascii';
 
@@ -21,6 +22,17 @@ describe('ASCII art registry', () => {
     const entry = resolveAsciiArt({ slug: 'linear-regression', category: 'Statistics', kind: 'detail' });
 
     expect(validateAsciiArt(entry)).toEqual([]);
+  });
+
+  it('preserves the supplied hero composition across responsive variants', () => {
+    expect(siteHeroArt.desktop).toEqual(siteHeroArt.mobile);
+    expect(siteHeroArt.desktop.length).toBeGreaterThan(90);
+    expect(siteHeroArt.desktop.join('\n')).toContain('-,,,,,,,,,.');
+    expect(validateAsciiArt(siteHeroArt)).toEqual([]);
+  });
+
+  it('removes only blank outer rows and shared indentation from supplied art', () => {
+    expect(normalizeAsciiSource('\n    ,,  \n      . \n\n')).toEqual([',,  ', '  . ']);
   });
 
   it.each([
