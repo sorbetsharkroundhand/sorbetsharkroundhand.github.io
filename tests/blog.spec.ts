@@ -20,9 +20,12 @@ const homeSubjects = [
 
 test('serves the Linear Regression lesson after navigation and a direct reload', async ({ page }) => {
   await page.goto('/');
-  await page
-    .getByRole('link', { name: 'Linear Regression — 선형회귀를 눈으로 이해하기' })
-    .click();
+  await Promise.all([
+    page.waitForURL(postPath),
+    page
+      .getByRole('link', { name: 'Linear Regression — 선형회귀를 눈으로 이해하기' })
+      .click(),
+  ]);
 
   await expect(page).toHaveURL(postPath);
   await expect(
@@ -41,10 +44,17 @@ test('serves the Linear Regression lesson after navigation and a direct reload',
 
   await expect(page.locator('.katex-display')).toHaveCount(3);
   await expect(page.locator('.katex-display').first()).toHaveCSS('overflow-x', 'auto');
+  await expect(
+    page.locator('.article-prose code').filter({ hasText: 'residual' }).first(),
+  ).toBeVisible();
+  await expect(page.locator('.article-prose pre code')).toContainText('residuals.reduce');
 
   await expect(page.locator('strong').filter({ hasText: '직선을 읽는 법을 연습하기 위해 만든 교육용 데이터' }))
     .toHaveCount(1);
-  await expect(page.locator('.article-prose')).not.toContainText('**');
+  const proseText = await page
+    .locator('.article-prose :is(p, li, h2, h3)')
+    .allTextContents();
+  expect(proseText.every((text) => !text.includes('**'))).toBe(true);
 
   const callout = page.locator('[aria-labelledby="linear-regression-figure-title"]');
   await expect(callout).toHaveCount(1);

@@ -740,8 +740,8 @@ a:hover {
 }
 
 .article--wide-figures .wide-figure {
-  width: min(100vw - 2rem, 64rem);
-  margin-inline: calc((min(100%, 45rem) - min(100vw - 2rem, 64rem)) / 2);
+  width: min(100vw - 2rem, 70rem);
+  margin-inline: calc((min(100%, 45rem) - min(100vw - 2rem, 70rem)) / 2);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -796,7 +796,7 @@ a:hover {
 
 @media (max-width: 38rem) {
   .site-frame {
-    width: min(100% - 1.25rem, 76rem);
+    width: min(100% - 2rem, 76rem);
   }
 
   .site-header {

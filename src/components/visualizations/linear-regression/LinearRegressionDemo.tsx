@@ -169,12 +169,15 @@ export default function LinearRegressionDemo() {
         BEST_FIT,
         reducedMotion ? 0 : ANIMATION_DURATION_SECONDS,
       );
+      if (!mountedRef.current || controllerRef.current !== controller) return;
       commitParameters(BEST_FIT);
       setMessage('최적 직선에 도착했습니다.');
     } catch {
-      setError('최적 직선을 표시하지 못했습니다. 잠시 후 다시 시도해 주세요.');
+      if (mountedRef.current) {
+        setError('최적 직선을 표시하지 못했습니다. 잠시 후 다시 시도해 주세요.');
+      }
     } finally {
-      setIsAnimating(false);
+      if (mountedRef.current) setIsAnimating(false);
     }
   }, [commitParameters, isAnimating, reducedMotion]);
 
@@ -199,10 +202,16 @@ export default function LinearRegressionDemo() {
             <p className="linear-regression-demo__model" aria-label="예측값은 기울기 곱하기 공부 시간 더하기 절편">
               ŷ = wx + b
             </p>
-            <p className="linear-regression-demo__legend">
-              <span aria-hidden="true" />
-              coral line = residual
-            </p>
+            <div aria-label="그래프 선 범례" className="linear-regression-demo__legend">
+              <p>
+                <span className="linear-regression-demo__legend-model" aria-hidden="true" />
+                thick sloped line = model
+              </p>
+              <p>
+                <span className="linear-regression-demo__legend-residual" aria-hidden="true" />
+                thin vertical line = residual
+              </p>
+            </div>
           </div>
         </div>
 

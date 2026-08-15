@@ -115,6 +115,7 @@ test('finishes Best Fit immediately when reduced motion is requested', async ({ 
 
 for (const viewport of [
   { width: 390, height: 844 },
+  { width: 768, height: 1024 },
   { width: 1440, height: 1000 },
 ]) {
   test(`keeps the complete instrument usable at ${viewport.width}px`, async ({ page }) => {
@@ -134,11 +135,47 @@ for (const viewport of [
     expect(canvasBox!.width).toBeGreaterThan(280);
     expect(canvasBox!.height).toBeGreaterThan(170);
 
+    await expect(controls.figure.getByText('thick sloped line = model')).toBeVisible();
+    await expect(controls.figure.getByText('thin vertical line = residual')).toBeVisible();
+
+    const firstParagraphBox = await page.locator('.article-prose > p').first().boundingBox();
+    expect(firstParagraphBox).not.toBeNull();
+    expect(firstParagraphBox!.x).toBeGreaterThanOrEqual(16);
+    expect(
+      viewport.width - firstParagraphBox!.x - firstParagraphBox!.width,
+    ).toBeGreaterThanOrEqual(16);
+
+    if (viewport.width === 1440) {
+      const figureBox = await controls.figure.boundingBox();
+      expect(figureBox).not.toBeNull();
+      expect(figureBox!.width).toBeGreaterThanOrEqual(1100);
+      expect(figureBox!.width).toBeLessThanOrEqual(1120);
+    }
+
     await controls.slope.focus();
     await expect(controls.slope).toHaveCSS('outline-style', 'solid');
     await expect(controls.slopeValue).toBeVisible();
     await expect(controls.interceptValue).toBeVisible();
     await expect(controls.bestFit).toBeVisible();
     await expect(controls.reset).toBeVisible();
+
+    for (const control of [
+      controls.slope,
+      controls.intercept,
+      controls.bestFit,
+      controls.reset,
+    ]) {
+      const box = await control.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box!.height).toBeGreaterThanOrEqual(44);
+    }
+
+    await controls.slope.focus();
+    await page.keyboard.press('Tab');
+    await expect(controls.intercept).toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(controls.bestFit).toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(controls.reset).toBeFocused();
   });
 }

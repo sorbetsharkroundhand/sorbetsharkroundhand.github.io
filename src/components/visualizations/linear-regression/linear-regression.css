@@ -93,6 +93,12 @@
 }
 
 .linear-regression-demo__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+}
+
+.linear-regression-demo__legend p {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -100,10 +106,20 @@
 
 .linear-regression-demo__legend span {
   display: inline-block;
-  width: 1.75rem;
-  height: 0.1875rem;
+  width: 1.6rem;
   border-radius: 999px;
+}
+
+.linear-regression-demo__legend-model {
+  height: 0.25rem;
+  background: var(--color-cobalt);
+  transform: rotate(-8deg);
+}
+
+.linear-regression-demo__legend-residual {
+  height: 0.125rem;
   background: var(--color-coral);
+  transform: rotate(90deg) scaleX(0.65);
 }
 
 .linear-regression-demo__controls {
@@ -269,11 +285,7 @@
   letter-spacing: 0.01em;
   cursor: pointer;
   transform: scale(1);
-  transition: color var(--duration-fast) var(--ease-physical),
-    background-color var(--duration-fast) var(--ease-physical),
-    border-color var(--duration-fast) var(--ease-physical),
-    box-shadow var(--duration-fast) var(--ease-physical),
-    transform var(--duration-fast) var(--ease-physical);
+  transition: transform 100ms var(--ease-physical);
 }
 
 .figure-button--primary {
@@ -290,6 +302,7 @@
 .figure-button:active:not(:disabled) {
   box-shadow: inset 0 0.125rem 0.3rem rgba(36, 39, 34, 0.24);
   transform: scale(0.97);
+  transition-duration: 160ms;
 }
 
 .figure-button:focus-visible {
@@ -338,7 +351,7 @@
   }
 }
 
-@media (max-width: 52rem) {
+@media (max-width: 53.75rem) {
   .linear-regression-demo__header {
     grid-template-columns: 1fr;
   }
@@ -404,6 +417,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .figure-button {
-    transition-duration: 0.01ms;
+    transition: none;
+  }
+
+  .figure-button:active:not(:disabled) {
+    transform: none;
   }
 }
