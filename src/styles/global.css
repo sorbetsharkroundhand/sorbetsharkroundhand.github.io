@@ -495,7 +495,14 @@ a:hover {
 }
 
 .home-hero__art .ascii-art__variant {
-  font-size: clamp(0.62rem, 1.1vw, 0.88rem);
+  font-size: clamp(0.3rem, 0.44vw, 0.4rem);
+  line-height: 1.05;
+}
+
+.home-hero__art [data-ascii-id="site-hero"] {
+  display: grid;
+  place-items: center;
+  width: 100%;
 }
 
 .bracket-link {
@@ -920,8 +927,12 @@ a:hover {
   }
 
   .home-hero__art {
-    min-height: 17rem;
+    min-height: 25rem;
     padding: var(--space-6) var(--space-4);
+  }
+
+  .home-hero__art .ascii-art__variant {
+    font-size: clamp(0.2rem, 0.88vw, 0.26rem);
   }
 
   .section-heading {
@@ -993,5 +1004,188 @@ a:hover {
   .not-found__actions {
     flex-direction: column;
     gap: 0;
+  }
+}
+
+.article-reading-shell {
+  display: grid;
+  grid-template-columns: 13rem minmax(0, 55rem);
+  gap: var(--space-12);
+  width: min(100% - 4rem, 71rem);
+  margin-inline: auto;
+  padding-block: var(--space-12) var(--space-18);
+}
+
+.post-index {
+  align-self: stretch;
+  min-width: 0;
+  border-right: 1px solid var(--color-rule);
+  color: var(--color-ink-muted);
+  font-family: var(--font-mono);
+}
+
+.post-index nav {
+  position: sticky;
+  top: var(--space-6);
+  padding-right: var(--space-6);
+}
+
+.post-index__label,
+.post-index__status {
+  margin: 0;
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.post-index__label {
+  color: var(--color-cyan);
+}
+
+.post-index ol {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.post-index a {
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+  gap: var(--space-2);
+  color: var(--color-ink-muted);
+  font-size: 0.6875rem;
+  line-height: 1.45;
+  text-decoration: none;
+}
+
+.post-index a:hover,
+.post-index a:focus-visible {
+  color: var(--color-ink);
+}
+
+.post-index__number {
+  color: var(--color-cyan);
+  font-variant-numeric: tabular-nums;
+}
+
+.post-index__status {
+  position: sticky;
+  top: calc(100vh - 3rem);
+  margin-top: var(--space-18);
+  padding-right: var(--space-6);
+  color: var(--color-rule-strong);
+}
+
+.article-reading-shell .article-prose {
+  width: 100%;
+  margin: 0;
+  counter-reset: article-section;
+}
+
+.article-reading-shell .article-prose > :not(.visualization-slot) {
+  max-width: 47rem;
+}
+
+.article-reading-shell .article-prose > :first-child {
+  margin-top: 0;
+}
+
+.article-reading-shell .article-prose h2 {
+  position: relative;
+  counter-increment: article-section;
+  margin-top: var(--space-24);
+  padding-top: var(--space-8);
+}
+
+.article-reading-shell .article-prose h2:first-child {
+  margin-top: 0;
+}
+
+.article-reading-shell .article-prose h2::before {
+  display: block;
+  margin-bottom: var(--space-3);
+  color: var(--color-cyan);
+  content: "SECTION " counter(article-section, decimal-leading-zero);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.article-reading-shell .article-prose .katex-display {
+  padding: var(--space-6);
+  border-block: 1px solid var(--color-rule);
+  background: var(--color-surface);
+}
+
+.article-reading-shell .article-prose pre {
+  border-left: 0.2rem solid var(--color-cyan);
+  background: var(--color-surface-raised);
+}
+
+.article-reading-shell .article-prose blockquote {
+  position: relative;
+  padding-top: var(--space-8);
+}
+
+.article-reading-shell .article-prose blockquote::before {
+  position: absolute;
+  top: var(--space-3);
+  color: var(--color-cyan);
+  content: "[OBSERVATION]";
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.article-reading-shell .visualization-slot {
+  width: 100%;
+  margin-inline: 0;
+}
+
+@media (max-width: 48rem) {
+  .article-reading-shell {
+    display: block;
+    width: 100%;
+    padding-top: 0;
+  }
+
+  .post-index {
+    border-right: 0;
+    border-bottom: 1px solid var(--color-rule-strong);
+  }
+
+  .post-index nav {
+    position: static;
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .post-index ol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3) var(--space-6);
+  }
+
+  .post-index__status {
+    display: none;
+  }
+
+  .article-reading-shell .article-prose {
+    width: calc(100% - 2rem);
+    margin-inline: auto;
+    padding-top: var(--space-12);
+  }
+
+  .article-reading-shell .visualization-slot {
+    width: calc(100% + 2rem);
+    margin-inline: -1rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .post-index ol {
+    grid-template-columns: 1fr;
   }
 }

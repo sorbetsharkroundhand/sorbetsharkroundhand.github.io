@@ -1,35 +1,35 @@
+import suppliedHeroSource from './site-hero.txt?raw';
 import { alignAscii, type AsciiArtEntry } from './types';
+
+export function normalizeAsciiSource(source: string): readonly string[] {
+  const lines = source.replaceAll('\r\n', '\n').split('\n');
+
+  while (lines.length > 0 && lines[0].trim() === '') lines.shift();
+  while (lines.length > 0 && lines.at(-1)?.trim() === '') lines.pop();
+
+  const indentation = Math.min(
+    ...lines.filter((line) => line.trim()).map((line) => line.match(/^ */)?.[0].length ?? 0),
+  );
+
+  return alignAscii(lines.map((line) => line.slice(indentation)));
+}
+
+const suppliedHero = normalizeAsciiSource(suppliedHeroSource);
 
 export const siteHeroArt: AsciiArtEntry = {
   id: 'site-hero',
-  label: '좌표계 위에 겹쳐진 학습 노트와 상승하는 회귀선',
-  desktop: alignAscii([
-    '      y',
-    '      |                         o',
-    '      |                    o  /',
-    ' NOTE |  +------------------/------+',
-    '  001 |  |  hypothesis    /       |',
-    '      |  |       o       /        |',
-    '      |  |    o         /         |',
-    '      |  | o           /          |',
-    '      |  +------------/-----------+',
-    '      +-------------------------------- x',
-  ]),
-  mobile: alignAscii([
-    ' y',
-    ' |              o',
-    ' | +----------/---+',
-    ' | | NOTE 001/    |',
-    ' | |   o   /      |',
-    ' | | o    /       |',
-    ' | +-----/--------+',
-    ' +---------------- x',
-  ]),
+  label: '점과 쉼표로 명암을 표현한 사용자의 대형 ASCII 아트',
+  desktop: suppliedHero,
+  mobile: suppliedHero,
   thumbnail: alignAscii([
-    ' y        o',
-    ' | +----/--+',
-    ' | | o /   |',
-    ' | +--/----+',
-    ' +---------x',
+    '      ,,,,,       ',
+    '   ,,,,,,,,,,,,   ',
+    '  ,,,,,....,,,,,  ',
+    '   ,,,......,,,   ',
+    '     ,,,,,,,,     ',
   ]),
+  columnLimits: {
+    desktop: 100,
+    mobile: 100,
+  },
 };

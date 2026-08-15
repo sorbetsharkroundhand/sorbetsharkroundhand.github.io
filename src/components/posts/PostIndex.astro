@@ -1,0 +1,32 @@
+---
+export interface PostHeading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: readonly PostHeading[];
+}
+
+const { headings }: Props = Astro.props;
+---
+
+<aside class="post-index">
+  <nav aria-label="이 글의 목차">
+    <p class="post-index__label">ON THIS NOTE</p>
+    <ol>
+      {headings.map((heading, index) => (
+        <li>
+          <a href={`#${heading.slug}`}>
+            <span class="post-index__number" aria-hidden="true">
+              {(index + 1).toString().padStart(2, '0')}
+            </span>
+            <span>{heading.text}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+  <p class="post-index__status">STATIC TEXT / LIVE FIGURES</p>
+</aside>

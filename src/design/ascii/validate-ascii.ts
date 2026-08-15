@@ -21,6 +21,7 @@ const limits = {
 function validateVariant(
   name: keyof typeof limits,
   lines: AsciiVariant,
+  limit: number,
 ): AsciiValidationIssue[] {
   if (lines.length === 0) {
     return [{ code: 'empty-variant', variant: name, message: `${name} is empty` }];
@@ -31,8 +32,8 @@ function validateVariant(
     return [{ code: 'inconsistent-width', variant: name, message: `${name} lines must align` }];
   }
 
-  if (lines.some((line) => line.length > limits[name])) {
-    return [{ code: 'line-too-wide', variant: name, message: `${name} exceeds ${limits[name]}` }];
+  if (lines.some((line) => line.length > limit)) {
+    return [{ code: 'line-too-wide', variant: name, message: `${name} exceeds ${limit}` }];
   }
 
   return [];
@@ -44,7 +45,7 @@ export function validateAsciiArt(entry: AsciiArtEntry): AsciiValidationIssue[] {
   }
 
   for (const name of ['desktop', 'mobile', 'thumbnail'] as const) {
-    const issues = validateVariant(name, entry[name]);
+    const issues = validateVariant(name, entry[name], entry.columnLimits?.[name] ?? limits[name]);
     if (issues.length > 0) return issues;
   }
 
