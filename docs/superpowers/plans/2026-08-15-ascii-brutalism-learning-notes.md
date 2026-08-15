@@ -102,7 +102,7 @@ git commit -m "feat: enforce Markdown-only posts"
 - Produces `rehypeVisualizationSlots()` that inserts `.visualization-slot[data-visualization-id]` after exact headings.
 - Produces `visualizationLoaders` with IDs matching the manifest.
 
-- [ ] **Step 1: Write failing manifest validation tests**
+- [x] **Step 1: Write failing manifest validation tests**
 
 ```ts
 expect(validateVisualizationContent(validPosts, manifest, loaderIds)).toEqual([]);
@@ -114,12 +114,12 @@ expect(validateVisualizationContent(postsWithDuplicateHeading, manifest, loaderI
 
 Also assert `missing-post`, `duplicate-placement`, `missing-loader`, and `orphan-loader` codes include the slug or visualization ID in their message.
 
-- [ ] **Step 2: Run the tests and verify missing modules fail**
+- [x] **Step 2: Run the tests and verify missing modules fail**
 
 Run: `npm test -- src/visualizations/manifest.test.ts src/integrations/visualization-slots.test.ts`
 Expected: FAIL because the manifest and integration do not exist.
 
-- [ ] **Step 3: Implement pure metadata and validation**
+- [x] **Step 3: Implement pure metadata and validation**
 
 ```ts
 export const postVisualizations = {
@@ -133,11 +133,11 @@ export const postVisualizations = {
 
 Use a fenced-code-aware Markdown heading scanner for config-time validation. Do not treat `##` inside fenced code as headings.
 
-- [ ] **Step 4: Implement HAST slot insertion**
+- [x] **Step 4: Implement HAST slot insertion**
 
 Insert a `section.visualization-slot` containing a mechanical label, title, description, ASCII loading `<pre aria-hidden="true">`, polite status, hidden error panel, retry button, and `<noscript>` explanation. Derive the slug from `file.path`; throw a precise error if the already-validated contract is violated during transformation.
 
-- [ ] **Step 5: Register validation and the rehype plugin in Astro config**
+- [x] **Step 5: Register validation and the rehype plugin in Astro config**
 
 ```ts
 integrations: [react(), visualizationValidationIntegration()],
@@ -149,12 +149,12 @@ markdown: {
 },
 ```
 
-- [ ] **Step 6: Verify focused tests and build enforcement**
+- [x] **Step 6: Verify focused tests and build enforcement**
 
 Run: `npm test -- src/visualizations/manifest.test.ts src/integrations/visualization-slots.test.ts && npm run check && npm run build`
 Expected: PASS and the built linear-regression HTML contains all three visualization IDs after their headings.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add astro.config.ts src/integrations src/visualizations/manifest.ts src/visualizations/manifest.test.ts src/visualizations/client-registry.ts
