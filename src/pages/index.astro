@@ -1,13 +1,14 @@
 ---
+import AsciiArt from '../components/design/AsciiArt.astro';
+import MechanicalLabel from '../components/design/MechanicalLabel.astro';
+import PostRow from '../components/posts/PostRow.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getPublishedPosts } from '../utils/posts';
 import { homeSubjects } from '../utils/topics';
 import { withBase } from '../utils/urls';
 
-const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
-  (left, right) => right.data.publishedAt.getTime() - left.data.publishedAt.getTime(),
-);
-const firstPost = posts[0];
+const posts = (await getPublishedPosts()).slice(0, 4);
+const accents = ['cyan', 'red', 'yellow', 'violet'] as const;
 ---
 
 <BaseLayout
@@ -15,70 +16,55 @@ const firstPost = posts[0];
   description="통계, 머신러닝, 인공지능과 수학을 직접 움직이며 이해하는 인터랙티브 학습 노트"
 >
   <div class="home">
-    <section class="hero-sheet" aria-labelledby="home-title">
-      <div class="hero-index">
-        <div>
-          <p class="hero-index__label">Interactive Notes</p>
-          <p class="hero-index__disciplines">
-            Statistics · Machine Learning · AI · Mathematics
-          </p>
-        </div>
-
-        <div class="coordinate-field" aria-hidden="true">
-          <span class="coordinate-field__origin"></span>
-          <span class="coordinate-field__x">x — 입력값</span>
-          <span class="coordinate-field__y">y — 관찰값</span>
-          <span class="coordinate-field__mode">mode / explore</span>
-        </div>
-      </div>
-
-      <div class="hero-copy">
-        <h1 id="home-title">
-          <span>Things I learned,</span>{' '}<em>visualized.</em>
-        </h1>
-        <p class="hero-copy__intro">
-          공식과 코드를 읽는 데서 멈추지 않고, 직접 움직이며 이해한 것들을 기록합니다.
+    <section class="home-hero" aria-labelledby="home-title">
+      <div class="home-hero__copy">
+        <MechanicalLabel index="00" label="Index / Learning system" />
+        <h1 id="home-title">배운 것을<br /><span>움직이며 이해합니다.</span></h1>
+        <p>
+          공식과 코드를 읽는 데서 멈추지 않고, 변수를 움직이고 결과를 관찰하며
+          이해한 것들을 기록합니다.
         </p>
-        <a class="first-note-link" href={withBase(`posts/${firstPost.id}/`)}>
-          첫 번째 노트 읽기
-          <span class="first-note-link__arrow" aria-hidden="true">→</span>
-        </a>
+        <a class="bracket-link" href={withBase('posts/')}>[OPEN ARCHIVE -&gt;]</a>
+      </div>
+      <div class="home-hero__art">
+        <AsciiArt kind="hero" />
       </div>
     </section>
 
-    <section class="observation" aria-labelledby="recent-heading">
-      <header>
-        <p class="section-label">Recent observation</p>
-        <h2 id="recent-heading">최근 노트</h2>
-      </header>
-      <article class="observation__entry">
+    <section class="recent-notes" aria-labelledby="recent-heading">
+      <header class="section-heading">
         <div>
-          <p class="observation__meta">{firstPost.data.category} · {firstPost.data.topics[1]}</p>
-          <h3>
-            <a class="observation-link" href={withBase(`posts/${firstPost.id}/`)}>
-              {firstPost.data.title}
-            </a>
-          </h3>
+          <MechanicalLabel index="01" label="Recent observations" />
+          <h2 id="recent-heading">최근 학습 노트</h2>
         </div>
-        <time class="observation__date" datetime={firstPost.data.publishedAt.toISOString()}>
-          {firstPost.data.publishedAt.toLocaleDateString('ko-KR', { timeZone: 'UTC' })}
-        </time>
-      </article>
+        <span>{posts.length.toString().padStart(2, '0')} / 04</span>
+      </header>
+      {posts.length > 0 ? (
+        <div class="post-rows">
+          {posts.map((post, index) => (
+            <PostRow post={post} sequence={index + 1} accent={accents[index]} />
+          ))}
+        </div>
+      ) : (
+        <p class="empty-state">아직 기록된 노트가 없습니다. 첫 번째 관찰을 준비하고 있습니다.</p>
+      )}
     </section>
 
     <nav class="topic-index" aria-labelledby="topic-heading">
-      <div>
-        <p class="section-label">Study coordinates</p>
-        <h2 id="topic-heading">주제별 탐색</h2>
+      <div class="section-heading">
+        <div>
+          <MechanicalLabel index="02" label="Study coordinates" />
+          <h2 id="topic-heading">주제별 탐색</h2>
+        </div>
       </div>
       <ul class="topic-index__list">
-        {
-          homeSubjects.map((subject) => (
-            <li>
-              <a class="topic-link" href={withBase(`topics/${subject.slug}/`)}>{subject.label}</a>
-            </li>
-          ))
-        }
+        {homeSubjects.map((subject, index) => (
+          <li>
+            <a href={withBase(`topics/${subject.slug}/`)}>
+              <span>{(index + 1).toString().padStart(2, '0')}::</span>{subject.label}<b aria-hidden="true">-&gt;</b>
+            </a>
+          </li>
+        ))}
       </ul>
     </nav>
   </div>

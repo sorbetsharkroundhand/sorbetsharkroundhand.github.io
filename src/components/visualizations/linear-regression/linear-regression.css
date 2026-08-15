@@ -312,7 +312,7 @@
 
 .linear-regression-demo__error {
   margin-top: calc(var(--space-3) * -1);
-  color: var(--color-coral);
+  color: var(--color-red);
   font-weight: 700;
 }
 

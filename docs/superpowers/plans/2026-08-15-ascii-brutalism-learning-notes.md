@@ -368,7 +368,7 @@ git commit -m "feat: add ASCII brutalism design system"
 - Home renders `posts.slice(0, 4)` through `PostRow`.
 - Post static-path props include the post and its older/newer neighbors.
 
-- [ ] **Step 1: Write failing sorting, neighbor, and page behavior tests**
+- [x] **Step 1: Write failing sorting, neighbor, and page behavior tests**
 
 ```ts
 expect(getPostNeighbors(posts, 'middle')).toEqual({ older: posts[2], newer: posts[0] });
@@ -378,29 +378,29 @@ await expect(page.locator('html')).not.toHaveCSS('overflow-x', 'scroll');
 
 Add assertions for four-post maximum, real hrefs, keyboard focus, independent topic links, post ASCII, previous/next boundaries, and 404 links.
 
-- [ ] **Step 2: Run focused unit and browser tests and verify old markup fails**
+- [x] **Step 2: Run focused unit and browser tests and verify old markup fails**
 
 Run: `npm test -- src/utils/posts.test.ts && npx playwright test tests/home.spec.ts tests/blog.spec.ts tests/404.spec.ts`
 Expected: FAIL because shared rows, neighbors, 404, ASCII, and mechanical labels are absent.
 
-- [ ] **Step 3: Implement post ordering and neighbor props**
+- [x] **Step 3: Implement post ordering and neighbor props**
 
 Centralize collection sorting in `src/utils/posts.ts`; remove repeated sort expressions from pages. Generate static post routes with neighbor props and render `PostPager` in `PostLayout`.
 
-- [ ] **Step 4: Rebuild the home, archive, topic, and post layouts**
+- [x] **Step 4: Rebuild the home, archive, topic, and post layouts**
 
 Use the approved ASCII hero, up to four recent rows, ruled archive/topic lists, post detail art, mechanical labels, collapsed mobile rails, and monochrome navigation states. Empty collections and topics render intentional copy.
 
-- [ ] **Step 5: Add the static 404 route**
+- [x] **Step 5: Add the static 404 route**
 
 Render the curated not-found art, `[RETURN HOME →]`, and `[OPEN ARCHIVE →]` with `withBase()` URLs.
 
-- [ ] **Step 6: Run route tests at all target viewports**
+- [x] **Step 6: Run route tests at all target viewports**
 
 Run: `npm test -- src/utils/posts.test.ts && npx playwright test tests/home.spec.ts tests/blog.spec.ts tests/404.spec.ts`
 Expected: PASS with no horizontal overflow at 390px, 768px, or 1440px.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/layouts src/components/navigation src/pages src/utils/posts.ts src/utils/posts.test.ts tests/home.spec.ts tests/blog.spec.ts tests/404.spec.ts

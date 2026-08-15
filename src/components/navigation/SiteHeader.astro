@@ -9,13 +9,13 @@ const isPosts = Astro.url.pathname.startsWith(postsHref);
 
 <header class="site-header">
   <a class="site-wordmark" href={base} aria-label="Interactive Notes 홈">
-    <span class="site-wordmark__mark" aria-hidden="true"></span>
-    <span class="site-wordmark__name">Interactive Notes</span>
+    <span class="site-wordmark__mark" aria-hidden="true">[+]</span>
+    <span class="site-wordmark__name">INTERACTIVE::NOTES</span>
   </a>
   <nav class="site-nav" aria-label="주요 메뉴">
     <ul class="site-nav__list">
-      <li><a href={base} aria-current={isHome ? 'page' : undefined}>Home</a></li>
-      <li><a href={postsHref} aria-current={isPosts ? 'page' : undefined}>Posts</a></li>
+      <li><a href={base} aria-current={isHome ? 'page' : undefined}>Index</a></li>
+      <li><a href={postsHref} aria-current={isPosts ? 'page' : undefined}>Archive</a></li>
     </ul>
   </nav>
 </header>
