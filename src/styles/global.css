@@ -926,3 +926,31 @@ a:hover {
     scroll-behavior: auto !important;
   }
 }
+
+.visualization-slot {
+  width: min(100vw - 2rem, 70rem);
+  margin-block: var(--space-12);
+  margin-inline: calc((min(100%, 45rem) - min(100vw - 2rem, 70rem)) / 2);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+}
+
+.visualization-slot__index,
+.visualization-slot__status {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.visualization-slot__ascii {
+  overflow: hidden;
+  color: var(--color-ink-muted);
+}
+
+.visualization-slot__retry {
+  min-height: 2.75rem;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}

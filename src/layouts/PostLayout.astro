@@ -34,3 +34,10 @@ const publishedLabel = new Intl.DateTimeFormat('ko-KR', {
     </div>
   </article>
 </BaseLayout>
+
+<script>
+  import { mountVisualizations } from '../visualizations/mount-visualizations';
+
+  const cleanupVisualizations = mountVisualizations();
+  document.addEventListener('astro:before-swap', cleanupVisualizations, { once: true });
+</script>

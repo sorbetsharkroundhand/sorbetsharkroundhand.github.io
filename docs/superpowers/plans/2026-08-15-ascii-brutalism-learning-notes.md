@@ -174,7 +174,7 @@ git commit -m "feat: insert validated visualization slots"
 - Produces `mountVisualizations(options?): () => void`; the returned function disconnects the observer and unmounts every root.
 - Passes `{ accent: AccentName }` to each dynamically imported scene.
 
-- [ ] **Step 1: Write failing lifecycle tests**
+- [x] **Step 1: Write failing lifecycle tests**
 
 ```ts
 expect(loader).not.toHaveBeenCalled();
@@ -188,16 +188,16 @@ expect(unmount).toHaveBeenCalledTimes(1);
 
 Add a rejected-loader test that exposes the error panel, hides loading, and succeeds exactly once after the native retry button is clicked.
 
-- [ ] **Step 2: Run the focused test and verify it fails**
+- [x] **Step 2: Run the focused test and verify it fails**
 
 Run: `npm test -- src/visualizations/mount-visualizations.test.ts`
 Expected: FAIL because `mountVisualizations` does not exist.
 
-- [ ] **Step 3: Implement observer, dynamic runtime import, mount-once, retry, and cleanup**
+- [x] **Step 3: Implement observer, dynamic runtime import, mount-once, retry, and cleanup**
 
 The entry module must not statically import React, React DOM, or any scene. Load `react`, `react-dom/client`, and the selected component only after intersection. Use `root.unmount()` as the scene cleanup boundary.
 
-- [ ] **Step 4: Load the entry point only from post layout**
+- [x] **Step 4: Load the entry point only from post layout**
 
 ```astro
 <script>
@@ -206,12 +206,12 @@ The entry module must not statically import React, React DOM, or any scene. Load
 </script>
 ```
 
-- [ ] **Step 5: Run lifecycle tests and build**
+- [x] **Step 5: Run lifecycle tests and build**
 
 Run: `npm test -- src/visualizations/mount-visualizations.test.ts && npm run build`
 Expected: PASS; non-post pages contain no visualization entry script and no eager `manim-web` import.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/visualizations/mount-visualizations.ts src/visualizations/mount-visualizations.test.ts src/layouts/PostLayout.astro src/styles/global.css
