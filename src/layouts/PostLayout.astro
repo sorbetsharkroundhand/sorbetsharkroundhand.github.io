@@ -18,12 +18,13 @@ const publishedLabel = new Intl.DateTimeFormat('ko-KR', {
 ---
 
 <BaseLayout title={`${frontmatter.title} — Interactive Notes`} description={frontmatter.description}>
-  <article class:list={['article', { 'article--wide-figures': frontmatter.wideFigures }]}>
+  <article class="article">
     <a class="article-back" href={withBase('posts/')}>← 모든 노트</a>
 
     <header class="article-header">
       <p class="article-header__category">{frontmatter.category}</p>
       <h1>{frontmatter.title}</h1>
+      <p class="article-header__subtitle">{frontmatter.subtitle}</p>
       <p class="article-header__description">{frontmatter.description}</p>
       <time datetime={frontmatter.publishedAt.toISOString()}>{publishedLabel}</time>
     </header>

@@ -1,6 +1,6 @@
 # Interactive Notes
 
-통계, 머신러닝, 인공지능과 수학을 직접 움직이며 이해하는 정적 학습 노트입니다. Astro가 실제 HTML 페이지를 만들고, MDX가 글을 관리하며, 필요한 위치에서만 React와 `manim-web` 인터랙션을 불러옵니다.
+통계, 머신러닝, 인공지능과 수학을 직접 움직이며 이해하는 정적 학습 노트입니다. Astro가 실제 HTML 페이지를 만들고, 일반 Markdown이 글을 관리하며, 등록된 위치에서만 React와 `manim-web` 인터랙션을 불러옵니다.
 
 ## 로컬 실행
 
@@ -24,37 +24,26 @@ Playwright 브라우저가 아직 설치되지 않았다면 먼저 `npx playwrig
 
 ## 글 작성
 
-새 글은 `src/content/posts/`에 `.mdx` 파일로 추가합니다. frontmatter는 다음 필드를 사용합니다.
+새 글은 `src/content/posts/`에 `.md` 파일로 추가합니다. frontmatter는 다음 필드를 사용합니다.
 
 ```yaml
 ---
 title: 글 제목
+subtitle: 글의 한 줄 부제
 description: 목록과 메타데이터에 표시할 설명
 publishedAt: 2026-08-15
 category: Statistics
 topics:
   - statistics
 draft: false
-wideFigures: false
 ---
 ```
 
-- `title`, `description`, `publishedAt`, `category`, `topics`는 필수입니다.
+- `title`, `subtitle`, `description`, `publishedAt`, `category`, `topics`, `draft`는 필수입니다.
 - `draft: true`인 글은 공개 목록과 정적 경로에서 제외됩니다.
-- 본문 폭을 벗어나는 인터랙티브 도구가 있다면 `wideFigures: true`로 설정하고 컴포넌트를 `<div className="wide-figure">`로 감쌉니다.
 - 수식은 `$...$` 또는 `$$...$$`로 작성합니다. 본문 수식은 KaTeX가 정적 HTML로 렌더링합니다.
 
-React 시각화는 MDX에서 가져온 뒤 화면에 가까워졌을 때만 hydration하도록 `client:visible`을 사용합니다.
-
-```mdx
-import ExampleDemo from '../../components/visualizations/example/ExampleDemo';
-
-<div className="wide-figure">
-  <ExampleDemo client:visible />
-</div>
-```
-
-계산은 순수 TypeScript 모듈에, `manim-web` 객체와 수명주기는 별도 controller에, UI 상태는 React 컴포넌트에 둡니다.
+작성자는 본문에 React import, 컴포넌트, hydration 지시자, ASCII 아트, figure wrapper를 넣지 않습니다. 시각화는 `src/visualizations/manifest.ts`에서 글 slug와 heading을 기준으로 별도 등록하며, 화면에 가까워졌을 때만 자동으로 불러옵니다. 계산은 순수 TypeScript 모듈에, `manim-web` 객체와 수명주기는 별도 controller에, UI 상태는 React 컴포넌트에 둡니다.
 
 ## GitHub Pages 배포
 

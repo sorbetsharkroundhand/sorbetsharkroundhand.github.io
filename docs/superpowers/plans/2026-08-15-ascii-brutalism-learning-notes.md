@@ -38,7 +38,7 @@
 - Produces a `.md` post whose headings remain exactly `데이터에서 직선 찾기`, `선형 모델`, `직접 움직여보기`, `Residual Visualization`, `Mean Squared Error`, `Find Best Fit`, and `정리`.
 - Produces Astro Markdown processing through `unified({ remarkPlugins, rehypePlugins })` without `@astrojs/mdx`.
 
-- [ ] **Step 1: Write the failing authoring-policy test**
+- [x] **Step 1: Write the failing authoring-policy test**
 
 ```ts
 expect(postFiles).toEqual(['linear-regression.md']);
@@ -46,12 +46,12 @@ expect(source).not.toMatch(/^(?:import|export)\s/m);
 expect(source).not.toMatch(/<\/?[A-Z][^>]*>|client:|wide-figure|wideFigures/);
 ```
 
-- [ ] **Step 2: Run the focused test and verify it fails**
+- [x] **Step 2: Run the focused test and verify it fails**
 
 Run: `npm test -- src/content/authoring-policy.test.ts`
 Expected: FAIL because `linear-regression.mdx` contains an import, JSX wrapper, hydration directive, and `wideFigures`.
 
-- [ ] **Step 3: Replace MDX configuration and migrate the post**
+- [x] **Step 3: Replace MDX configuration and migrate the post**
 
 ```ts
 markdown: {
@@ -64,7 +64,7 @@ markdown: {
 
 Remove `mdx()` and `@astrojs/mdx`, add direct `@astrojs/markdown-remark`, change the loader glob to `**/*.md`, require `subtitle`, remove `wideFigures`, rename the post, split its existing combined title into `title` and `subtitle`, and remove only the import/wrapper/island syntax from its body.
 
-- [ ] **Step 4: Update the post layout and authoring documentation**
+- [x] **Step 4: Update the post layout and authoring documentation**
 
 ```astro
 <h1>{frontmatter.title}</h1>
@@ -73,12 +73,12 @@ Remove `mdx()` and `@astrojs/mdx`, add direct `@astrojs/markdown-remark`, change
 
 README must demonstrate plain Markdown and state that visualization registration lives outside content.
 
-- [ ] **Step 5: Run content and baseline checks**
+- [x] **Step 5: Run content and baseline checks**
 
 Run: `npm test -- src/content/authoring-policy.test.ts && npm run check && npm run build`
 Expected: PASS with no Markdown processor deprecation warning.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add package.json package-lock.json astro.config.ts src/content.config.ts src/content/posts/linear-regression.md src/layouts/PostLayout.astro src/content/authoring-policy.test.ts README.md
