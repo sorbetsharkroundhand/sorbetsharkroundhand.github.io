@@ -1,10 +1,18 @@
 ---
 import { withBase } from '../../utils/urls';
 
+interface Props {
+  variant?: 'default' | 'immersive';
+}
+
+const { variant = 'default' } = Astro.props;
 const base = withBase('');
 const postsHref = withBase('posts/');
 const isHome = Astro.url.pathname === base;
 const isPosts = Astro.url.pathname.startsWith(postsHref);
+const indexHref = variant === 'immersive' ? '#home-index' : base;
+const indexLabel = variant === 'immersive' ? '[INDEX]' : 'Index';
+const archiveLabel = variant === 'immersive' ? '[ARCHIVE]' : 'Archive';
 ---
 
 <header class="site-header">
@@ -14,8 +22,8 @@ const isPosts = Astro.url.pathname.startsWith(postsHref);
   </a>
   <nav class="site-nav" aria-label="주요 메뉴">
     <ul class="site-nav__list">
-      <li><a href={base} aria-current={isHome ? 'page' : undefined}>Index</a></li>
-      <li><a href={postsHref} aria-current={isPosts ? 'page' : undefined}>Archive</a></li>
+      <li><a href={indexHref} aria-current={isHome ? 'page' : undefined}>{indexLabel}</a></li>
+      <li><a href={postsHref} aria-current={isPosts ? 'page' : undefined}>{archiveLabel}</a></li>
     </ul>
   </nav>
 </header>
