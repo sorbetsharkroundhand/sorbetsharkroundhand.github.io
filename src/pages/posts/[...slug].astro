@@ -13,9 +13,10 @@ export async function getStaticPaths() {
 }
 
 const { post, older, newer } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+const sectionHeadings = headings.filter(({ depth }) => depth === 2);
 ---
 
-<PostLayout post={post} older={older} newer={newer}>
+<PostLayout post={post} older={older} newer={newer} headings={sectionHeadings}>
   <Content />
 </PostLayout>

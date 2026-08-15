@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import AsciiArt from '../components/design/AsciiArt.astro';
 import MechanicalLabel from '../components/design/MechanicalLabel.astro';
 import PostPager from '../components/posts/PostPager.astro';
+import PostIndex, { type PostHeading } from '../components/posts/PostIndex.astro';
 import BaseLayout from './BaseLayout.astro';
 import { withBase } from '../utils/urls';
 
@@ -11,9 +12,10 @@ interface Props {
   post: CollectionEntry<'posts'>;
   older?: CollectionEntry<'posts'>;
   newer?: CollectionEntry<'posts'>;
+  headings: readonly PostHeading[];
 }
 
-const { post, older, newer } = Astro.props;
+const { post, older, newer, headings } = Astro.props;
 const { data: frontmatter } = post;
 const publishedLabel = frontmatter.publishedAt.toISOString().slice(0, 10).replaceAll('-', '.');
 ---
@@ -40,8 +42,11 @@ const publishedLabel = frontmatter.publishedAt.toISOString().slice(0, 10).replac
       </div>
     </header>
 
-    <div class="article-prose">
-      <slot />
+    <div class="article-reading-shell">
+      <PostIndex headings={headings} />
+      <div class="article-prose">
+        <slot />
+      </div>
     </div>
 
     <PostPager older={older} newer={newer} />

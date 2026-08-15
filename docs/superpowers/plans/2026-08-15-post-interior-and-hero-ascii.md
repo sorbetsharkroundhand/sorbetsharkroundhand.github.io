@@ -95,7 +95,7 @@ git commit -m "feat: use supplied ASCII hero artwork"
 - Consumes: Astro `MarkdownHeading[]` returned by `render(post)`.
 - Produces: `PostIndex` with `headings: MarkdownHeading[]`, real `#slug` links, and a responsive `.article-reading-shell`.
 
-- [ ] **Step 1: Write failing browser assertions for the post interior**
+- [x] **Step 1: Write failing browser assertions for the post interior**
 
 Assert seven level-two index links, exact source order, a working fragment link to `#residual-visualization`, visible section counters, and no horizontal overflow at 390px, 768px, and 1440px.
 
@@ -107,29 +107,29 @@ await expect(page.getByRole('link', { name: 'Residual Visualization' })).toHaveA
 );
 ```
 
-- [ ] **Step 2: Run the focused browser test and verify it fails**
+- [x] **Step 2: Run the focused browser test and verify it fails**
 
 Run: `npx playwright test tests/blog.spec.ts`
 Expected: FAIL because the post interior has no heading index or two-column reading shell.
 
-- [ ] **Step 3: Pass heading metadata into the layout**
+- [x] **Step 3: Pass heading metadata into the layout**
 
 Read `{ Content, headings } = await render(post)` in the post route and pass `headings.filter(({ depth }) => depth === 2)` to `PostLayout` without altering the rendered Markdown content.
 
-- [ ] **Step 4: Implement the article index and reading shell**
+- [x] **Step 4: Implement the article index and reading shell**
 
 Render `PostIndex` before `.article-prose`. Use a sticky desktop rail with real anchor links, then collapse it to a non-sticky top index below 768px. Keep DOM reading order logical and all focus rings visible.
 
-- [ ] **Step 5: Restyle internal learning materials**
+- [x] **Step 5: Restyle internal learning materials**
 
 Use CSS counters for section numbers, a calculation band for `.katex-display`, an instrument panel for code blocks, an observation treatment for blockquotes, and existing breakout geometry for visualization slots. Do not add cards, rounded corners, decorative animation, or new client code.
 
-- [ ] **Step 6: Run the post tests at all target viewports**
+- [x] **Step 6: Run the post tests at all target viewports**
 
 Run: `npx playwright test tests/blog.spec.ts tests/linear-regression.spec.ts`
 Expected: PASS with the seven-link index, intact three-scene interactions, and no page overflow.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/components/posts/PostIndex.astro src/pages/posts/[...slug].astro src/layouts/PostLayout.astro src/styles/global.css tests/blog.spec.ts
