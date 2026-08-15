@@ -136,13 +136,13 @@ git add src/components/posts/PostIndex.astro src/pages/posts/[...slug].astro src
 git commit -m "feat: redesign post reading interior"
 ```
 
-### Task 3: Verify and update draft PR #3
+### Task 3: Verify and publish the follow-up pull request
 
 **Files:**
 - Modify: `docs/superpowers/plans/2026-08-15-post-interior-and-hero-ascii.md`
 
 **Interfaces:**
-- Produces: a clean branch, fresh validation evidence, and updated remote head for draft PR #3.
+- Produces: a clean branch, fresh validation evidence, and a follow-up draft pull request because PR #3 was merged before this work began.
 
 - [x] **Step 1: Run the complete suite serially**
 
@@ -172,7 +172,7 @@ git commit -m "test: verify post interior follow-up"
 git push
 ```
 
-- [ ] **Step 5: Confirm draft PR #3 points to the new head**
+- [x] **Step 5: Confirm the follow-up draft PR points to the new head**
 
-Run: `gh pr view 3 --json url,isDraft,headRefOid,statusCheckRollup`
-Expected: draft PR #3 is open and its head SHA matches local `HEAD`.
+Run: `gh pr view 4 --json url,isDraft,headRefOid,statusCheckRollup`
+Expected: draft PR #4 is open and its head SHA matches local `HEAD`.
