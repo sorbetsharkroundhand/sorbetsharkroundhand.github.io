@@ -419,15 +419,15 @@ git commit -m "feat: redesign learning note routes"
 - Documents the exact plain Markdown author workflow and external visualization registration workflow.
 - Leaves CI executing check, unit test, build, and deploy in deterministic serial order.
 
-- [ ] **Step 1: Add final smoke assertions**
+- [x] **Step 1: Add final smoke assertions**
 
 Assert the built home has the black theme-color, ASCII hero label, archive path, and no eager canvas. Assert the post has three registered slots and meaningful no-script/fallback text.
 
-- [ ] **Step 2: Update README and CI documentation**
+- [x] **Step 2: Update README and CI documentation**
 
 Include a complete `.md` example and separate maintainer-only manifest example. State that authors never add imports, `client:*`, wrappers, ASCII art, or Scene cleanup to content.
 
-- [ ] **Step 3: Run the complete verification suite serially**
+- [x] **Step 3: Run the complete verification suite serially**
 
 ```bash
 npm run check
@@ -438,12 +438,12 @@ npm run test:e2e
 
 Expected: zero errors; all unit and Playwright tests pass. Deprecation warnings from the old Markdown configuration are absent. Any remaining bundle-size warning is recorded but acceptable only if non-post routes do not load the visualization chunk.
 
-- [ ] **Step 4: Inspect the final diff and worktree state**
+- [x] **Step 4: Inspect the final diff and worktree state**
 
 Run: `git diff --check && git status --short && git diff --stat origin/main...HEAD`
 Expected: no whitespace errors and only issue #2 files/commits.
 
-- [ ] **Step 5: Commit final documentation and verification updates**
+- [x] **Step 5: Commit final documentation and verification updates**
 
 ```bash
 git add README.md tests/smoke.spec.ts .github/workflows/deploy.yml docs/superpowers/plans/2026-08-15-ascii-brutalism-learning-notes.md

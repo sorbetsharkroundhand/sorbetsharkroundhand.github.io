@@ -28,22 +28,52 @@ Playwright 브라우저가 아직 설치되지 않았다면 먼저 `npx playwrig
 
 ```yaml
 ---
-title: 글 제목
-subtitle: 글의 한 줄 부제
-description: 목록과 메타데이터에 표시할 설명
+title: Linear Regression
+subtitle: 선형회귀를 눈으로 이해하기
+description: 직선을 움직이며 예측, 잔차, 평균제곱오차를 연결합니다.
 publishedAt: 2026-08-15
 category: Statistics
 topics:
-  - statistics
+  - linear-regression
+  - least-squares
 draft: false
 ---
+
+## 데이터에서 직선 찾기
+
+관찰값을 하나의 직선으로 요약해 봅니다.
+
+$$
+\\hat{y} = wx + b
+$$
 ```
 
 - `title`, `subtitle`, `description`, `publishedAt`, `category`, `topics`, `draft`는 필수입니다.
 - `draft: true`인 글은 공개 목록과 정적 경로에서 제외됩니다.
+- `updatedAt`은 선택 사항입니다.
 - 수식은 `$...$` 또는 `$$...$$`로 작성합니다. 본문 수식은 KaTeX가 정적 HTML로 렌더링합니다.
 
-작성자는 본문에 React import, 컴포넌트, hydration 지시자, ASCII 아트, figure wrapper를 넣지 않습니다. 시각화는 `src/visualizations/manifest.ts`에서 글 slug와 heading을 기준으로 별도 등록하며, 화면에 가까워졌을 때만 자동으로 불러옵니다. 계산은 순수 TypeScript 모듈에, `manim-web` 객체와 수명주기는 별도 controller에, UI 상태는 React 컴포넌트에 둡니다.
+작성자는 본문에 import, React·Astro 컴포넌트, `client:*` hydration 지시자, 레이아웃 wrapper, ASCII 아트, Scene 정리 코드를 넣지 않습니다. 글 파일에는 frontmatter, 일반 Markdown, 수식, 코드 블록만 둡니다.
+
+### 인터랙티브 시각화 등록
+
+시각화가 필요한 글은 작성자 콘텐츠와 분리해 유지보수자가 `src/visualizations/manifest.ts`에 slug와 정확한 제목을 등록합니다.
+
+```ts
+export const postVisualizations = {
+  'linear-regression': [
+    {
+      id: 'linear-regression:model',
+      afterHeading: '직접 움직여보기',
+      accent: 'cyan',
+      title: '선형 모델 조절',
+      description: '기울기와 절편을 바꾸며 회귀선을 관찰합니다.',
+    },
+  ],
+};
+```
+
+같은 ID의 동적 import를 `src/visualizations/client-registry.ts`에 연결합니다. 빌드는 slug, 제목, 중복 위치, 누락된 loader를 검증하고 해당 제목 바로 뒤에 접근 가능한 정적 설명을 삽입합니다. 장면 코드는 화면에 가까워졌을 때만 로드됩니다. 계산은 순수 TypeScript 모듈에, `manim-web` 객체와 수명주기는 controller에, UI 상태는 React 컴포넌트에 둡니다.
 
 ## GitHub Pages 배포
 
