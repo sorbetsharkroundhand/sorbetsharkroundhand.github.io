@@ -9,9 +9,10 @@ interface Props {
   title: string;
   description: string;
   image?: string;
+  layout?: 'default' | 'immersive';
 }
 
-const { title, description, image } = Astro.props;
+const { title, description, image, layout = 'default' } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const imageSource = image ?? 'og-default.svg';
 const isAbsoluteImage = /^https?:\/\//i.test(imageSource);
@@ -27,7 +28,7 @@ const socialImage = isAbsoluteImage
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#090a0a" />
+    <meta name="theme-color" content={layout === 'immersive' ? '#0a0a0a' : '#090a0a'} />
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -36,10 +37,10 @@ const socialImage = isAbsoluteImage
     <meta property="og:image" content={socialImage} />
     <title>{title}</title>
   </head>
-  <body>
+  <body data-layout={layout}>
     <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
-    <div class="site-frame">
-      <SiteHeader />
+    <div class="site-frame" data-layout={layout}>
+      <SiteHeader variant={layout} />
       <main class="site-main" id="main-content" tabindex="-1">
         <slot />
       </main>

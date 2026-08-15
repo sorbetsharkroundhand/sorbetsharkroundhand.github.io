@@ -1,0 +1,120 @@
+---
+import type { Post } from '../../utils/posts';
+import { withBase } from '../../utils/urls';
+import { HomeManimScene } from './HomeManimScene';
+import '../../styles/home-scrollytelling.css';
+
+interface Props {
+  latestUpdatedAt?: Date;
+  posts: readonly Post[];
+  totalPosts: number;
+}
+
+const { latestUpdatedAt, posts, totalPosts } = Astro.props;
+const archiveHref = withBase('posts/');
+const formatDate = (date: Date) => date.toISOString().slice(0, 10).replaceAll('-', '.');
+const latestLabel = latestUpdatedAt ? formatDate(latestUpdatedAt) : '—';
+const totalLabel = totalPosts.toString().padStart(2, '0');
+const fallbackTopology = String.raw`                .        +
+       .       /|\              .
+            . / | \   +
+     +       /  ·  \        .
+        .---/---+---\---.
+      ./   /    |    \   \.
+   .-+----/-----/-----\----+-.
+      \  /  .  /  +   \  /
+       \/_____/_________\/
+    .      /      ·        +`;
+---
+
+<section class="home-scrolly" data-home-chapter="emergence" data-home-scrolly>
+  <a class="home-scrolly__skip" href="#home-index">[SKIP TO INDEX]</a>
+
+  <div class="home-scrolly__stage">
+    <div class="home-scrolly__visual" aria-hidden="true">
+      <HomeManimScene client:load />
+      <pre class="home-scrolly__fallback">{fallbackTopology}</pre>
+      <div class="home-scrolly__grain"></div>
+    </div>
+
+    <p class="home-scrolly__status" aria-hidden="true">
+      <span>00</span>::OBSERVING
+    </p>
+
+    <div class="home-scrolly__statement">
+      <p class="home-scrolly__eyebrow">SCHEMAS / MOTION / NOTES</p>
+      <h1 id="home-title">불확실성 속에서<br />구조를 찾습니다.</h1>
+      <p class="home-scrolly__description">
+        통계, 머신러닝, 인공지능을 움직이며 이해하고 기록합니다.
+      </p>
+    </div>
+
+    <div class="home-scrolly__coordinates" aria-hidden="true">
+      <span>φ 01.047</span>
+      <span>θ −00.820</span>
+      <span>SCROLL / 000</span>
+    </div>
+  </div>
+
+  <section class="home-index" id="home-index" aria-labelledby="home-index-title">
+    <header class="home-index__header">
+      <div>
+        <p>04::RECONSTRUCTED</p>
+        <h2 id="home-index-title">Latest observations</h2>
+      </div>
+      <span>{totalLabel} records</span>
+    </header>
+
+    {posts.length > 0 ? (
+      <div class="home-index__posts">
+        {posts.map((post, index) => (
+          <a class="home-index__post" data-home-post href={withBase(`posts/${post.id}/`)}>
+            <span class="home-index__sequence">{(index + 1).toString().padStart(2, '0')}</span>
+            <span class="home-index__post-copy">
+              <strong>{post.data.title}</strong>
+              <span>{post.data.description}</span>
+            </span>
+            <span class="home-index__post-meta">
+              <span>{post.data.category}</span>
+              <time datetime={post.data.publishedAt.toISOString()}>
+                {formatDate(post.data.publishedAt)}
+              </time>
+              <b aria-hidden="true">↗</b>
+            </span>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <p class="home-index__empty">첫 번째 관찰을 준비하고 있습니다.</p>
+    )}
+
+    <footer class="home-index__footer">
+      <a href={archiveHref}>[ENTER THE ARCHIVE →]</a>
+      <p>
+        <span>TOTAL {totalLabel}</span>
+        <span>UPDATED {latestLabel}</span>
+      </p>
+    </footer>
+  </section>
+</section>
+
+<script>
+  import { mountHomeScroll } from '../../scrollytelling/home/mountHomeScroll';
+
+  const activeMounts = new Map<HTMLElement, () => void>();
+
+  const mountStories = () => {
+    document.querySelectorAll<HTMLElement>('[data-home-scrolly]').forEach((root) => {
+      if (!activeMounts.has(root)) activeMounts.set(root, mountHomeScroll(root));
+    });
+  };
+
+  const disposeStories = () => {
+    activeMounts.forEach((dispose) => dispose());
+    activeMounts.clear();
+  };
+
+  mountStories();
+  document.addEventListener('astro:page-load', mountStories);
+  document.addEventListener('astro:before-swap', disposeStories);
+</script>
