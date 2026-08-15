@@ -144,7 +144,7 @@ git commit -m "feat: redesign post reading interior"
 **Interfaces:**
 - Produces: a clean branch, fresh validation evidence, and updated remote head for draft PR #3.
 
-- [ ] **Step 1: Run the complete suite serially**
+- [x] **Step 1: Run the complete suite serially**
 
 ```bash
 npm run check
@@ -155,16 +155,16 @@ npm run test:e2e
 
 Expected: zero errors, all unit tests pass, all Playwright tests pass, and the only acceptable warning is the existing lazy visualization chunk-size warning.
 
-- [ ] **Step 2: Perform visual QA**
+- [x] **Step 2: Perform visual QA**
 
 Capture and inspect the home and post at 1440px and 390px. Confirm the exact supplied hero remains recognizable, the post index does not cover prose, the hero CTA remains in the initial viewport, and no clipped text or horizontal page scroll appears.
 
-- [ ] **Step 3: Run the design pre-flight and repository audit**
+- [x] **Step 3: Run the design pre-flight and repository audit**
 
 Run: `rg -n "[—–]" src README.md tests || true && git diff --check && git status -sb`
 Expected: no forbidden dash characters, no whitespace errors, and only the planned commit ahead of the pushed branch.
 
-- [ ] **Step 4: Commit the completed plan and push**
+- [x] **Step 4: Commit the completed plan and push**
 
 ```bash
 git add docs/superpowers/plans/2026-08-15-post-interior-and-hero-ascii.md
