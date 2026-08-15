@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../utils/urls';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
+  (left, right) => right.data.publishedAt.getTime() - left.data.publishedAt.getTime(),
+);
+---
+
+<BaseLayout title="Posts — Interactive Notes" description="Interactive Notes의 학습 노트 목록">
+  <section class="listing" aria-labelledby="posts-heading">
+    <header class="listing__header">
+      <p class="section-label">Archive</p>
+      <h1 id="posts-heading">노트</h1>
+      <p>공식에서 출발해, 조작과 관찰로 돌아오는 학습 기록입니다.</p>
+    </header>
+
+    <ol class="post-list">
+      {
+        posts.map((post) => (
+          <li>
+            <article class="post-list__item">
+              <p>{post.data.category}</p>
+              <h2><a href={withBase(`posts/${post.id}/`)}>{post.data.title}</a></h2>
+              <p class="post-list__description">{post.data.description}</p>
+              <ul class="post-list__topics" aria-label={`${post.data.title} 주제`}>
+                {post.data.topics.map((topic) => (
+                  <li><a href={withBase(`topics/${topic}/`)}>#{topic}</a></li>
+                ))}
+              </ul>
+            </article>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+</BaseLayout>

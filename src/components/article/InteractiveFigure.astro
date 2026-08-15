@@ -1,0 +1,18 @@
+---
+interface Props {
+  id: string;
+  label?: string;
+  title: string;
+}
+
+const { id, label = 'Interactive instrument', title } = Astro.props;
+const titleId = `${id}-title`;
+---
+
+<aside class="interactive-figure-callout" aria-labelledby={titleId}>
+  <p class="interactive-figure-callout__label">{label}</p>
+  <h3 id={titleId}>{title}</h3>
+  <div class="interactive-figure-callout__message" role="status">
+    <slot />
+  </div>
+</aside>

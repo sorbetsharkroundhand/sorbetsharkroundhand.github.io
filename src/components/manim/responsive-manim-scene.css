@@ -1,0 +1,39 @@
+.responsive-manim-scene {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.responsive-manim-scene__frame {
+  aspect-ratio: var(--responsive-manim-aspect-ratio, 12 / 7.5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2);
+  box-shadow: var(--shadow-raised);
+  overflow: hidden;
+  position: relative;
+}
+
+.responsive-manim-scene__canvas {
+  height: 100%;
+  inset: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.responsive-manim-scene__canvas > canvas {
+  display: block;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.responsive-manim-scene__status,
+.responsive-manim-scene__fallback {
+  color: var(--color-ink-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.responsive-manim-scene__fallback {
+  padding: var(--space-4);
+}
