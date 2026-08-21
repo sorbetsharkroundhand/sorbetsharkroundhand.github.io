@@ -1,0 +1,107 @@
+body[data-layout="immersive"] {
+  --home-black: #0a0a0a;
+  --home-paper: #efede6;
+  --home-muted: #777777;
+  --home-cobalt: #5b7cfa;
+  overflow-x: clip;
+  background: var(--home-black);
+  color: var(--home-paper);
+}
+
+body[data-layout="immersive"] .skip-link {
+  border-color: var(--home-cobalt);
+  background: var(--home-black);
+  color: var(--home-paper);
+}
+
+body[data-layout="immersive"] .site-frame {
+  width: 100%;
+  max-width: none;
+  border: 0;
+}
+
+body[data-layout="immersive"] .site-header {
+  position: fixed;
+  z-index: 40;
+  inset: 0 0 auto;
+  min-height: 4.5rem;
+  border: 0;
+  background: linear-gradient(to bottom, rgb(10 10 10 / 72%), transparent);
+  pointer-events: none;
+}
+
+body[data-layout="immersive"] .site-header a {
+  pointer-events: auto;
+}
+
+body[data-layout="immersive"] .site-wordmark {
+  color: var(--home-paper);
+  font-size: 0.7rem;
+  letter-spacing: 0.13em;
+}
+
+body[data-layout="immersive"] .site-wordmark__mark {
+  color: var(--home-cobalt);
+}
+
+body[data-layout="immersive"] .site-nav li {
+  border: 0;
+}
+
+body[data-layout="immersive"] .site-nav a,
+body[data-layout="immersive"] .site-nav a[aria-current="page"] {
+  min-width: auto;
+  padding-inline: clamp(0.65rem, 2vw, 1.5rem);
+  background: transparent;
+  color: var(--home-paper);
+  font-size: 0.68rem;
+}
+
+body[data-layout="immersive"] .site-nav a:hover,
+body[data-layout="immersive"] .site-nav a:focus-visible {
+  color: var(--home-cobalt);
+}
+
+body[data-layout="immersive"] .site-main {
+  min-height: 100svh;
+  background: var(--home-black);
+}
+
+body[data-layout="immersive"] .site-main:not(:has(.home-scrolly)) {
+  padding-top: 4.5rem;
+}
+
+body[data-layout="immersive"] .site-footer {
+  position: relative;
+  z-index: 10;
+  border-color: rgb(239 237 230 / 16%);
+  background: var(--home-black);
+  color: var(--home-muted);
+}
+
+@media (max-width: 39.9375rem) {
+  body[data-layout="immersive"] .site-header {
+    min-height: 4rem;
+  }
+
+  body[data-layout="immersive"] .site-wordmark {
+    max-width: 8.5rem;
+    padding-inline: 1rem 0;
+    letter-spacing: 0.08em;
+  }
+
+  body[data-layout="immersive"] .site-wordmark__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  body[data-layout="immersive"] .site-nav a {
+    min-width: auto;
+    padding-inline: 0.5rem;
+    font-size: 0.58rem;
+  }
+
+  body[data-layout="immersive"] .site-main:not(:has(.home-scrolly)) {
+    padding-top: 4rem;
+  }
+}

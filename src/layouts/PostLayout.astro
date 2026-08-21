@@ -20,7 +20,11 @@ const { data: frontmatter } = post;
 const publishedLabel = frontmatter.publishedAt.toISOString().slice(0, 10).replaceAll('-', '.');
 ---
 
-<BaseLayout title={`${frontmatter.title} | Interactive Notes`} description={frontmatter.description}>
+<BaseLayout
+  title={`${frontmatter.title} | Interactive Notes`}
+  description={frontmatter.description}
+  layout="immersive"
+>
   <article class="article">
     <div class="article-rail">
       <a class="article-back" href={withBase('posts/')}>&lt;- [ALL NOTES]</a>

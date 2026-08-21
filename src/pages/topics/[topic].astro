@@ -25,7 +25,11 @@ const topicLabel = getTopicLabel(topic);
 const accents = ['cyan', 'red', 'yellow', 'violet'] as const;
 ---
 
-<BaseLayout title={`${topicLabel} | Interactive Notes`} description={`${topicLabel} 주제의 학습 노트`}>
+<BaseLayout
+  title={`${topicLabel} | Interactive Notes`}
+  description={`${topicLabel} 주제의 학습 노트`}
+  layout="immersive"
+>
   <section class="listing" aria-labelledby="topic-heading">
     <header class="listing__header">
       <MechanicalLabel index="00" label={`Topic / ${topic}`} />

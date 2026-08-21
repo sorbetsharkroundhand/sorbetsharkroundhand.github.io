@@ -8,7 +8,11 @@ const posts = await getPublishedPosts();
 const accents = ['cyan', 'red', 'yellow', 'violet'] as const;
 ---
 
-<BaseLayout title="Archive | Interactive Notes" description="Interactive Notes의 전체 학습 노트">
+<BaseLayout
+  title="Archive | Interactive Notes"
+  description="Interactive Notes의 전체 학습 노트"
+  layout="immersive"
+>
   <section class="listing" aria-labelledby="posts-heading">
     <header class="listing__header">
       <MechanicalLabel index="00" label="Archive / All observations" />
