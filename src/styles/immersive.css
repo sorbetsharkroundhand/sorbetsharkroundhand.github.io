@@ -1,7 +1,7 @@
 body[data-layout="immersive"] {
   --home-black: #0a0a0a;
   --home-paper: #efede6;
-  --home-muted: #777777;
+  --home-muted: #8a8f8c;
   --home-cobalt: var(--aurora-teal);
   overflow-x: clip;
   background: var(--home-black);

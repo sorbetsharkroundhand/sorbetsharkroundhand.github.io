@@ -47,9 +47,7 @@ export function sampleHomeTimeline(input: number): HomeTimelineState {
   const topologyArrival = 0.08 + 0.92 * smoothstep(segment(progress, 0, 0.18));
   const topologyDeparture = 1 - smoothstep(segment(progress, 0.52, 0.78));
   const topologyOpacity = topologyArrival * topologyDeparture;
-  const statementOpacity =
-    smoothstep(segment(progress, 0.35, 0.43)) *
-    (1 - smoothstep(segment(progress, 0.56, 0.68)));
+  const statementOpacity = 1 - smoothstep(segment(progress, 0.56, 0.68));
   const asciiOpacity =
     smoothstep(segment(progress, 0.52, 0.62)) *
     (1 - smoothstep(segment(progress, 0.78, 0.92)));

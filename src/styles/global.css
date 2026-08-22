@@ -342,6 +342,8 @@ a:hover {
 }
 
 .post-row__topics a {
+  display: inline-block;
+  padding: 0.3rem 0;
   color: var(--color-ink-muted);
 }
 
@@ -796,6 +798,11 @@ a:hover {
   color: var(--color-ink-muted);
 }
 
+.article-header__meta ul a {
+  display: inline-block;
+  padding: 0.3rem 0;
+}
+
 .article-header__meta ul {
   display: flex;
   flex-wrap: wrap;
@@ -1090,6 +1097,7 @@ a:hover {
   display: grid;
   grid-template-columns: 1.75rem minmax(0, 1fr);
   gap: var(--space-2);
+  padding-block: 0.3rem;
   color: var(--color-ink-muted);
   font-size: 0.6875rem;
   line-height: 1.45;

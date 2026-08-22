@@ -18,6 +18,7 @@
   z-index: 45;
   top: 5.5rem;
   right: clamp(1rem, 3vw, 3rem);
+  padding: 0.45rem 0.6rem;
   color: var(--home-muted);
   font-family: var(--font-mono);
   font-size: 0.62rem;
@@ -361,7 +362,7 @@
 
 .home-index__post-copy > span {
   max-width: 42rem;
-  color: rgb(239 237 230 / 55%);
+  color: rgb(239 237 230 / 66%);
   font-size: 0.82rem;
   line-height: 1.55;
 }
@@ -407,6 +408,9 @@
 }
 
 .home-index__footer > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
   color: var(--home-paper);
   font-family: var(--font-mono);
   font-size: 0.72rem;

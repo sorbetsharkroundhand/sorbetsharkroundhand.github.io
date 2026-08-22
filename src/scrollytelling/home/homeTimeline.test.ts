@@ -45,6 +45,14 @@ describe('sampleHomeTimeline', () => {
     expect(reconstruction.topologyOpacity).toBe(0);
   });
 
+  it('shows the headline thesis immediately and dissolves it for the ascii chapter', () => {
+    const emergence = sampleHomeTimeline(0);
+    const dissolution = sampleHomeTimeline(0.68);
+
+    expect(emergence.statementOpacity).toBe(1);
+    expect(dissolution.statementOpacity).toBeLessThan(0.05);
+  });
+
   it('brightens the aurora toward the statement and dims it for the index', () => {
     const emergence = sampleHomeTimeline(0);
     const peak = sampleHomeTimeline(0.4);
