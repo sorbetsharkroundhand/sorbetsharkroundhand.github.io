@@ -214,14 +214,14 @@
 }
 
 .home-scrolly h1 {
-  max-width: 10em;
+  max-width: 13ch;
   margin: 0;
   color: var(--home-paper);
   font-family: var(--font-display);
   font-size: clamp(3.2rem, 8.7vw, 9.5rem);
   font-weight: 400;
-  letter-spacing: -0.03em;
-  line-height: 1.12;
+  letter-spacing: -0.015em;
+  line-height: 1.02;
   text-wrap: balance;
   word-break: keep-all;
 }
@@ -263,11 +263,16 @@
 .home-index {
   position: relative;
   z-index: 8;
-  width: min(92vw, 78rem);
+  width: 100%;
   min-height: 75svh;
-  margin-inline: auto;
-  padding: clamp(4rem, 10vh, 7rem) 0 clamp(3rem, 8vh, 6rem);
-  background: linear-gradient(to bottom, transparent, rgb(10 10 10 / 82%) 12%, var(--home-black) 30%);
+  padding: clamp(4rem, 10vh, 7rem)
+    max(clamp(1rem, 4vw, 2rem), calc((100% - 78rem) / 2)) clamp(3rem, 8vh, 6rem);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(10 10 10 / 78%) 24%,
+    var(--home-black) 52%
+  );
   scroll-margin-top: 1rem;
 }
 
@@ -315,8 +320,8 @@
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 5vw, 5rem);
   font-weight: 400;
-  letter-spacing: -0.05em;
-  line-height: 1.06;
+  letter-spacing: -0.015em;
+  line-height: 1.02;
 }
 
 .home-index__posts {
@@ -355,8 +360,8 @@
   font-family: var(--font-display);
   font-size: clamp(1.55rem, 3vw, 2.75rem);
   font-weight: 400;
-  letter-spacing: -0.035em;
-  line-height: 1.15;
+  letter-spacing: 0;
+  line-height: 1.08;
   transition: color var(--duration-fast) ease;
 }
 
@@ -435,7 +440,7 @@
   }
 
   .home-index {
-    width: min(90vw, 60rem);
+    padding-inline: max(clamp(1rem, 3vw, 1.5rem), calc((100% - 60rem) / 2));
   }
 
   .home-index__post-copy > span {
@@ -473,8 +478,8 @@
   }
 
   .home-scrolly h1 {
-    font-size: clamp(2.8rem, 13vw, 4.6rem);
-    line-height: 1.18;
+    font-size: clamp(3rem, 14.5vw, 4.8rem);
+    line-height: 1.02;
   }
 
   .home-scrolly__description {
@@ -503,7 +508,7 @@
   }
 
   .home-index {
-    width: calc(100% - 2rem);
+    padding-inline: 1rem;
     padding-block: 4rem 3rem;
   }
 
