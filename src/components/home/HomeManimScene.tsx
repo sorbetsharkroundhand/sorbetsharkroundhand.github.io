@@ -173,11 +173,34 @@ export function HomeManimScene() {
       }
     };
 
-    void initializeTopology();
+    let topologyStarted = false;
+    const startTopology = () => {
+      if (topologyStarted || cancelled) return;
+      topologyStarted = true;
+      stopIntentListeners();
+      void initializeTopology();
+    };
+    const intentTargets: Array<[EventTarget, string]> = [
+      [window, 'scroll'],
+      [window, 'wheel'],
+      [window, 'touchstart'],
+      [window, 'pointerdown'],
+    ];
+    const stopIntentListeners = () => {
+      for (const [target, type] of intentTargets) {
+        target.removeEventListener(type, startTopology);
+      }
+    };
+    for (const [target, type] of intentTargets) {
+      target.addEventListener(type, startTopology, { once: true, passive: true });
+    }
+
     void initializeAscii();
+    if (Math.abs(latestProgress) > 0.005 || window.scrollY > 2) startTopology();
 
     return () => {
       cancelled = true;
+      stopIntentListeners();
       observer.disconnect();
       story.removeEventListener('home-scrolly:progress', handleProgress);
       document.removeEventListener('visibilitychange', handleVisibility);

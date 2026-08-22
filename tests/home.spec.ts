@@ -53,12 +53,34 @@ test('keeps immersive header navigation as real links', async ({ page }) => {
 
 test('removes the static topology fallback after WebGL is ready', async ({ page }) => {
   await page.goto('/');
+  await page.evaluate(() => window.scrollTo({ behavior: 'instant', top: 4 }));
 
   await expect(page.locator('[data-home-visuals]')).toHaveAttribute(
     'data-topology-status',
     'ready',
+    { timeout: 15_000 },
   );
   await expect(page.locator('.home-scrolly__fallback')).toHaveCSS('opacity', '0');
+});
+
+test('defers the WebGL topology chunk until the first scroll intent', async ({ page }) => {
+  await page.goto('/');
+
+  await expect(page.locator('[data-home-visuals]')).toHaveAttribute(
+    'data-topology-status',
+    'loading',
+  );
+  await expect(page.locator('[data-home-topology] canvas')).toHaveCount(0);
+  await expect(page.locator('.home-scrolly__fallback')).toBeVisible();
+
+  await page.evaluate(() => window.scrollTo({ behavior: 'instant', top: 4 }));
+
+  await expect(page.locator('[data-home-topology] canvas')).toHaveCount(1);
+  await expect(page.locator('[data-home-visuals]')).toHaveAttribute(
+    'data-topology-status',
+    'ready',
+    { timeout: 15_000 },
+  );
 });
 
 test('caps the mobile WebGL backing buffer on high-density displays', async ({
@@ -72,9 +94,11 @@ test('caps the mobile WebGL backing buffer on high-density displays', async ({
   });
   const page = await context.newPage();
   await page.goto('/');
+  await page.evaluate(() => window.scrollTo({ behavior: 'instant', top: 4 }));
   await expect(page.locator('[data-home-visuals]')).toHaveAttribute(
     'data-topology-status',
     'ready',
+    { timeout: 15_000 },
   );
 
   const backingRatio = await page.locator('[data-home-topology] canvas').evaluate((element) => {
@@ -175,9 +199,11 @@ test('falls back to static ASCII when WebGL creation fails', async ({ page }) =>
   });
   await page.goto('/');
 
+  await page.evaluate(() => window.scrollTo({ behavior: 'instant', top: 4 }));
   await expect(page.locator('[data-home-visuals]')).toHaveAttribute(
     'data-topology-status',
     'error',
+    { timeout: 15_000 },
   );
   await expect(page.locator('.home-scrolly__fallback')).not.toHaveCSS('opacity', '0');
   await expect(page.locator('[data-home-post]').first()).toHaveAttribute(

@@ -120,7 +120,7 @@ describe('HomeAsciiField', () => {
     const uniqueColumns = new Set(
       harness.textCalls.filter(({ text }) => [...text].length === 1).map(({ x }) => x),
     );
-    expect(uniqueColumns.size).toBeLessThanOrEqual(108);
+    expect(uniqueColumns.size).toBeLessThanOrEqual(72);
     expect(harness.canvas.width).toBe(Math.round(1440 * 1.75));
     expect(harness.canvas.height).toBe(Math.round(900 * 1.75));
 
@@ -139,7 +139,7 @@ describe('HomeAsciiField', () => {
       harness.textCalls.filter(({ text }) => [...text].length === 1).map(({ x }) => x),
     );
     expect(uniqueColumns.size).toBeGreaterThan(48);
-    expect(uniqueColumns.size).toBeLessThanOrEqual(108);
+    expect(uniqueColumns.size).toBeLessThanOrEqual(72);
     expect(harness.canvas.width).toBe(Math.round(1440 * 1.75));
     field.dispose();
   });
@@ -175,7 +175,7 @@ describe('HomeAsciiField', () => {
     field.dispose();
   });
 
-  it('removes owned pointer listeners and ignores work after idempotent disposal', () => {
+  it('owns no canvas listeners and ignores work after idempotent disposal', () => {
     const harness = createCanvasHarness();
     const add = vi.spyOn(harness.canvas, 'addEventListener');
     const remove = vi.spyOn(harness.canvas, 'removeEventListener');
@@ -187,9 +187,8 @@ describe('HomeAsciiField', () => {
     field.dispose();
     field.setProgress(0.68);
 
-    expect(add).toHaveBeenCalledWith('pointermove', expect.any(Function));
-    expect(add).toHaveBeenCalledWith('pointerleave', expect.any(Function));
-    expect(remove).toHaveBeenCalledTimes(2);
+    expect(add).not.toHaveBeenCalled();
+    expect(remove).not.toHaveBeenCalled();
     expect(harness.textCalls).toHaveLength(0);
   });
 

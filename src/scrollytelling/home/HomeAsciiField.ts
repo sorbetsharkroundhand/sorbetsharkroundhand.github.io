@@ -38,8 +38,6 @@ export class HomeAsciiField implements ScrollSceneController {
 
     this.context = context;
     this.mobile = options.mobile;
-    canvas.addEventListener('pointermove', this.handlePointerMove);
-    canvas.addEventListener('pointerleave', this.handlePointerLeave);
   }
 
   setProgress(progress: number): void {
@@ -74,30 +72,16 @@ export class HomeAsciiField implements ScrollSceneController {
 
   dispose(): void {
     if (this.disposed) return;
+
     this.disposed = true;
-    this.canvas.removeEventListener('pointermove', this.handlePointerMove);
-    this.canvas.removeEventListener('pointerleave', this.handlePointerLeave);
   }
-
-  private readonly handlePointerMove = (event: PointerEvent) => {
-    const bounds = this.canvas.getBoundingClientRect();
-    this.setPointer(
-      (event.clientX - bounds.left) / Math.max(1, bounds.width),
-      (event.clientY - bounds.top) / Math.max(1, bounds.height),
-      true,
-    );
-  };
-
-  private readonly handlePointerLeave = () => {
-    this.setPointer(this.pointer.x, this.pointer.y, false);
-  };
 
   private draw(): void {
     const state = sampleHomeTimeline(this.progress);
     this.context.clearRect(0, 0, this.width, this.height);
     if (state.asciiOpacity <= 0) return;
 
-    const columnCap = this.mobile ? 48 : 108;
+    const columnCap = this.mobile ? 48 : 72;
     const columns = Math.min(columnCap, Math.max(16, Math.floor(this.width / 10)));
     const cellWidth = this.width / columns;
     const rows = Math.max(10, Math.ceil(this.height / (cellWidth * 1.55)));

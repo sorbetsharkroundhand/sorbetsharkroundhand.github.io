@@ -156,6 +156,7 @@ describe('HomeManimScene', () => {
     visualHarness.topologyCreate.mockReturnValue(deferred.promise);
     visualHarness.asciiCreate.mockReturnValue(ascii);
     const { story, visual } = renderScene();
+    fireEvent.scroll(window);
 
     dispatchProgress(story, 0.2);
     dispatchProgress(story, 0.68);
@@ -164,6 +165,36 @@ describe('HomeManimScene', () => {
     await waitFor(() => expect(visual.dataset.topologyStatus).toBe('ready'));
     expect(topology.setProgress).toHaveBeenLastCalledWith(0.68);
     expect(ascii.setProgress).toHaveBeenLastCalledWith(0.68);
+  });
+
+  it('defers topology creation until the first engagement and hydrates it afterwards', async () => {
+    const topology = createController();
+    const ascii = createController();
+    visualHarness.topologyCreate.mockResolvedValue(topology);
+    visualHarness.asciiCreate.mockReturnValue(ascii);
+    const { story, visual } = renderScene();
+
+    expect(visualHarness.topologyCreate).not.toHaveBeenCalled();
+    await waitFor(() => expect(visual.dataset.asciiStatus).toBe('ready'));
+
+    dispatchProgress(story, 0.4);
+    expect(topology.setProgress).not.toHaveBeenCalled();
+
+    fireEvent.scroll(window);
+    await waitFor(() => expect(visual.dataset.topologyStatus).toBe('ready'));
+    expect(topology.setProgress).toHaveBeenLastCalledWith(0.4);
+  });
+
+  it('starts the topology when hydration lands after an earlier scroll', async () => {
+    const topology = createController();
+    const ascii = createController();
+    visualHarness.topologyCreate.mockResolvedValue(topology);
+    visualHarness.asciiCreate.mockReturnValue(ascii);
+    vi.spyOn(window, 'scrollY', 'get').mockReturnValue(24);
+    const { visual } = renderScene();
+
+    await waitFor(() => expect(visual.dataset.topologyStatus).toBe('ready'));
+    expect(visualHarness.topologyCreate).toHaveBeenCalledTimes(1);
   });
 
   it('hydrates from the progress already projected by the scroll mount', async () => {
@@ -185,6 +216,7 @@ describe('HomeManimScene', () => {
     visualHarness.topologyCreate.mockResolvedValue(topology);
     visualHarness.asciiCreate.mockReturnValue(ascii);
     const { visual } = renderScene();
+    fireEvent.scroll(window);
 
     await waitFor(() => expect(visual.dataset.topologyStatus).toBe('ready'));
 
@@ -208,6 +240,7 @@ describe('HomeManimScene', () => {
       throw new Error('2D canvas context unavailable');
     });
     const { shell, visual } = renderScene();
+    fireEvent.scroll(window);
 
     await waitFor(() => expect(visual.dataset.topologyStatus).toBe('ready'));
     await waitFor(() => expect(visual.dataset.asciiStatus).toBe('error'));
@@ -222,6 +255,7 @@ describe('HomeManimScene', () => {
     visualHarness.asciiCreate.mockReturnValue(ascii);
     visualHarness.topologyCreate.mockRejectedValue(new Error('WebGL unavailable'));
     const { shell, visual } = renderScene();
+    fireEvent.scroll(window);
 
     await waitFor(() => expect(visual.dataset.topologyStatus).toBe('error'));
     await waitFor(() => expect(visual.dataset.asciiStatus).toBe('ready'));
@@ -239,6 +273,7 @@ describe('HomeManimScene', () => {
     visualHarness.topologyCreate.mockResolvedValue(topology);
     visualHarness.asciiCreate.mockReturnValue(ascii);
     const { story, visual } = renderScene();
+    fireEvent.scroll(window);
     await waitFor(() => expect(visual.dataset.topologyStatus).toBe('ready'));
     topology.setProgress.mockClear();
     ascii.setProgress.mockClear();
@@ -271,6 +306,7 @@ describe('HomeManimScene', () => {
       return controller;
     });
     const { view, visual } = renderScene(true);
+    fireEvent.scroll(window);
     await waitFor(() => expect(visualHarness.topologyCreate).toHaveBeenCalled());
     await waitFor(() => expect(visualHarness.asciiCreate).toHaveBeenCalled());
     await waitFor(() => expect(visual.dataset.topologyStatus).toBe('ready'));

@@ -95,6 +95,10 @@ describe('mountHomeScroll', () => {
       return { kill };
     });
     const root = createRoot();
+    const label = document.createElement('span');
+    label.dataset.homeScrollValue = '';
+    label.textContent = 'SCROLL / 000';
+    root.append(label);
     const events: HomeScrollDetail[] = [];
     root.addEventListener('home-scrolly:progress', (event) => {
       events.push((event as CustomEvent<HomeScrollDetail>).detail);
@@ -117,6 +121,7 @@ describe('mountHomeScroll', () => {
     expect(root.style.getPropertyValue('--home-progress')).toBe('0.68');
     expect(root.style.getPropertyValue('--home-ascii-opacity')).toBe('1');
     expect(events.at(-1)?.state.chapter).toBe('dissolution');
+    expect(label.textContent).toBe('SCROLL / 068');
 
     configuration?.onUpdate({ progress: 0.1 });
     frames.flush();

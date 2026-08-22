@@ -21,6 +21,8 @@ function capPixelRatio(pixelRatio: number, mobile: boolean): number {
   return Math.min(Math.max(pixelRatio, 1), mobile ? 1.25 : 1.75);
 }
 
+const PROGRESS_EPSILON = 0.002;
+
 function createSurfaceFunction(
   state: HomeTimelineState,
   pointer: PointerState,
@@ -45,7 +47,7 @@ function createSurfaceFunction(
 export class HomeTopologyController implements ScrollSceneController {
   private disposed = false;
   private failureReported = false;
-  private lastProgress: number | null = null;
+  private lastRenderedProgress: number | null = null;
   private onFailure: (() => void) | null;
   private pointer: PointerState = { active: false, x: 0.5, y: 0.5 };
   private pointerDirty = false;
@@ -133,18 +135,23 @@ export class HomeTopologyController implements ScrollSceneController {
 
     const normalizedProgress = clampProgress(progress);
     const state = sampleHomeTimeline(normalizedProgress);
-    const progressChanged = this.lastProgress !== normalizedProgress;
-    this.lastProgress = normalizedProgress;
 
     if (state.topologyOpacity <= 0) {
       this.pointerDirty = false;
       return;
     }
-    if (!progressChanged && !this.pointerDirty) return;
+
+    const progressDelta =
+      this.lastRenderedProgress === null
+        ? Number.POSITIVE_INFINITY
+        : Math.abs(normalizedProgress - this.lastRenderedProgress);
+
+    if (!this.pointerDirty && progressDelta < PROGRESS_EPSILON) return;
 
     this.surface.setFunc(createSurfaceFunction(state, this.pointer));
     this.scene.camera3D.orbit(state.cameraPhi, state.cameraTheta, state.cameraDistance);
     this.scene.render();
+    this.lastRenderedProgress = normalizedProgress;
     this.pointerDirty = false;
   }
 

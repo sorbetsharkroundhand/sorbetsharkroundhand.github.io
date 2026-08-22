@@ -103,34 +103,6 @@
   animation-delay: -9s;
 }
 
-.home-scrolly__aurora-band[data-band="3"] {
-  left: 66%;
-  --band-angle: 21deg;
-  background:
-    radial-gradient(
-      closest-side at 50% 30%,
-      rgb(255 107 214 / 22%),
-      rgb(255 107 214 / 9%) 48%,
-      transparent 76%
-    ),
-    radial-gradient(closest-side at 50% 62%, rgb(169 139 255 / 20%), transparent 72%);
-  animation-duration: 38s;
-  animation-delay: -18s;
-}
-
-.home-scrolly__aurora-halo {
-  position: absolute;
-  inset: auto -20% -35%;
-  height: 92%;
-  background: radial-gradient(
-    ellipse at center,
-    rgb(45 224 192 / 16%),
-    rgb(169 139 255 / 10%) 45%,
-    transparent 76%
-  );
-  animation: home-aurora-pulse 18s ease-in-out infinite alternate;
-}
-
 @keyframes home-aurora-sway {
   from {
     opacity: 0.75;
@@ -140,18 +112,6 @@
   to {
     opacity: 1;
     transform: rotate(calc(var(--band-angle, 14deg) * -0.6)) translateX(6%) scaleY(1.09);
-  }
-}
-
-@keyframes home-aurora-pulse {
-  from {
-    opacity: 0.7;
-    transform: scaleX(0.94);
-  }
-
-  to {
-    opacity: 1;
-    transform: scaleX(1.06);
   }
 }
 
@@ -212,20 +172,6 @@
 
 .home-scrolly__visual[data-topology-status="error"] .home-scrolly__fallback {
   opacity: calc(0.18 + var(--home-topology-opacity) * 0.35);
-}
-
-.home-scrolly__grain {
-  position: absolute;
-  inset: -20%;
-  opacity: 0.13;
-  background-image: repeating-radial-gradient(
-    circle at 37% 43%,
-    rgb(239 237 230 / 15%) 0 0.035rem,
-    transparent 0.045rem 0.22rem
-  );
-  background-size: 0.7rem 0.7rem;
-  pointer-events: none;
-  transform: translate3d(calc(var(--home-progress) * -1.7rem), 0, 0);
 }
 
 .home-scrolly__status,
@@ -409,7 +355,7 @@
   font-size: clamp(1.55rem, 3vw, 2.75rem);
   font-weight: 400;
   letter-spacing: -0.035em;
-  line-height: 1;
+  line-height: 1.15;
   transition: color var(--duration-fast) ease;
 }
 
@@ -504,7 +450,7 @@
 
   .home-scrolly__skip,
   .home-scrolly__status {
-    top: 4.5rem;
+    top: 5.25rem;
   }
 
   .home-scrolly__skip {
@@ -535,10 +481,6 @@
   .home-scrolly__coordinates {
     right: 1rem;
     bottom: 1rem;
-  }
-
-  .home-scrolly__aurora-band[data-band="3"] {
-    display: none;
   }
 
   .home-scrolly__coordinates span:not(:last-child) {
@@ -612,17 +554,14 @@
     pointer-events: auto;
   }
 
-  .home-scrolly__grain,
   .home-scrolly__aurora {
     transform: none;
   }
 
-  .home-scrolly__aurora-band,
-  .home-scrolly__aurora-halo {
+  .home-scrolly__aurora-band {
     animation: none;
   }
 
   .home-scrolly__aurora-band[data-band="1"] { transform: rotate(16deg); }
   .home-scrolly__aurora-band[data-band="2"] { transform: rotate(-11deg); }
-  .home-scrolly__aurora-band[data-band="3"] { transform: rotate(21deg); }
 }

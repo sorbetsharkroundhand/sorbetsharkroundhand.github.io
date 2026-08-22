@@ -34,14 +34,11 @@ const fallbackTopology = String.raw`                .        +
     <div class="home-scrolly__aurora" aria-hidden="true">
       <span class="home-scrolly__aurora-band" data-band="1"></span>
       <span class="home-scrolly__aurora-band" data-band="2"></span>
-      <span class="home-scrolly__aurora-band" data-band="3"></span>
-      <span class="home-scrolly__aurora-halo"></span>
     </div>
 
     <div class="home-scrolly__visual" aria-hidden="true">
       <HomeManimScene client:load />
       <pre class="home-scrolly__fallback">{fallbackTopology}</pre>
-      <div class="home-scrolly__grain"></div>
     </div>
 
     <p class="home-scrolly__status" aria-hidden="true">
@@ -59,7 +56,7 @@ const fallbackTopology = String.raw`                .        +
     <div class="home-scrolly__coordinates" aria-hidden="true">
       <span>φ 01.047</span>
       <span>θ −00.820</span>
-      <span>SCROLL / 000</span>
+      <span data-home-scroll-value>SCROLL / 000</span>
     </div>
   </div>
 

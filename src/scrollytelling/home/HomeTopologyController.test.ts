@@ -171,6 +171,24 @@ describe('HomeTopologyController', () => {
     controller.dispose();
   });
 
+  it('skips sub-threshold progress drift to avoid redundant geometry rebuilds', async () => {
+    const { controller, scene, surface } = await createController();
+    scene.render.mockClear();
+
+    controller.setProgress(0.25);
+    controller.setProgress(0.2505);
+    controller.setProgress(0.2515);
+
+    expect(surface.setFunc).toHaveBeenCalledTimes(1);
+    expect(scene.render).toHaveBeenCalledTimes(1);
+
+    controller.setProgress(0.26);
+    expect(surface.setFunc).toHaveBeenCalledTimes(2);
+    expect(scene.render).toHaveBeenCalledTimes(2);
+
+    controller.dispose();
+  });
+
   it('does not rebuild hidden topology geometry', async () => {
     const { controller, scene, surface } = await createController();
     scene.render.mockClear();

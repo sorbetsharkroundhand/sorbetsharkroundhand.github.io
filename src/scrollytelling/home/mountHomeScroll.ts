@@ -30,8 +30,14 @@ function projectState(root: HTMLElement, state: HomeTimelineState): void {
 
 export function mountHomeScroll(root: HTMLElement): () => void {
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const scrollLabel = root.querySelector<HTMLElement>('[data-home-scroll-value]');
   const driver = new ScrollProgressDriver((progress) => {
-    projectState(root, sampleHomeTimeline(progress));
+    const state = sampleHomeTimeline(progress);
+    projectState(root, state);
+    if (scrollLabel) {
+      const label = `SCROLL / ${Math.round(state.progress * 100).toString().padStart(3, '0')}`;
+      if (scrollLabel.textContent !== label) scrollLabel.textContent = label;
+    }
   });
   let disposed = false;
   let trigger: ReturnType<typeof ScrollTrigger.create> | null = null;

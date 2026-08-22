@@ -25,8 +25,10 @@ body[data-layout="immersive"] .site-header {
   z-index: 40;
   inset: 0 0 auto;
   min-height: 4.5rem;
-  border: 0;
-  background: linear-gradient(to bottom, rgb(10 10 10 / 72%), transparent);
+  border-bottom: 1px solid rgb(239 237 230 / 10%);
+  background: rgb(10 10 10 / 82%);
+  -webkit-backdrop-filter: blur(0.75rem);
+  backdrop-filter: blur(0.75rem);
   pointer-events: none;
 }
 
