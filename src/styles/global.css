@@ -597,7 +597,7 @@ a:hover {
   font-family: var(--font-display);
   font-size: clamp(3rem, 8vw, 7rem);
   letter-spacing: -0.07em;
-  line-height: 0.9;
+  line-height: 1.06;
   word-break: keep-all;
 }
 
@@ -700,14 +700,47 @@ a:hover {
   place-items: center;
   min-width: 0;
   padding: var(--space-6);
-  background: var(--color-surface);
+  background:
+    radial-gradient(22rem 14rem at 24% 18%, rgb(45 224 192 / 7%), transparent 70%),
+    radial-gradient(18rem 12rem at 78% 82%, rgb(169 139 255 / 6%), transparent 72%),
+    var(--color-surface);
 }
 
 .article-header {
+  position: relative;
   width: min(100% - 2rem, 58rem);
   margin-inline: auto;
   padding-block: var(--space-18);
   border-bottom: 1px solid var(--color-rule-strong);
+}
+
+.article-header::before {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(30rem 18rem at 14% 82%, rgb(45 224 192 / 9%), transparent 70%),
+    radial-gradient(26rem 15rem at 82% 22%, rgb(169 139 255 / 8%), transparent 72%),
+    radial-gradient(22rem 12rem at 50% 100%, rgb(45 224 192 / 6%), transparent 74%);
+  content: "";
+  pointer-events: none;
+}
+
+.article-header::after {
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgb(45 224 192 / 60%),
+    rgb(169 139 255 / 50%),
+    transparent
+  );
+  content: "";
+}
+
+.article-header > * {
+  position: relative;
 }
 
 .article-header h1 {
@@ -715,7 +748,22 @@ a:hover {
   font-family: var(--font-display);
   font-size: clamp(3rem, 8vw, 6.5rem);
   letter-spacing: -0.07em;
-  line-height: 0.9;
+  line-height: 1.06;
+}
+
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .article-header h1 {
+    background-image: linear-gradient(
+      104deg,
+      var(--color-ink) 32%,
+      rgb(45 224 192 / 88%) 62%,
+      rgb(169 139 255 / 82%) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 1.5rem rgb(45 224 192 / 12%));
+  }
 }
 
 .article-header__subtitle {
@@ -775,7 +823,7 @@ a:hover {
   color: var(--color-ink);
   font-family: var(--font-display);
   letter-spacing: -0.035em;
-  line-height: 1.08;
+  line-height: 1.18;
 }
 
 .article-prose h2 {
@@ -889,12 +937,11 @@ a:hover {
 
 .not-found::before {
   position: absolute;
-  inset: -20% -10%;
+  inset: 0;
   background:
-    radial-gradient(30rem 20rem at 30% 40%, rgb(255 102 95 / 12%), transparent 70%),
-    radial-gradient(26rem 16rem at 72% 62%, rgb(255 107 214 / 11%), transparent 72%);
+    radial-gradient(28rem 18rem at 30% 38%, rgb(255 102 95 / 12%), transparent 70%),
+    radial-gradient(24rem 15rem at 74% 66%, rgb(255 107 214 / 11%), transparent 72%);
   content: "";
-  filter: blur(2.5rem);
   pointer-events: none;
 }
 
@@ -907,7 +954,7 @@ a:hover {
   font-family: var(--font-display);
   font-size: clamp(2.5rem, 7vw, 6rem);
   letter-spacing: -0.065em;
-  line-height: 0.95;
+  line-height: 1.08;
 }
 
 .not-found > p {

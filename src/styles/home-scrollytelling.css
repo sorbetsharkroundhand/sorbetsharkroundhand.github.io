@@ -69,17 +69,15 @@
   top: -12%;
   width: 44vw;
   height: 124%;
-  border-radius: 50%;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgb(45 224 192 / 34%) 24%,
-    rgb(169 139 255 / 28%) 52%,
-    rgb(255 107 214 / 14%) 78%,
-    transparent
-  );
-  filter: blur(clamp(2.5rem, 7vw, 5.5rem));
-  mix-blend-mode: screen;
+  background:
+    radial-gradient(
+      closest-side at 50% 26%,
+      rgb(45 224 192 / 30%),
+      rgb(45 224 192 / 12%) 46%,
+      transparent 76%
+    ),
+    radial-gradient(closest-side at 50% 58%, rgb(169 139 255 / 22%), transparent 72%);
+  opacity: 0.85;
   transform-origin: top center;
   animation: home-aurora-sway 26s ease-in-out infinite alternate;
 }
@@ -93,14 +91,14 @@
 .home-scrolly__aurora-band[data-band="2"] {
   left: 40%;
   --band-angle: -11deg;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgb(79 184 255 / 26%) 30%,
-    rgb(169 139 255 / 32%) 58%,
-    rgb(45 224 192 / 12%) 80%,
-    transparent
-  );
+  background:
+    radial-gradient(
+      closest-side at 50% 32%,
+      rgb(79 184 255 / 24%),
+      rgb(79 184 255 / 10%) 48%,
+      transparent 76%
+    ),
+    radial-gradient(closest-side at 50% 64%, rgb(169 139 255 / 24%), transparent 72%);
   animation-duration: 31s;
   animation-delay: -9s;
 }
@@ -108,14 +106,14 @@
 .home-scrolly__aurora-band[data-band="3"] {
   left: 66%;
   --band-angle: 21deg;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgb(255 107 214 / 22%) 28%,
-    rgb(169 139 255 / 26%) 56%,
-    rgb(45 224 192 / 10%) 82%,
-    transparent
-  );
+  background:
+    radial-gradient(
+      closest-side at 50% 30%,
+      rgb(255 107 214 / 22%),
+      rgb(255 107 214 / 9%) 48%,
+      transparent 76%
+    ),
+    radial-gradient(closest-side at 50% 62%, rgb(169 139 255 / 20%), transparent 72%);
   animation-duration: 38s;
   animation-delay: -18s;
 }
@@ -126,12 +124,10 @@
   height: 92%;
   background: radial-gradient(
     ellipse at center,
-    rgb(45 224 192 / 20%),
-    rgb(169 139 255 / 12%) 42%,
-    transparent 72%
+    rgb(45 224 192 / 16%),
+    rgb(169 139 255 / 10%) 45%,
+    transparent 76%
   );
-  filter: blur(3rem);
-  mix-blend-mode: screen;
   animation: home-aurora-pulse 18s ease-in-out infinite alternate;
 }
 
@@ -271,14 +267,14 @@
 }
 
 .home-scrolly h1 {
-  max-width: 13ch;
+  max-width: 10em;
   margin: 0;
   color: var(--home-paper);
   font-family: var(--font-display);
   font-size: clamp(3.2rem, 8.7vw, 9.5rem);
   font-weight: 400;
-  letter-spacing: -0.065em;
-  line-height: 0.84;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
   text-wrap: balance;
   word-break: keep-all;
 }
@@ -287,15 +283,14 @@
   .home-scrolly h1 {
     background-image: linear-gradient(
       104deg,
-      var(--home-paper) 18%,
-      rgb(45 224 192 / 92%) 52%,
-      rgb(169 139 255 / 88%) 76%,
-      rgb(255 107 214 / 82%) 100%
+      var(--home-paper) 42%,
+      rgb(202 236 224 / 92%) 66%,
+      rgb(45 224 192 / 72%) 84%,
+      rgb(91 124 250 / 62%) 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    filter: drop-shadow(0 0 2rem rgb(45 224 192 / 16%));
   }
 }
 
@@ -374,7 +369,7 @@
   font-size: clamp(2.4rem, 5vw, 5rem);
   font-weight: 400;
   letter-spacing: -0.05em;
-  line-height: 0.9;
+  line-height: 1.06;
 }
 
 .home-index__posts {
@@ -528,8 +523,8 @@
   }
 
   .home-scrolly h1 {
-    font-size: clamp(3rem, 14.5vw, 4.8rem);
-    line-height: 0.9;
+    font-size: clamp(2.8rem, 13vw, 4.6rem);
+    line-height: 1.18;
   }
 
   .home-scrolly__description {
@@ -540,6 +535,10 @@
   .home-scrolly__coordinates {
     right: 1rem;
     bottom: 1rem;
+  }
+
+  .home-scrolly__aurora-band[data-band="3"] {
+    display: none;
   }
 
   .home-scrolly__coordinates span:not(:last-child) {

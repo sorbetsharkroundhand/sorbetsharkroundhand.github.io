@@ -6,7 +6,6 @@
   --color-ink-muted: #9da3a0;
   --color-rule: #3a3f3d;
   --color-rule-strong: #707773;
-  --color-cyan: #23d5e8;
   --color-red: #ff665f;
   --color-yellow: #f2c94c;
   --color-violet: #a98bff;
@@ -18,6 +17,7 @@
   --aurora-teal: #2de0c0;
   --aurora-violet: #a98bff;
   --aurora-magenta: #ff6bd6;
+  --color-cyan: var(--aurora-teal);
   --gradient-aurora: linear-gradient(
     100deg,
     var(--aurora-teal) 0%,
