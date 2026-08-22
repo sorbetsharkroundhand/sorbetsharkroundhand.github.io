@@ -15,6 +15,7 @@ const reducedMotionProgress = 0.43;
 function projectState(root: HTMLElement, state: HomeTimelineState): void {
   root.dataset.homeChapter = state.chapter;
   root.style.setProperty('--home-progress', String(state.progress));
+  root.style.setProperty('--home-aurora-intensity', state.auroraIntensity.toFixed(3));
   root.style.setProperty('--home-topology-opacity', String(state.topologyOpacity));
   root.style.setProperty('--home-statement-opacity', String(state.statementOpacity));
   root.style.setProperty('--home-ascii-opacity', String(state.asciiOpacity));

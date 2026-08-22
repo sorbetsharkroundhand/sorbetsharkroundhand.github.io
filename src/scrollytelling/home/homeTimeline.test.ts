@@ -45,11 +45,23 @@ describe('sampleHomeTimeline', () => {
     expect(reconstruction.topologyOpacity).toBe(0);
   });
 
+  it('brightens the aurora toward the statement and dims it for the index', () => {
+    const emergence = sampleHomeTimeline(0);
+    const peak = sampleHomeTimeline(0.4);
+    const reconstruction = sampleHomeTimeline(1);
+
+    expect(emergence.auroraIntensity).toBeCloseTo(0.55, 5);
+    expect(peak.auroraIntensity).toBeGreaterThan(emergence.auroraIntensity);
+    expect(peak.auroraIntensity).toBeLessThanOrEqual(1);
+    expect(reconstruction.auroraIntensity).toBeCloseTo(0.55, 5);
+  });
+
   it('keeps every opacity inside the renderable range', () => {
     for (let step = 0; step <= 100; step += 1) {
       const state = sampleHomeTimeline(step / 100);
 
       for (const opacity of [
+        state.auroraIntensity,
         state.topologyOpacity,
         state.statementOpacity,
         state.asciiOpacity,

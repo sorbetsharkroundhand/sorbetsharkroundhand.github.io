@@ -1,8 +1,17 @@
 ---
+import '@fontsource/instrument-serif/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/700.css';
+import '@fontsource/noto-sans-kr/400.css';
+import '@fontsource/noto-sans-kr/500.css';
+import '@fontsource/noto-sans-kr/700.css';
+import '@fontsource/noto-serif-kr/400.css';
 import 'katex/dist/katex.min.css';
 import '../styles/global.css';
 import '../styles/immersive.css';
 
+import { ClientRouter } from 'astro:transitions';
 import SiteFooter from '../components/navigation/SiteFooter.astro';
 import SiteHeader from '../components/navigation/SiteHeader.astro';
 
@@ -37,6 +46,7 @@ const socialImage = isAbsoluteImage
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={socialImage} />
     <title>{title}</title>
+    <ClientRouter />
   </head>
   <body data-layout={layout}>
     <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>

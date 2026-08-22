@@ -31,6 +31,13 @@ const fallbackTopology = String.raw`                .        +
   <a class="home-scrolly__skip" href="#home-index">[SKIP TO INDEX]</a>
 
   <div class="home-scrolly__stage">
+    <div class="home-scrolly__aurora" aria-hidden="true">
+      <span class="home-scrolly__aurora-band" data-band="1"></span>
+      <span class="home-scrolly__aurora-band" data-band="2"></span>
+      <span class="home-scrolly__aurora-band" data-band="3"></span>
+      <span class="home-scrolly__aurora-halo"></span>
+    </div>
+
     <div class="home-scrolly__visual" aria-hidden="true">
       <HomeManimScene client:load />
       <pre class="home-scrolly__fallback">{fallbackTopology}</pre>

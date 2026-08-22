@@ -10,6 +10,7 @@ export type HomeChapter =
 export interface HomeTimelineState {
   progress: number;
   chapter: HomeChapter;
+  auroraIntensity: number;
   topologyOpacity: number;
   statementOpacity: number;
   asciiOpacity: number;
@@ -57,9 +58,14 @@ export function sampleHomeTimeline(input: number): HomeTimelineState {
   const topologyCollapse = smoothstep(segment(progress, 0.48, 0.78));
   const cameraTravel = smoothstep(segment(progress, 0.08, 0.76));
 
+  const auroraArrival = smoothstep(segment(progress, 0.02, 0.26));
+  const auroraDeparture = 1 - smoothstep(segment(progress, 0.6, 0.86));
+  const auroraIntensity = 0.55 + 0.45 * auroraArrival * auroraDeparture;
+
   return {
     progress,
     chapter: selectChapter(progress),
+    auroraIntensity,
     topologyOpacity,
     statementOpacity,
     asciiOpacity,

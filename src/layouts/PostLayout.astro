@@ -25,6 +25,10 @@ const publishedLabel = frontmatter.publishedAt.toISOString().slice(0, 10).replac
   description={frontmatter.description}
   layout="immersive"
 >
+  <div class="reading-progress" aria-hidden="true">
+    <span data-reading-bar></span>
+  </div>
+
   <article class="article">
     <div class="article-rail">
       <a class="article-back" href={withBase('posts/')}>&lt;- [ALL NOTES]</a>
@@ -60,6 +64,67 @@ const publishedLabel = frontmatter.publishedAt.toISOString().slice(0, 10).replac
 <script>
   import { mountVisualizations } from '../visualizations/mount-visualizations';
 
-  const cleanupVisualizations = mountVisualizations();
-  document.addEventListener('astro:before-swap', cleanupVisualizations, { once: true });
+  let activeCleanup: (() => void) | null = null;
+
+  const mountReadingExperience = () => {
+    const bar = document.querySelector<HTMLElement>('[data-reading-bar]');
+    const article = document.querySelector('article.article');
+    const headings = document.querySelectorAll<HTMLElement>('.article-prose h2');
+
+    const cleanupFns: (() => void)[] = [];
+
+    let scrollFrame = 0;
+    if (bar && article) {
+      const updateProgress = () => {
+        scrollFrame = 0;
+        const bounds = article.getBoundingClientRect();
+        const total = bounds.height - window.innerHeight;
+        const scrolled = Math.min(Math.max(-bounds.top, 0), Math.max(total, 1));
+        bar.style.setProperty(
+          '--reading-progress',
+          total > 0 ? (scrolled / total).toFixed(4) : '1',
+        );
+      };
+      const requestProgress = () => {
+        if (!scrollFrame) scrollFrame = requestAnimationFrame(updateProgress);
+      };
+      updateProgress();
+      document.addEventListener('scroll', requestProgress, { passive: true });
+      window.addEventListener('resize', requestProgress);
+      cleanupFns.push(() => {
+        if (scrollFrame) cancelAnimationFrame(scrollFrame);
+        document.removeEventListener('scroll', requestProgress);
+        window.removeEventListener('resize', requestProgress);
+      });
+    }
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            entry.target.setAttribute('data-reveal', 'visible');
+            observer.unobserve(entry.target);
+          }
+        },
+        { rootMargin: '0px 0px -12% 0px' },
+      );
+      for (const heading of headings) {
+        heading.setAttribute('data-reveal', 'pending');
+        observer.observe(heading);
+      }
+      cleanupFns.push(() => observer.disconnect());
+    }
+
+    cleanupFns.push(mountVisualizations());
+    activeCleanup = () => cleanupFns.forEach((fn) => fn());
+  };
+
+  const unmountReadingExperience = () => {
+    activeCleanup?.();
+    activeCleanup = null;
+  };
+
+  document.addEventListener('astro:page-load', mountReadingExperience);
+  document.addEventListener('astro:before-swap', unmountReadingExperience);
 </script>
