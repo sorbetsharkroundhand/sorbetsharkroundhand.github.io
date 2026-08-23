@@ -5,6 +5,7 @@ import type { CollectionEntry } from 'astro:content';
 
 import AsciiArt from '../components/design/AsciiArt.astro';
 import MechanicalLabel from '../components/design/MechanicalLabel.astro';
+import Comments from '../components/article/Comments.astro';
 import PostPager from '../components/posts/PostPager.astro';
 import PostIndex, { type PostHeading } from '../components/posts/PostIndex.astro';
 import BaseLayout from './BaseLayout.astro';
@@ -60,6 +61,8 @@ const publishedLabel = frontmatter.publishedAt.toISOString().slice(0, 10).replac
     </div>
 
     <PostPager older={older} newer={newer} />
+
+    <Comments />
   </article>
 </BaseLayout>
 

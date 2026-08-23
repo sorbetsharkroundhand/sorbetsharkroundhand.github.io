@@ -1,0 +1,83 @@
+---
+const repo = import.meta.env.PUBLIC_GISCUS_REPO ?? '';
+const repoId = import.meta.env.PUBLIC_GISCUS_REPO_ID ?? '';
+const category = import.meta.env.PUBLIC_GISCUS_CATEGORY ?? '';
+const categoryId = import.meta.env.PUBLIC_GISCUS_CATEGORY_ID ?? '';
+const configured = Boolean(repo && repoId && category && categoryId);
+---
+
+<section class="comments" aria-labelledby="comments-title">
+  <p class="comments__label" id="comments-title">[DISCUSSION]</p>
+  {
+    configured ? (
+      <div
+        class="comments__frame"
+        data-giscus
+        data-repo={repo}
+        data-repo-id={repoId}
+        data-category={category}
+        data-category-id={categoryId}
+      >
+        <p class="comments__placeholder">토론을 불러오는 중입니다.</p>
+      </div>
+    ) : (
+      <p class="comments__placeholder">
+        댓글은 GitHub Discussion으로 진행됩니다. 저장소에서 giscus를 설정하면 이 자리에 열립니다.
+      </p>
+    )
+  }
+</section>
+
+<script>
+  const mounted = new WeakMap<HTMLElement, () => void>();
+
+  const loadGiscus = (frame: HTMLElement) => {
+    if (frame.querySelector('iframe')) return;
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.setAttribute('data-mapping', 'pathname');
+    script.setAttribute('data-strict', '1');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'top');
+    script.setAttribute('data-theme', 'transparent_dark');
+    script.setAttribute('data-lang', 'ko');
+    script.setAttribute('data-loading', 'lazy');
+    for (const key of ['repo', 'repo-id', 'category', 'category-id']) {
+      const value = frame.dataset[key.replace(/-([a-z])/g, (_, c: string) => c.toUpperCase()) as keyof typeof frame.dataset];
+      if (typeof value === 'string') script.setAttribute(`data-${key}`, value);
+    }
+    frame.replaceChildren(script);
+  };
+
+  const mountComments = () => {
+    document.querySelectorAll<HTMLElement>('[data-giscus]').forEach((frame) => {
+      if (mounted.has(frame)) return;
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            loadGiscus(frame);
+            observer.disconnect();
+          }
+        },
+        { rootMargin: '0px 0px 25% 0px' },
+      );
+      observer.observe(frame);
+      mounted.set(frame, () => observer.disconnect());
+    });
+  };
+
+  const disposeComments = () => {
+    document.querySelectorAll<HTMLElement>('[data-giscus]').forEach((frame) => {
+      mounted.get(frame)?.();
+      mounted.delete(frame);
+    });
+  };
+
+  mountComments();
+  document.addEventListener('astro:page-load', mountComments);
+  document.addEventListener('astro:before-swap', disposeComments);
+</script>
