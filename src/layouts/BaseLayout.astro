@@ -18,9 +18,10 @@ interface Props {
   description: string;
   image?: string;
   layout?: 'default' | 'immersive';
+  noindex?: boolean;
 }
 
-const { title, description, image, layout = 'default' } = Astro.props;
+const { title, description, image, layout = 'default', noindex = false } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const imageSource = image ?? 'og-default.svg';
 const isAbsoluteImage = /^https?:\/\//i.test(imageSource);
@@ -37,6 +38,7 @@ const socialImage = isAbsoluteImage
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="theme-color" content={layout === 'immersive' ? '#0a0a0a' : '#090a0a'} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />

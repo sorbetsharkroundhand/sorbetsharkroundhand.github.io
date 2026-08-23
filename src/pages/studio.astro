@@ -1,0 +1,12 @@
+---
+import StudioApp from '../components/studio/StudioApp';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Note Studio | Interactive Notes"
+  description="GitHub 계정으로 로그인해 학습 노트를 작성하고 발행하는 스튜디오"
+  noindex={true}
+>
+  <StudioApp client:load />
+</BaseLayout>
