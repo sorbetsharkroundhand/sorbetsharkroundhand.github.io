@@ -25,11 +25,15 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-decoration: none;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .home-scrolly__skip:hover,
 .home-scrolly__skip:focus-visible {
   color: var(--home-cobalt);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .home-scrolly__stage {
@@ -219,9 +223,9 @@
   color: var(--home-paper);
   font-family: var(--font-display);
   font-size: clamp(3.2rem, 8.7vw, 9.5rem);
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: -0.015em;
-  line-height: 1.02;
+  line-height: 1.04;
   text-wrap: balance;
   word-break: keep-all;
 }
@@ -233,7 +237,7 @@
       var(--home-paper) 42%,
       rgb(202 236 224 / 92%) 66%,
       rgb(45 224 192 / 72%) 84%,
-      rgb(91 124 250 / 62%) 100%
+      color-mix(in srgb, var(--aurora-blue) 62%, transparent) 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
@@ -257,7 +261,7 @@
   display: flex;
   gap: clamp(1rem, 2vw, 2.5rem);
   color: var(--home-muted);
-  font-size: 0.56rem;
+  font-size: 0.625rem;
 }
 
 .home-index {
@@ -319,9 +323,9 @@
   margin: 0.75rem 0 0;
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 5vw, 5rem);
-  font-weight: 400;
-  letter-spacing: -0.015em;
-  line-height: 1.02;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.04;
 }
 
 .home-index__posts {
@@ -346,7 +350,7 @@
 .home-index__post-meta {
   color: var(--home-muted);
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.625rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -359,9 +363,9 @@
 .home-index__post-copy strong {
   font-family: var(--font-display);
   font-size: clamp(1.55rem, 3vw, 2.75rem);
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1.08;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
   transition: color var(--duration-fast) ease;
 }
 
@@ -464,12 +468,12 @@
 
   .home-scrolly__skip {
     right: 1rem;
-    font-size: 0.54rem;
+    font-size: 0.625rem;
   }
 
   .home-scrolly__status {
     left: 1rem;
-    font-size: 0.54rem;
+    font-size: 0.625rem;
   }
 
   .home-scrolly__statement {

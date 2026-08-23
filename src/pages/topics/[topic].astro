@@ -22,7 +22,7 @@ export async function getStaticPaths() {
 
 const { posts, topic } = Astro.props;
 const topicLabel = getTopicLabel(topic);
-const accents = ['cyan', 'red', 'yellow', 'violet'] as const;
+const accents = ['cyan', 'blue', 'magenta', 'violet'] as const;
 ---
 
 <BaseLayout

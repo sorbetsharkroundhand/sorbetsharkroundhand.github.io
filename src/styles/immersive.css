@@ -100,7 +100,7 @@ body[data-layout="immersive"] .site-footer {
   body[data-layout="immersive"] .site-nav a {
     min-width: auto;
     padding-inline: 0.5rem;
-    font-size: 0.58rem;
+    font-size: 0.625rem;
   }
 
   body[data-layout="immersive"] .site-main:not(:has(.home-scrolly)) {

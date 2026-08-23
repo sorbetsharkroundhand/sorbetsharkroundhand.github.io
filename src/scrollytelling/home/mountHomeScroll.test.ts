@@ -14,7 +14,16 @@ vi.mock('gsap/ScrollTrigger', () => ({
   ScrollTrigger: { create: gsapHarness.create },
 }));
 
-import { mountHomeScroll, type HomeScrollDetail } from './mountHomeScroll';
+import { sampleHomeTimeline } from './homeTimeline';
+import {
+  formatCoordinate,
+  mountHomeScroll,
+  type HomeScrollDetail,
+} from './mountHomeScroll';
+
+function sampleEnd() {
+  return sampleHomeTimeline(1);
+}
 
 function installAnimationFrames() {
   let nextId = 1;
@@ -76,6 +85,39 @@ afterEach(() => {
 describe('mountHomeScroll', () => {
   it('registers ScrollTrigger once for the module', () => {
     expect(gsapHarness.registerPlugin).toHaveBeenCalledTimes(1);
+  });
+
+  it('formats HUD coordinates with signed fixed-width radians', () => {
+    expect(formatCoordinate(Math.PI * 0.34)).toBe('+01.068');
+    expect(formatCoordinate(-0.82)).toBe('−00.820');
+    expect(formatCoordinate(0)).toBe('+00.000');
+  });
+
+  it('binds the live camera coordinates into the HUD readout', () => {
+    const frames = installAnimationFrames();
+    installMotionPreference(false);
+    let configuration:
+      | { onUpdate: (self: { progress: number }) => void }
+      | undefined;
+    gsapHarness.create.mockImplementation((options) => {
+      configuration = options;
+      return { kill: vi.fn() };
+    });
+    const root = createRoot();
+    const phi = document.createElement('span');
+    phi.dataset.homeCoord = 'phi';
+    const theta = document.createElement('span');
+    theta.dataset.homeCoord = 'theta';
+    root.append(phi, theta);
+
+    const dispose = mountHomeScroll(root);
+    configuration?.onUpdate({ progress: 1 });
+    frames.flush();
+
+    expect(phi.textContent).toBe(`φ ${formatCoordinate(sampleEnd().cameraPhi)}`);
+    expect(theta.textContent).toBe(`θ ${formatCoordinate(sampleEnd().cameraTheta)}`);
+
+    dispose();
   });
 
   it('projects the newest forward and reverse progress without pinning in JavaScript', () => {

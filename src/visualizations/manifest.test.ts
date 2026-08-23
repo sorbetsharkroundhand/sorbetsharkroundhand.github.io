@@ -13,12 +13,12 @@ describe('visualization manifest', () => {
       expect.objectContaining({
         id: 'linear-regression:residuals',
         afterHeading: 'Residual Visualization',
-        accent: 'red',
+        accent: 'magenta',
       }),
       expect.objectContaining({
         id: 'linear-regression:best-fit',
         afterHeading: 'Find Best Fit',
-        accent: 'yellow',
+        accent: 'violet',
       }),
     ]);
   });

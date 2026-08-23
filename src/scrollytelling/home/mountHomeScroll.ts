@@ -56,15 +56,30 @@ function projectState(root: HTMLElement, state: HomeTimelineState): void {
   );
 }
 
+export function formatCoordinate(value: number): string {
+  const sign = value < 0 ? '−' : '+';
+  return sign + Math.abs(value).toFixed(3).padStart(6, '0');
+}
+
 export function mountHomeScroll(root: HTMLElement): () => void {
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   const scrollLabel = root.querySelector<HTMLElement>('[data-home-scroll-value]');
+  const phiLabel = root.querySelector<HTMLElement>('[data-home-coord="phi"]');
+  const thetaLabel = root.querySelector<HTMLElement>(`[data-home-coord="theta"]`);
   const driver = new ScrollProgressDriver((progress) => {
     const state = sampleHomeTimeline(progress);
     projectState(root, state);
-    if (scrollLabel) {
-      const label = `SCROLL / ${Math.round(state.progress * 100).toString().padStart(3, '0')}`;
-      if (scrollLabel.textContent !== label) scrollLabel.textContent = label;
+    const scrollText = `SCROLL / ${Math.round(state.progress * 100).toString().padStart(3, '0')}`;
+    if (scrollLabel && scrollLabel.textContent !== scrollText) {
+      scrollLabel.textContent = scrollText;
+    }
+    if (phiLabel) {
+      const phiText = `φ ${formatCoordinate(state.cameraPhi)}`;
+      if (phiLabel.textContent !== phiText) phiLabel.textContent = phiText;
+    }
+    if (thetaLabel) {
+      const thetaText = `θ ${formatCoordinate(state.cameraTheta)}`;
+      if (thetaLabel.textContent !== thetaText) thetaLabel.textContent = thetaText;
     }
   });
   let disposed = false;

@@ -1,4 +1,4 @@
-export type AccentName = 'cyan' | 'red' | 'yellow' | 'violet';
+export type AccentName = 'cyan' | 'blue' | 'magenta' | 'violet';
 
 export interface VisualizationPlacement {
   id: string;
@@ -22,14 +22,14 @@ export const postVisualizations = {
     {
       id: 'linear-regression:residuals',
       afterHeading: 'Residual Visualization',
-      accent: 'red',
+      accent: 'magenta',
       title: '잔차 관찰',
       description: '관찰값과 예측값 사이의 세로 거리를 비교합니다.',
     },
     {
       id: 'linear-regression:best-fit',
       afterHeading: 'Find Best Fit',
-      accent: 'yellow',
+      accent: 'violet',
       title: '최적선 찾기',
       description: '평균제곱오차가 최소인 직선으로 이동하는 과정을 확인합니다.',
     },

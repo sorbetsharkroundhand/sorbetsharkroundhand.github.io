@@ -35,7 +35,7 @@ test('lazily mounts three focused scenes and keeps each canvas synchronized', as
   await expect(bestFitSlot.locator('canvas')).toHaveCount(0);
 
   const model = await activateScene(page, 'model');
-  await expect(model.figure).toHaveCSS('--scene-accent', '#23d5e8');
+  await expect(model.figure).toHaveCSS('--scene-accent', '#2de0c0');
   await model.slope.fill('6');
   await expect(model.slopeValue).toHaveText('6.00');
   await expect(model.mse).toHaveText('86.875');
@@ -43,7 +43,7 @@ test('lazily mounts three focused scenes and keeps each canvas synchronized', as
   await expect(model.figure.locator('canvas')).toHaveCount(1);
 
   const residuals = await activateScene(page, 'residuals');
-  await expect(residuals.figure).toHaveCSS('--scene-accent', '#ff665f');
+  await expect(residuals.figure).toHaveCSS('--scene-accent', '#ff6bd6');
   await residuals.slope.fill('6');
   await residuals.intercept.fill('44');
   await expect(residuals.mse).toHaveText('4.875');
@@ -51,7 +51,7 @@ test('lazily mounts three focused scenes and keeps each canvas synchronized', as
   await expect(residuals.figure.locator('canvas')).toHaveCount(1);
 
   const bestFit = await activateScene(page, 'best-fit');
-  await expect(bestFit.figure).toHaveCSS('--scene-accent', '#f2c94c');
+  await expect(bestFit.figure).toHaveCSS('--scene-accent', '#a98bff');
   await expect(bestFit.figure.getByTestId('best-fit-button')).toBeVisible();
   await expect(bestFit.figure.locator('canvas')).toHaveCount(1);
 });

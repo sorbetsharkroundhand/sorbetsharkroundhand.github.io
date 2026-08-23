@@ -58,7 +58,7 @@ function exactInstances<T extends Mobject>(
 const TEST_PALETTE = {
   foreground: '#f4f4f0',
   muted: '#6e716f',
-  accent: '#23d5e8',
+  accent: '#2de0c0',
 };
 
 async function createController(
@@ -163,9 +163,9 @@ describe('LinearRegressionSceneController', () => {
   });
 
   it.each([
-    { focus: 'model', graph: '#23d5e8', residual: '#6e716f' },
-    { focus: 'residuals', graph: '#6e716f', residual: '#23d5e8' },
-    { focus: 'best-fit', graph: '#23d5e8', residual: '#6e716f' },
+    { focus: 'model', graph: '#2de0c0', residual: '#6e716f' },
+    { focus: 'residuals', graph: '#6e716f', residual: '#2de0c0' },
+    { focus: 'best-fit', graph: '#2de0c0', residual: '#6e716f' },
   ] as const)('uses one accent for $focus focus', async ({ focus, graph, residual }) => {
     const { controller, scene } = await createController(() => undefined, focus);
     const axes = exactInstances(scene, Axes)[0];

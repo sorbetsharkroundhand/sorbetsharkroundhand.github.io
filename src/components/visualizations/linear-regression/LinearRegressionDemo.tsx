@@ -53,9 +53,9 @@ function formatParameter(value: number): string {
 }
 
 const ACCENT_COLORS: Record<AccentName, string> = {
-  cyan: '#23d5e8',
-  red: '#ff665f',
-  yellow: '#f2c94c',
+  cyan: '#2de0c0',
+  blue: '#4fb8ff',
+  magenta: '#ff6bd6',
   violet: '#a98bff',
 };
 
@@ -63,17 +63,17 @@ const SCENE_COPY: Record<RegressionFocus, { label: string; title: string; descri
   model: {
     label: '[MODEL SCENE]',
     title: '기울기와 절편으로 직선을 움직입니다',
-    description: '회귀선만 청록색으로 표시됩니다. 두 값을 바꾸며 선의 위치를 비교해 보세요.',
+    description: '회귀선만 하늘색으로 표시됩니다. 두 값을 바꾸며 선의 위치를 비교해 보세요.',
   },
   residuals: {
     label: '[RESIDUAL SCENE]',
     title: '예측과 관찰의 거리를 확인합니다',
-    description: '잔차만 빨간색으로 표시됩니다. 직선을 움직이며 각 세로 거리와 MSE를 비교해 보세요.',
+    description: '잔차만 자홍색으로 표시됩니다. 직선을 움직이며 각 세로 거리와 MSE를 비교해 보세요.',
   },
   'best-fit': {
     label: '[OPTIMIZATION SCENE]',
     title: '오차가 가장 작은 직선을 찾습니다',
-    description: '최적선만 노란색으로 표시됩니다. 현재 위치에서 최소제곱 해로 이동해 보세요.',
+    description: '최적선만 보라색으로 표시됩니다. 현재 위치에서 최소제곱 해로 이동해 보세요.',
   },
 };
 
@@ -146,7 +146,7 @@ export default function LinearRegressionDemo({
         onFrame: handleControllerFrame,
         focus,
         palette: {
-          foreground: '#f4f4f0',
+          foreground: '#f2f3ef',
           muted: '#6e716f',
           accent: ACCENT_COLORS[accent],
         },

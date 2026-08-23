@@ -1,11 +1,10 @@
 .linear-regression-demo {
-  --instrument-divider: #313334;
   width: 100%;
   margin: var(--space-12) 0;
   overflow: hidden;
-  border: 1px solid var(--instrument-divider);
-  background: #090a0a;
-  color: #f4f4f0;
+  border: 1px solid var(--color-rule-dim);
+  background: var(--color-paper);
+  color: var(--color-ink);
 }
 
 .linear-regression-demo__header {
@@ -14,7 +13,7 @@
   gap: var(--space-2) var(--space-8);
   align-items: end;
   padding: var(--space-6) var(--space-8);
-  border-bottom: 1px solid var(--instrument-divider);
+  border-bottom: 1px solid var(--color-rule-dim);
 }
 
 .linear-regression-demo__header h3 {
@@ -22,8 +21,8 @@
   margin: 0;
   font-family: var(--font-display);
   font-size: clamp(1.4rem, 2.5vw, 1.9rem);
-  font-weight: 600;
-  letter-spacing: -0.025em;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   line-height: 1.2;
   word-break: keep-all;
 }
@@ -85,7 +84,7 @@
 }
 
 .linear-regression-demo__model {
-  color: #6e716f;
+  color: var(--color-ink-faint);
   font-size: 0.8125rem;
   font-weight: 700;
 }
@@ -105,18 +104,17 @@
 .linear-regression-demo__legend span {
   display: inline-block;
   width: 1.6rem;
-  border-radius: 999px;
 }
 
 .linear-regression-demo__legend-model {
   height: 0.25rem;
-  background: #6e716f;
+  background: var(--color-ink-faint);
   transform: rotate(-8deg);
 }
 
 .linear-regression-demo__legend-residual {
   height: 0.125rem;
-  background: #6e716f;
+  background: var(--color-ink-faint);
   transform: rotate(90deg) scaleX(0.65);
 }
 
@@ -126,8 +124,8 @@
   gap: var(--space-6);
   min-width: 0;
   padding: var(--space-6);
-  border-left: 1px solid var(--instrument-divider);
-  background: #0d0e0e;
+  border-left: 1px solid var(--color-rule-dim);
+  background: var(--color-surface-deep);
 }
 
 .linear-regression-demo[data-focus="model"] .linear-regression-demo__model,
@@ -167,7 +165,7 @@
 
 .parameter-slider label {
   font-size: 0.875rem;
-  font-weight: 720;
+  font-weight: 700;
   letter-spacing: -0.01em;
 }
 
@@ -176,7 +174,7 @@
   font-family: var(--font-mono);
   font-size: 0.9375rem;
   font-variant-numeric: tabular-nums;
-  font-weight: 750;
+  font-weight: 700;
 }
 
 .parameter-slider__input {
@@ -212,7 +210,7 @@
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
   gap: var(--space-3) var(--space-4);
   padding: var(--space-4);
-  border: 1px solid var(--instrument-divider);
+  border: 1px solid var(--color-rule-dim);
 }
 
 .linear-regression-demo__readout > div:not([role="meter"]) {
@@ -233,7 +231,7 @@
   font-family: var(--font-mono);
   font-size: 1rem;
   font-variant-numeric: tabular-nums;
-  font-weight: 760;
+  font-weight: 700;
   line-height: 1.25;
 }
 
@@ -245,7 +243,7 @@
   grid-column: 1 / -1;
   height: 0.4rem;
   overflow: hidden;
-  background: #272929;
+  background: var(--color-meter-track);
 }
 
 .linear-regression-demo__meter span {
@@ -269,7 +267,7 @@
   min-height: 2.75rem;
   padding: var(--space-2) var(--space-4);
   border: 1px solid var(--scene-accent);
-  font: 750 0.8125rem/1 var(--font-body);
+  font: 700 0.8125rem/1 var(--font-body);
   letter-spacing: 0.01em;
   cursor: pointer;
   transform: scale(1);
@@ -278,7 +276,7 @@
 
 .figure-button--primary {
   background: var(--scene-accent);
-  color: #090a0a;
+  color: var(--color-paper);
 }
 
 .figure-button--secondary {
@@ -318,7 +316,7 @@
 
 .linear-regression-demo figcaption {
   padding: var(--space-4) var(--space-8);
-  border-top: 1px solid var(--instrument-divider);
+  border-top: 1px solid var(--color-rule-dim);
   color: var(--color-ink-muted);
   font-size: 0.75rem;
   line-height: 1.6;
@@ -353,7 +351,7 @@
 
   .linear-regression-demo__controls {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-top: 1px solid var(--instrument-divider);
+    border-top: 1px solid var(--color-rule-dim);
     border-left: 0;
   }
 
