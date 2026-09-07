@@ -3,6 +3,7 @@ import type { Post } from '../../utils/posts';
 import { withBase } from '../../utils/urls';
 import { HomeManimScene } from './HomeManimScene';
 import '../../styles/home-scrollytelling.css';
+import '../../styles/home-profile.css';
 
 interface Props {
   latestUpdatedAt?: Date;
@@ -16,15 +17,45 @@ const formatDate = (date: Date) => date.toISOString().slice(0, 10).replaceAll('-
 const latestLabel = latestUpdatedAt ? formatDate(latestUpdatedAt) : '—';
 const totalLabel = totalPosts.toString().padStart(2, '0');
 const fallbackTopology = String.raw`                .        +
-       .       /|\              .
-            . / | \   +
-     +       /  ·  \        .
-        .---/---+---\---.
-      ./   /    |    \   \.
-   .-+----/-----/-----\----+-.
-      \  /  .  /  +   \  /
-       \/_____/_________\/
+       .       /|\\              .
+            . / | \\   +
+     +       /  ·  \\        .
+        .---/---+---\\---.
+      ./   /    |    \\   \\.
+   .-+----/-----/-----\\----+-.
+      \\  /  .  /  +   \\  /
+       \\/_____/_________\\/
     .      /      ·        +`;
+
+const projects = [
+  {
+    sequence: '01',
+    name: 'MINT',
+    description:
+      '글을 멈춘 순간 다음 문장을 제안하고, 작품의 인물·사건·플롯을 로컬에서 이해하는 macOS 예측 글쓰기 엔진.',
+    stack: 'SWIFT 6 / MLX / AGENTIC UX',
+    status: 'ACTIVE',
+    href: 'https://github.com/sorbetsharkroundhand/MINT',
+  },
+  {
+    sequence: '02',
+    name: 'sage',
+    description:
+      '데이터프레임의 EDA를 정적인 리포트가 아니라 장면과 흐름이 있는 Manim 기반 데이터 스토리로 변환하는 오픈소스 도구.',
+    stack: 'PYTHON / MANIM / STORYBOARD IR',
+    status: 'OPEN SOURCE',
+    href: 'https://github.com/sorbetsharkroundhand/sage',
+  },
+  {
+    sequence: '03',
+    name: 'Interactive Notes',
+    description:
+      '수식과 개념을 읽는 데서 멈추지 않고 직접 움직이며 이해하도록 만든 통계·AI 인터랙티브 학습 노트.',
+    stack: 'ASTRO / MANIM-WEB / MARKDOWN',
+    status: 'THIS SITE',
+    href: archiveHref,
+  },
+] as const;
 ---
 
 <section class="home-scrolly" data-home-chapter="emergence" data-home-scrolly>
@@ -46,11 +77,16 @@ const fallbackTopology = String.raw`                .        +
     </p>
 
     <div class="home-scrolly__statement">
-      <p class="home-scrolly__eyebrow">SCHEMAS / MOTION / NOTES</p>
+      <p class="home-scrolly__eyebrow">SORBETSHARKROUNDHAND / AI ENGINEERING</p>
       <h1 id="home-title">불확실성 속에서<br />구조를 찾습니다.</h1>
       <p class="home-scrolly__description">
         통계, 머신러닝, 인공지능을 움직이며 이해하고 기록합니다.
       </p>
+      <div class="home-scrolly__identity" aria-label="프로필 요약">
+        <span>STUDENT / DEVELOPER</span>
+        <span>AI · DATA · VISUAL SYSTEMS</span>
+        <span>GITHUB @SORBETSHARKROUNDHAND</span>
+      </div>
     </div>
 
     <div class="home-scrolly__coordinates" aria-hidden="true">
@@ -99,6 +135,72 @@ const fallbackTopology = String.raw`                .        +
         <span>UPDATED {latestLabel}</span>
       </p>
     </footer>
+  </section>
+
+  <section class="home-work" id="home-work" aria-labelledby="home-work-title">
+    <header class="home-work__header">
+      <div>
+        <p class="home-profile__label">05::SELECTED WORK</p>
+        <h2 id="home-work-title">Things I build.</h2>
+      </div>
+      <p class="home-work__intro">
+        공부한 개념을 코드로 옮기고, 실제로 쓰이는 도구와 인터랙션으로 다시 검증합니다.
+      </p>
+    </header>
+
+    <div class="home-work__list">
+      {projects.map((project) => (
+        <a
+          class="home-work__project"
+          data-home-work
+          href={project.href}
+          aria-label={`${project.name} 프로젝트 보기`}
+        >
+          <span class="home-work__sequence">{project.sequence}</span>
+          <span class="home-work__copy">
+            <strong>{project.name}</strong>
+            <span>{project.description}</span>
+          </span>
+          <span class="home-work__meta">
+            <span>{project.status}</span>
+            <span>{project.stack}</span>
+            <b aria-hidden="true">↗</b>
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="home-about" id="home-about" aria-labelledby="home-about-title">
+    <div class="home-about__lead">
+      <p class="home-profile__label">06::IDENTITY</p>
+      <h2 id="home-about-title">I build to understand.</h2>
+      <p>
+        인공지능을 공부하고, 데이터를 다루고, 복잡한 개념을 시각적으로 설명하는
+        인터페이스와 도구를 만듭니다. 결과만 보여주기보다 왜 그렇게 동작하는지를
+        구조로 남기는 일을 좋아합니다.
+      </p>
+    </div>
+
+    <dl class="home-about__facts">
+      <div>
+        <dt>ROLE</dt>
+        <dd>STUDENT / DEVELOPER</dd>
+      </div>
+      <div>
+        <dt>FOCUS</dt>
+        <dd>AI / DATA / VISUAL SYSTEMS</dd>
+      </div>
+      <div>
+        <dt>METHOD</dt>
+        <dd>LEARN → BUILD → OBSERVE → WRITE</dd>
+      </div>
+    </dl>
+
+    <nav class="home-about__links" aria-label="프로필 링크">
+      <a href="https://github.com/sorbetsharkroundhand">GITHUB ↗</a>
+      <a href={archiveHref}>INTERACTIVE NOTES ↗</a>
+    </nav>
   </section>
 </section>
 
