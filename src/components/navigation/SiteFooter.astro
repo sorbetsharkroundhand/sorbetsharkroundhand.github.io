@@ -1,4 +1,17 @@
+---
+import { withBase } from '../../utils/urls';
+
+const postsHref = withBase('posts/');
+---
+
 <footer class="site-footer">
-  <p><span aria-hidden="true">+--</span> 공식에서 직관으로, 직관에서 다시 코드로.</p>
-  <p class="site-footer__note">OPEN LEARNING NOTEBOOK :: STATIC / ACCESSIBLE</p>
+  <p>
+    <span aria-hidden="true">+--</span>
+    <strong>SORBETSHARKROUNDHAND</strong> :: 공식에서 직관으로, 직관에서 다시 코드로.
+  </p>
+  <p class="site-footer__note">
+    <a href="https://github.com/sorbetsharkroundhand">GITHUB ↗</a>
+    <span aria-hidden="true"> / </span>
+    <a href={postsHref}>NOTES ↗</a>
+  </p>
 </footer>
