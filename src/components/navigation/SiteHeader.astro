@@ -5,18 +5,20 @@ const base = withBase('');
 const postsHref = withBase('posts/');
 const isHome = Astro.url.pathname === base;
 const isPosts = Astro.url.pathname.startsWith(postsHref);
-const indexHref = isHome ? '#home-index' : base;
+const workHref = isHome ? '#home-work' : `${base}#home-work`;
+const aboutHref = isHome ? '#home-about' : `${base}#home-about`;
 ---
 
 <header class="site-header">
-  <a class="site-wordmark" href={base} aria-label="Interactive Notes 홈">
+  <a class="site-wordmark" href={base} aria-label="sorbetsharkroundhand 홈">
     <span class="site-wordmark__mark" aria-hidden="true">[+]</span>
-    <span class="site-wordmark__name">INTERACTIVE::NOTES</span>
+    <span class="site-wordmark__name">SORBETSHARKROUNDHAND</span>
   </a>
   <nav class="site-nav" aria-label="주요 메뉴">
     <ul class="site-nav__list">
-      <li><a href={indexHref} aria-current={isHome ? 'page' : undefined}>[INDEX]</a></li>
-      <li><a href={postsHref} aria-current={isPosts ? 'page' : undefined}>[ARCHIVE]</a></li>
+      <li><a href={workHref}>[WORK]</a></li>
+      <li><a href={postsHref} aria-current={isPosts ? 'page' : undefined}>[NOTES]</a></li>
+      <li><a href={aboutHref}>[ABOUT]</a></li>
     </ul>
   </nav>
 </header>
