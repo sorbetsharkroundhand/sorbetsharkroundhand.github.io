@@ -23,6 +23,14 @@ for (const width of [390, 768, 1440]) {
     await expect(
       page.getByText('통계, 머신러닝, 인공지능을 움직이며 이해하고 기록합니다.'),
     ).toHaveCount(1);
+    await expect(page.getByText('STUDENT / DEVELOPER')).toHaveCount(2);
+    await expect(page.getByRole('heading', { level: 2, name: 'Things I build.' })).toHaveCount(1);
+    await expect(page.getByRole('heading', { level: 2, name: 'I build to understand.' })).toHaveCount(1);
+    await expect(page.locator('[data-home-work]')).toHaveCount(3);
+    await expect(page.getByRole('link', { name: 'MINT 프로젝트 보기' })).toHaveAttribute(
+      'href',
+      'https://github.com/sorbetsharkroundhand/MINT',
+    );
     await expect(page.getByRole('link', { name: '[SKIP TO INDEX]' })).toHaveAttribute(
       'href',
       '#home-index',
@@ -43,12 +51,21 @@ for (const width of [390, 768, 1440]) {
   });
 }
 
-test('keeps immersive header navigation as real links', async ({ page }) => {
+test('keeps personal-site navigation as real links', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('navigation', { name: '주요 메뉴' }).getByRole('link', { name: '[INDEX]' }))
-    .toHaveAttribute('href', '#home-index');
-  await expect(page.getByRole('navigation', { name: '주요 메뉴' }).getByRole('link', { name: '[ARCHIVE]' }))
-    .toHaveAttribute('href', '/posts/');
+  const navigation = page.getByRole('navigation', { name: '주요 메뉴' });
+  await expect(navigation.getByRole('link', { name: '[WORK]' })).toHaveAttribute(
+    'href',
+    '#home-work',
+  );
+  await expect(navigation.getByRole('link', { name: '[NOTES]' })).toHaveAttribute(
+    'href',
+    '/posts/',
+  );
+  await expect(navigation.getByRole('link', { name: '[ABOUT]' })).toHaveAttribute(
+    'href',
+    '#home-about',
+  );
 });
 
 test('removes the static topology fallback after WebGL is ready', async ({ page }) => {
@@ -180,6 +197,7 @@ test('keeps semantic home content when JavaScript is disabled', async ({ baseURL
   const postCount = await page.locator('[data-home-post]').count();
   expect(postCount).toBeGreaterThan(0);
   expect(postCount).toBeLessThanOrEqual(3);
+  await expect(page.locator('[data-home-work]')).toHaveCount(3);
   await expect(page.getByRole('link', { name: '[ENTER THE ARCHIVE →]' })).toBeVisible();
 
   await context.close();
