@@ -17,14 +17,14 @@ const formatDate = (date: Date) => date.toISOString().slice(0, 10).replaceAll('-
 const latestLabel = latestUpdatedAt ? formatDate(latestUpdatedAt) : '—';
 const totalLabel = totalPosts.toString().padStart(2, '0');
 const fallbackTopology = String.raw`                .        +
-       .       /|\\              .
-            . / | \\   +
-     +       /  ·  \\        .
-        .---/---+---\\---.
-      ./   /    |    \\   \\.
-   .-+----/-----/-----\\----+-.
-      \\  /  .  /  +   \\  /
-       \\/_____/_________\\/
+       .       /|\              .
+            . / | \   +
+     +       /  ·  \        .
+        .---/---+---\---.
+      ./   /    |    \   \.
+   .-+----/-----/-----\----+-.
+      \  /  .  /  +   \  /
+       \/_____/_________\/
     .      /      ·        +`;
 
 const projects = [
